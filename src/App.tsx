@@ -8,6 +8,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import EventsPage from "./pages/EventsPage";
+import OrganizersPage from "./pages/OrganizersPage";
+import TicketingPage from "./pages/TicketingPage";
+import FeaturesPage from "./pages/FeaturesPage";
 import CreateEventPage from "./pages/CreateEventPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Navbar from "./components/Navbar";
@@ -55,6 +59,10 @@ const App = () => {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route path="/events" element={<EventsPage />} />
+                <Route path="/organizers" element={<OrganizersPage />} />
+                <Route path="/ticketing" element={<TicketingPage />} />
+                <Route path="/features" element={<FeaturesPage />} />
                 <Route path="/create-event" element={<CreateEventPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>

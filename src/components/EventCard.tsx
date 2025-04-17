@@ -34,7 +34,10 @@ const EventCard = ({
         />
         {isPremium && (
           <div className="absolute top-0 right-0 m-2">
-            <Badge variant="secondary" className="bg-saffron-500 text-white">
+            <Badge 
+              variant="secondary" 
+              className="bg-saffron-500 text-white animate-pulse relative overflow-hidden before:absolute before:inset-0 before:bg-white/20 before:animate-[shine_3s_ease-in-out_infinite]"
+            >
               Featured
             </Badge>
           </div>

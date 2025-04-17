@@ -121,6 +121,10 @@ export default {
 				'scale-in': {
 					'0%': { transform: 'scale(0.95)', opacity: '0' },
 					'100%': { transform: 'scale(1)', opacity: '1' }
+				},
+				'shine': {
+					'0%': { transform: 'translateX(-100%)' },
+					'50%, 100%': { transform: 'translateX(100%)' }
 				}
 			},
 			animation: {

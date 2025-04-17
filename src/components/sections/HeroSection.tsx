@@ -2,6 +2,7 @@
 import { CalendarPlus, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import AnimatedRobot from "@/components/AnimatedRobot";
 
 const HeroSection = () => {
   return (
@@ -14,37 +15,44 @@ const HeroSection = () => {
       />
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
-            <span className="bg-gradient-to-r from-saffron-500 to-nepali-500 bg-clip-text text-transparent">
-              Organize, Discover & Celebrate
-            </span>
-            <br /> 
-            All in One Place
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            Nepal's first smart digital event platform connecting organizers with attendees through innovative features tailored for the local experience.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: "0.4s" }}>
-            <Button 
-              asChild
-              className="bg-saffron-500 hover:bg-saffron-600 text-white text-lg py-6 px-8"
-            >
-              <Link to="/create-event">
-                <CalendarPlus className="mr-2 h-5 w-5" />
-                Create Event
-              </Link>
-            </Button>
-            <Button 
-              asChild
-              variant="outline" 
-              className="border-nepali-500 text-nepali-500 hover:bg-nepali-500 hover:text-white text-lg py-6 px-8"
-            >
-              <Link to="/explore">
-                <Search className="mr-2 h-5 w-5" />
-                Explore Nearby
-              </Link>
-            </Button>
+        <div className="max-w-4xl mx-auto">
+          <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8">
+            <div className="text-center md:text-left md:w-2/3">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 animate-fade-in">
+                <span className="bg-gradient-to-r from-saffron-500 to-nepali-500 bg-clip-text text-transparent">
+                  Organize, Discover & Celebrate
+                </span>
+                <br /> 
+                All in One Place
+              </h1>
+              <p className="text-lg md:text-xl text-muted-foreground mb-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
+                Nepal's first smart digital event platform connecting organizers with attendees through innovative features tailored for the local experience.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start animate-fade-in" style={{ animationDelay: "0.4s" }}>
+                <Button 
+                  asChild
+                  className="bg-saffron-500 hover:bg-saffron-600 text-white text-lg py-6 px-8 animate-hover-lift"
+                >
+                  <Link to="/create-event">
+                    <CalendarPlus className="mr-2 h-5 w-5" />
+                    Create Event
+                  </Link>
+                </Button>
+                <Button 
+                  asChild
+                  variant="outline" 
+                  className="border-nepali-500 text-nepali-500 hover:bg-nepali-500 hover:text-white text-lg py-6 px-8 animate-hover-lift"
+                >
+                  <Link to="/explore">
+                    <Search className="mr-2 h-5 w-5" />
+                    Explore Nearby
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            <div className="md:w-1/3 flex justify-center">
+              <AnimatedRobot />
+            </div>
           </div>
         </div>
       </div>

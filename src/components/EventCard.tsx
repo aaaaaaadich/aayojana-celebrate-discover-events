@@ -25,45 +25,45 @@ const EventCard = ({
   isPremium = false 
 }: EventCardProps) => {
   return (
-    <Card className="overflow-hidden h-full transition-transform duration-300 hover:shadow-lg hover:scale-[1.02] bg-card">
+    <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg hover:scale-[1.02] bg-card group">
       <div className="relative h-48 overflow-hidden">
         <img
           src={image}
           alt={title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         {isPremium && (
-          <div className="absolute top-0 right-0 m-2">
+          <div className="absolute top-0 right-0 m-2 animate-fade-in" style={{ animationDelay: "0.3s" }}>
             <Badge 
               variant="secondary" 
-              className="bg-saffron-500 text-white animate-pulse relative overflow-hidden before:absolute before:inset-0 before:bg-white/20 before:animate-[shine_3s_ease-in-out_infinite]"
+              className="bg-saffron-500 text-white relative overflow-hidden before:absolute before:inset-0 before:bg-white/20 before:animate-[shine_3s_ease-in-out_infinite]"
             >
-              Featured
+              <span className="animate-pulse">Featured</span>
             </Badge>
           </div>
         )}
-        <div className="absolute bottom-0 left-0 m-2">
+        <div className="absolute bottom-0 left-0 m-2 animate-fade-in" style={{ animationDelay: "0.5s" }}>
           <Badge 
             variant="outline" 
-            className="bg-background/80 backdrop-blur-sm text-foreground border-none"
+            className="bg-background/80 backdrop-blur-sm text-foreground border-none transition-all duration-300 hover:bg-background/95"
           >
             {category}
           </Badge>
         </div>
       </div>
       <CardContent className="p-4">
-        <h3 className="font-bold text-lg line-clamp-2 mb-3">{title}</h3>
+        <h3 className="font-bold text-lg line-clamp-2 mb-3 transition-colors duration-300 group-hover:text-saffron-500">{title}</h3>
         <div className="flex flex-col space-y-2 text-sm text-muted-foreground">
-          <div className="flex items-center gap-2">
-            <Calendar size={16} className="text-saffron-500" />
+          <div className="flex items-center gap-2 transition-transform duration-300 hover:translate-x-1">
+            <Calendar size={16} className="text-saffron-500 transition-all duration-300 group-hover:scale-110" />
             <span>{date}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <Clock size={16} className="text-saffron-500" />
+          <div className="flex items-center gap-2 transition-transform duration-300 hover:translate-x-1">
+            <Clock size={16} className="text-saffron-500 transition-all duration-300 group-hover:scale-110" />
             <span>{time}</span>
           </div>
-          <div className="flex items-center gap-2">
-            <MapPin size={16} className="text-saffron-500" />
+          <div className="flex items-center gap-2 transition-transform duration-300 hover:translate-x-1">
+            <MapPin size={16} className="text-saffron-500 transition-all duration-300 group-hover:scale-110" />
             <span className="truncate">{location}</span>
           </div>
         </div>

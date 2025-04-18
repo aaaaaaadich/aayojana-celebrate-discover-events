@@ -27,13 +27,11 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/90 backdrop-blur-md shadow-md py-3"
-          : "bg-transparent py-5"
-      }`}
-    >
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled
+        ? "bg-background/90 backdrop-blur-md shadow-md py-3"
+        : "bg-transparent py-5"
+    }`}>
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link 
           to="/" 
@@ -56,7 +54,10 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
           >
             {isDarkMode ? <Sun size={18} className="animate-pulse-slow" /> : <Moon size={18} className="animate-pulse-slow" />}
           </Button>
-          <Button className="bg-saffron-500 hover:bg-saffron-600 text-white animate-hover-lift">
+          <Button 
+            onClick={() => window.location.href = "/sign-in"}
+            className="bg-gradient-to-r from-saffron-500 to-nepali-500 hover:from-saffron-600 hover:to-nepali-600 text-white animate-hover-lift transition-all duration-300"
+          >
             Sign In
           </Button>
         </div>

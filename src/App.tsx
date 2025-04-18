@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -19,6 +18,7 @@ import Footer from "./components/Footer";
 import FeaturedEventsPage from "./pages/events/FeaturedEventsPage";
 import NearbyEventsPage from "./pages/events/NearbyEventsPage";
 import CategoriesPage from "./pages/events/CategoriesPage";
+import SignInPage from "./pages/auth/SignInPage";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +26,6 @@ const App = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   
   useEffect(() => {
-    // Check user preference in local storage or system preference
     const savedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     
@@ -70,6 +69,7 @@ const App = () => {
                 <Route path="/ticketing" element={<TicketingPage />} />
                 <Route path="/features" element={<FeaturesPage />} />
                 <Route path="/create-event" element={<CreateEventPage />} />
+                <Route path="/sign-in" element={<SignInPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </main>

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -15,9 +16,9 @@ import CreateEventPage from "./pages/CreateEventPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import FeaturedEventsPage from "./pages/FeaturedEventsPage";
-import NearbyEventsPage from "./pages/NearbyEventsPage";
-import CategoriesPage from "./pages/CategoriesPage";
+import FeaturedEventsPage from "./pages/events/FeaturedEventsPage";
+import NearbyEventsPage from "./pages/events/NearbyEventsPage";
+import CategoriesPage from "./pages/events/CategoriesPage";
 
 const queryClient = new QueryClient();
 

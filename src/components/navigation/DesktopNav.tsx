@@ -25,18 +25,19 @@ export const DesktopNav = () => {
           </NavigationMenuItem>
           
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="animate-hover-lift">
+            <NavigationMenuTrigger className="animate-hover-lift bg-gradient-to-r from-saffron-500/10 to-nepali-500/10 hover:from-saffron-500/20 hover:to-nepali-500/20 transition-all duration-300">
               {navigationConfig.discoverEvents.title}
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <div className="grid gap-3 p-4 w-[400px] md:w-[500px] lg:w-[600px]">
-                <div className="grid grid-cols-2 gap-3">
-                  {navigationConfig.discoverEvents.items.map((item) => (
+              <div className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px] bg-background/95 backdrop-blur-sm animate-fade-in">
+                <div className="grid grid-cols-2 gap-4">
+                  {navigationConfig.discoverEvents.items.map((item, index) => (
                     <MenuItem
                       key={item.href}
                       title={item.title}
                       description={item.description}
                       href={item.href}
+                      delay={index * 100}
                     />
                   ))}
                 </div>

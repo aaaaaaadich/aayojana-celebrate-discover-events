@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -16,6 +15,9 @@ import CreateEventPage from "./pages/CreateEventPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import FeaturedEventsPage from "./pages/FeaturedEventsPage";
+import NearbyEventsPage from "./pages/NearbyEventsPage";
+import CategoriesPage from "./pages/CategoriesPage";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +62,9 @@ const App = () => {
                 <Route path="/about" element={<AboutPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/events" element={<EventsPage />} />
+                <Route path="/events/featured" element={<FeaturedEventsPage />} />
+                <Route path="/events/nearby" element={<NearbyEventsPage />} />
+                <Route path="/events/categories" element={<CategoriesPage />} />
                 <Route path="/organizers" element={<OrganizersPage />} />
                 <Route path="/ticketing" element={<TicketingPage />} />
                 <Route path="/features" element={<FeaturesPage />} />

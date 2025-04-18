@@ -3,15 +3,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Sun, Moon, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { 
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle
-} from "@/components/ui/navigation-menu";
+import { DesktopNav } from "./navigation/DesktopNav";
+import { MobileNav } from "./navigation/MobileNav";
 
 interface NavbarProps {
   isDarkMode: boolean;
@@ -51,96 +44,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
           </span>
         </Link>
 
-        {/* Desktop Menu - Enhanced with NavigationMenu */}
-        <div className="hidden md:block">
-          <NavigationMenu>
-            <NavigationMenuList className="gap-1">
-              <NavigationMenuItem>
-                <Link to="/" className={navigationMenuTriggerStyle() + " animate-hover-lift"}>
-                  Home
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="animate-hover-lift">Discover Events</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="grid gap-3 p-4 w-[400px] md:w-[500px] lg:w-[600px]">
-                    <div className="grid grid-cols-2 gap-3">
-                      <Link to="/events" className="flex flex-col space-y-1 rounded-md p-3 hover:bg-accent animate-hover-lift glow-on-hover">
-                        <div className="text-sm font-medium leading-none text-saffron-500">All Events</div>
-                        <div className="text-sm text-muted-foreground">Explore all upcoming events</div>
-                      </Link>
-                      <Link to="/events/featured" className="flex flex-col space-y-1 rounded-md p-3 hover:bg-accent animate-hover-lift glow-on-hover">
-                        <div className="text-sm font-medium leading-none text-saffron-500">Featured Events</div>
-                        <div className="text-sm text-muted-foreground">Handpicked premium events</div>
-                      </Link>
-                      <Link to="/events/nearby" className="flex flex-col space-y-1 rounded-md p-3 hover:bg-accent animate-hover-lift glow-on-hover">
-                        <div className="text-sm font-medium leading-none text-saffron-500">Nearby Events</div>
-                        <div className="text-sm text-muted-foreground">Events happening close to you</div>
-                      </Link>
-                      <Link to="/events/categories" className="flex flex-col space-y-1 rounded-md p-3 hover:bg-accent animate-hover-lift glow-on-hover">
-                        <div className="text-sm font-medium leading-none text-saffron-500">Categories</div>
-                        <div className="text-sm text-muted-foreground">Browse events by category</div>
-                      </Link>
-                    </div>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="animate-hover-lift">For Organizers</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="grid gap-3 p-4 w-[400px]">
-                    <Link to="/organizers" className="flex flex-col space-y-1 rounded-md p-3 hover:bg-accent animate-hover-lift glow-on-hover">
-                      <div className="text-sm font-medium leading-none text-saffron-500">Event Management</div>
-                      <div className="text-sm text-muted-foreground">Tools for organizing events</div>
-                    </Link>
-                    <Link to="/organizers/analytics" className="flex flex-col space-y-1 rounded-md p-3 hover:bg-accent animate-hover-lift glow-on-hover">
-                      <div className="text-sm font-medium leading-none text-saffron-500">Analytics</div>
-                      <div className="text-sm text-muted-foreground">Track event performance</div>
-                    </Link>
-                    <Link to="/organizers/pricing" className="flex flex-col space-y-1 rounded-md p-3 hover:bg-accent animate-hover-lift glow-on-hover">
-                      <div className="text-sm font-medium leading-none text-saffron-500">Pricing</div>
-                      <div className="text-sm text-muted-foreground">Choose the right plan for you</div>
-                    </Link>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="animate-hover-lift">Ticketing</NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <div className="grid gap-3 p-4 w-[400px]">
-                    <Link to="/ticketing" className="flex flex-col space-y-1 rounded-md p-3 hover:bg-accent animate-hover-lift glow-on-hover">
-                      <div className="text-sm font-medium leading-none text-saffron-500">Ticket Management</div>
-                      <div className="text-sm text-muted-foreground">Sell and manage tickets efficiently</div>
-                    </Link>
-                    <Link to="/ticketing/digital" className="flex flex-col space-y-1 rounded-md p-3 hover:bg-accent animate-hover-lift glow-on-hover">
-                      <div className="text-sm font-medium leading-none text-saffron-500">Digital Tickets</div>
-                      <div className="text-sm text-muted-foreground">Paperless ticket solutions</div>
-                    </Link>
-                    <Link to="/ticketing/scanning" className="flex flex-col space-y-1 rounded-md p-3 hover:bg-accent animate-hover-lift glow-on-hover">
-                      <div className="text-sm font-medium leading-none text-saffron-500">Scanning Tools</div>
-                      <div className="text-sm text-muted-foreground">Quick entry validation</div>
-                    </Link>
-                  </div>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link to="/features" className={navigationMenuTriggerStyle() + " animate-hover-lift"}>
-                  Features
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link to="/about" className={navigationMenuTriggerStyle() + " animate-hover-lift"}>
-                  About
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link to="/contact" className={navigationMenuTriggerStyle() + " animate-hover-lift"}>
-                  Contact
-                </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-        </div>
+        <DesktopNav />
 
         <div className="hidden md:flex items-center space-x-4">
           <Button 
@@ -157,7 +61,6 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
           </Button>
         </div>
 
-        {/* Mobile Menu Button */}
         <div className="flex items-center space-x-4 md:hidden">
           <Button 
             variant="outline" 
@@ -185,75 +88,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
         </div>
       </div>
 
-      {/* Mobile Menu - Enhanced with animations */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md shadow-lg animate-fade-in">
-          <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-            <Link 
-              to="/" 
-              className="text-foreground hover:text-saffron-500 transition-colors py-2 animate-fade-in"
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{ animationDelay: "0.1s" }}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/events" 
-              className="text-foreground hover:text-saffron-500 transition-colors py-2 animate-fade-in"
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{ animationDelay: "0.2s" }}
-            >
-              Discover Events
-            </Link>
-            <Link 
-              to="/organizers" 
-              className="text-foreground hover:text-saffron-500 transition-colors py-2 animate-fade-in"
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{ animationDelay: "0.3s" }}
-            >
-              For Organizers
-            </Link>
-            <Link 
-              to="/ticketing" 
-              className="text-foreground hover:text-saffron-500 transition-colors py-2 animate-fade-in"
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{ animationDelay: "0.4s" }}
-            >
-              Ticketing
-            </Link>
-            <Link 
-              to="/features" 
-              className="text-foreground hover:text-saffron-500 transition-colors py-2 animate-fade-in"
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{ animationDelay: "0.5s" }}
-            >
-              Features
-            </Link>
-            <Link 
-              to="/about" 
-              className="text-foreground hover:text-saffron-500 transition-colors py-2 animate-fade-in"
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{ animationDelay: "0.6s" }}
-            >
-              About
-            </Link>
-            <Link 
-              to="/contact" 
-              className="text-foreground hover:text-saffron-500 transition-colors py-2 animate-fade-in"
-              onClick={() => setIsMobileMenuOpen(false)}
-              style={{ animationDelay: "0.7s" }}
-            >
-              Contact
-            </Link>
-            <Button 
-              className="bg-saffron-500 hover:bg-saffron-600 text-white w-full animate-fade-in"
-              style={{ animationDelay: "0.8s" }}
-            >
-              Sign In
-            </Button>
-          </nav>
-        </div>
-      )}
+      <MobileNav isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </header>
   );
 };

@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet";
 
 const OrganizersPage = () => {
   useEffect(() => {
-    // Scroll to top when page loads
     window.scrollTo(0, 0);
   }, []);
 
@@ -27,8 +26,7 @@ const OrganizersPage = () => {
           </p>
           
           <div className="grid gap-8 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            {/* Content will be added here in future implementation */}
-            <div className="p-12 border rounded-lg text-center bg-muted/50">
+            <div className="p-12 border rounded-lg text-center bg-muted/50 hover:bg-muted/70 transition-colors duration-300">
               <h2 className="text-2xl font-semibold mb-4">Coming Soon</h2>
               <p className="text-muted-foreground">
                 We're currently building this page. Check back soon for organizer tools and resources!

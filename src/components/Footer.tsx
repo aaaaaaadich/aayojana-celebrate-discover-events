@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 
@@ -9,9 +8,11 @@ const Footer = () => {
     <footer className="bg-nepali-500 text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company */}
-          <div>
-            <h3 className="text-xl font-bold mb-4 text-saffron-500">Aayojana</h3>
+          {/* Company Info */}
+          <div className="space-y-4 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+            <h3 className="text-xl font-bold mb-4 text-saffron-500 hover:scale-105 transition-transform">
+              Aayojana
+            </h3>
             <p className="mb-4 text-gray-300">
               Nepal's first smart digital event platform that brings together organizers 
               and attendees in one seamless experience.
@@ -57,7 +58,7 @@ const Footer = () => {
           </div>
           
           {/* Quick Links */}
-          <div>
+          <div className="animate-fade-in" style={{ animationDelay: "0.2s" }}>
             <h3 className="text-xl font-bold mb-4 text-saffron-500">Quick Links</h3>
             <ul className="space-y-2">
               <li>
@@ -89,7 +90,7 @@ const Footer = () => {
           </div>
           
           {/* Resources */}
-          <div>
+          <div className="animate-fade-in" style={{ animationDelay: "0.3s" }}>
             <h3 className="text-xl font-bold mb-4 text-saffron-500">Resources</h3>
             <ul className="space-y-2">
               <li>
@@ -121,7 +122,7 @@ const Footer = () => {
           </div>
           
           {/* Contact */}
-          <div>
+          <div className="animate-fade-in" style={{ animationDelay: "0.4s" }}>
             <h3 className="text-xl font-bold mb-4 text-saffron-500">Contact Us</h3>
             <ul className="space-y-3">
               <li className="flex items-center gap-2">
@@ -144,7 +145,7 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+        <div className="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400 animate-fade-in" style={{ animationDelay: "0.5s" }}>
           <p>&copy; {currentYear} Aayojana. All rights reserved.</p>
         </div>
       </div>

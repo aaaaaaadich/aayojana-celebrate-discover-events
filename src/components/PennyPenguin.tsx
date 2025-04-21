@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from "react";
 
 const PennyPenguin = () => {
@@ -19,7 +18,7 @@ const PennyPenguin = () => {
         if (penguin) {
           penguin.style.transform = `translateY(${y}px) rotateY(${Math.sin(y/4) * 3}deg)`;
         }
-        requestAnimationFrame(animate);
+        return requestAnimationFrame(animate);
       };
       return animate;
     };
@@ -64,15 +63,17 @@ const PennyPenguin = () => {
           leftFlipper.setAttribute("transform", `rotate(${leftAngle} 29 155)`);
           rightFlipper.setAttribute("transform", `rotate(${rightAngle} 151 155)`);
         }
-        setTimeout(() => requestAnimationFrame(animate), 50);
+        return requestAnimationFrame(animate);
       };
       return animate;
     };
 
     // Start animations
-    const floatAnimationFrame = floatAnimation()();
+    const floatAnimationFunc = floatAnimation();
+    const floatAnimationFrame = floatAnimationFunc();
     const blinkInterval = blinkAnimation();
-    const flipperAnimationFrame = flipperAnimation()();
+    const flipperAnimationFunc = flipperAnimation();
+    const flipperAnimationFrame = flipperAnimationFunc();
 
     // Clean up animations
     return () => {

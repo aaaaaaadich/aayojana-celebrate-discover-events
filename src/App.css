@@ -283,3 +283,16 @@
   opacity: 0;
   transition: opacity 300ms;
 }
+
+/* Mandala Watermark for Body */
+.mandala-bg {
+  position: relative;
+  background: radial-gradient(circle at 50% 40%, #D3E4FD22 0%, #fff 70%, #1D3557 100%);
+}
+
+body,
+html,
+#root {
+  background: radial-gradient(circle at 50% 40%, #D3E4FD22 0%, #fff 70%, #1D3557 100%);
+  /* subtle mandala watermark with blue accent */
+}

@@ -1,4 +1,3 @@
-
 import { CalendarPlus, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,14 +5,46 @@ import PennyPenguin from "../PennyPenguin";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Traditional Nepali pattern background */}
+    <section className="relative min-h-screen flex items-center overflow-hidden mandala-bg">
+      {/* Real Mandala SVG as blue accent background */}
       <div 
-        className="absolute inset-0 z-0 bg-gradient-to-b from-nepali-50/80 to-nepali-100/90"
-      />
-      
-      {/* Mandala patterns */}
-      <div className="absolute top-0 left-0 w-full h-full opacity-10 mandala-pattern"></div>
+        className="absolute inset-0 z-0"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 40%, #2490DF22 0%, #1D3557 90%, #1D3557 100%)"
+        }}
+      >
+        {/* Mandala SVG overlay for Nepali theme */}
+        <svg
+          width="100%"
+          height="100%"
+          viewBox="0 0 800 800"
+          className="absolute inset-0 w-full h-full"
+          style={{ opacity: 0.13, zIndex: 1 }}
+          aria-hidden="true"
+        >
+          <g>
+            <circle cx="400" cy="400" r="270" fill="none" stroke="#1EAEDB" strokeWidth="14"/>
+            <circle cx="400" cy="400" r="213" fill="none" stroke="#0FA0CE" strokeWidth="11"/>
+            <circle cx="400" cy="400" r="170" fill="none" stroke="#D3E4FD" strokeWidth="8"/>
+            <circle cx="400" cy="400" r="120" fill="none" stroke="#6E59A5" strokeDasharray="10,10" strokeWidth="6"/>
+            <circle cx="400" cy="400" r="86" fill="none" stroke="#fff" strokeWidth="4"/>
+            {/* Star patterns for "mandala" spokes */}
+            {Array.from({length: 32}).map((_,i)=>(
+              <line
+                key={i}
+                x1={400}
+                y1={400}
+                x2={400+270*Math.cos((Math.PI*2/32)*i)}
+                y2={400+270*Math.sin((Math.PI*2/32)*i)}
+                stroke="#2490DF"
+                strokeWidth={i%4===0?7:3}
+                opacity={i%2===0?0.6:0.17}
+              />
+            ))}
+          </g>
+        </svg>
+      </div>
       
       {/* Decorative elements - Prayer flags */}
       <div className="absolute top-20 left-0 right-0 z-10 hidden md:flex justify-center">

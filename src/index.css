@@ -93,6 +93,67 @@
   }
   
   .mandala-pattern {
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23F4A261' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='50' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='40' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='30' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='20' /%3E%3Cline x1='10' y1='60' x2='110' y2='60' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='60' y1='10' x2='60' y2='110' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='25' y1='25' x2='95' y2='95' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='95' y1='25' x2='25' y2='95' stroke='%23F4A261' stroke-width='1' /%3E%3C/g%3E%3C/svg%3E");
   }
+
+  .nepali-border-pattern {
+    @apply relative;
+  }
+
+  .nepali-border-pattern::before {
+    content: '';
+    @apply absolute top-0 left-0 right-0 h-2 bg-saffron-500 opacity-30;
+    background-image: url("data:image/svg+xml,%3Csvg width='30' height='10' viewBox='0 0 30 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,5 C2.5,2.5 7.5,2.5 10,5 C12.5,7.5 17.5,7.5 20,5 C22.5,2.5 27.5,2.5 30,5' fill='none' stroke='%23F4A261' stroke-width='2'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+  }
+
+  .perspective-800 {
+    perspective: 800px;
+  }
+}
+
+/* Nepal-inspired decorative elements */
+.nepali-decoration {
+  position: relative;
+}
+
+.nepali-decoration::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,20 L10,0 L20,20 L30,0 L40,20' fill='none' stroke='%23F4A261' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+}
+
+.nepali-card {
+  @apply relative bg-white rounded-lg p-6 shadow-md overflow-hidden;
+}
+
+.nepali-card::before {
+  content: '';
+  @apply absolute top-0 left-0 right-0 h-1 bg-saffron-500;
+}
+
+.nepali-card::after {
+  content: '';
+  @apply absolute -top-10 -right-10 w-20 h-20 bg-nepali-500/10 rounded-full;
+}
+
+/* Nepali motifs for corners and decorations */
+.nepali-corner {
+  @apply relative;
+}
+
+.nepali-corner::before {
+  content: '';
+  @apply absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-saffron-500;
+}
+
+.nepali-corner::after {
+  content: '';
+  @apply absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-saffron-500;
 }

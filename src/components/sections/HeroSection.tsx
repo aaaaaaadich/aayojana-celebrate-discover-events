@@ -1,8 +1,8 @@
-
 import { CalendarPlus, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import AnimatedRobot from "@/components/AnimatedRobot";
+import PennyPenguin from "../PennyPenguin";
 
 const HeroSection = () => {
   return (
@@ -13,7 +13,7 @@ const HeroSection = () => {
           backgroundImage: "url('https://images.unsplash.com/photo-1603228254119-e6a4d095dc59?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80')"
         }}
       />
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
           <div className="flex flex-col-reverse md:flex-row items-center justify-between gap-8">
@@ -51,7 +51,7 @@ const HeroSection = () => {
               </div>
             </div>
             <div className="md:w-1/3 flex justify-center">
-              <AnimatedRobot />
+              <PennyPenguin />
             </div>
           </div>
         </div>

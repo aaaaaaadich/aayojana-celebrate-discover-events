@@ -6,28 +6,40 @@ import PennyPenguin from "../PennyPenguin";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-background via-background/95 to-background/90">
-      {/* Floating pockets background effect */}
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-background via-background/95 to-background/90">
+      {/* Minimalistic animated background shapes */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute w-full h-full">
-          {[...Array(6)].map((_, i) => (
+        {/* Large soft gradient circle */}
+        <div 
+          className="absolute w-[800px] h-[800px] -top-1/4 -right-1/4 rounded-full 
+          bg-gradient-to-br from-blue-500/5 to-transparent dark:from-blue-400/10 
+          animate-pulse-slow"
+        />
+        <div 
+          className="absolute w-[600px] h-[600px] -bottom-1/4 -left-1/4 rounded-full 
+          bg-gradient-to-tr from-blue-500/5 to-transparent dark:from-blue-400/10 
+          animate-pulse-slow"
+          style={{ animationDelay: '1s' }}
+        />
+
+        {/* Floating pockets with staggered animation */}
+        <div className="absolute inset-0">
+          {[...Array(4)].map((_, i) => (
             <Pocket
               key={i}
               className={`absolute text-primary/5 dark:text-primary/10 
-                ${i % 2 === 0 ? 'animate-float' : 'animate-float-reverse'}
-                ${getRandomPosition()}`}
-              size={getRandomSize()}
+                ${i % 2 === 0 ? 'animate-float' : 'animate-float-reverse'}`}
+              size={48 + i * 8}
               style={{
+                top: `${25 + i * 15}%`,
+                left: `${20 + i * 20}%`,
                 animationDelay: `${i * 0.5}s`,
-                transform: `rotate(${Math.random() * 360}deg)`
+                transform: `rotate(${i * 45}deg)`
               }}
             />
           ))}
         </div>
       </div>
-
-      {/* Soft color overlay gradients - theme aware */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-background pointer-events-none" />
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
@@ -83,24 +95,6 @@ const HeroSection = () => {
       </div>
     </section>
   );
-};
-
-// Utility functions for pocket positions and sizes
-const getRandomPosition = () => {
-  const positions = [
-    'top-1/4 left-1/4',
-    'top-1/3 right-1/4',
-    'bottom-1/4 left-1/3',
-    'bottom-1/3 right-1/3',
-    'top-1/2 left-1/2',
-    'bottom-1/2 right-1/2'
-  ];
-  return positions[Math.floor(Math.random() * positions.length)];
-};
-
-const getRandomSize = () => {
-  const sizes = [48, 64, 80, 96];
-  return sizes[Math.floor(Math.random() * sizes.length)];
 };
 
 export default HeroSection;

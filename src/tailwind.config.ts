@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -122,10 +121,6 @@ export default {
 					'0%': { transform: 'scale(0.95)', opacity: '0' },
 					'100%': { transform: 'scale(1)', opacity: '1' }
 				},
-				'shine': {
-					'0%': { transform: 'translateX(-100%)' },
-					'50%, 100%': { transform: 'translateX(100%)' }
-				},
 				'float': {
 					'0%, 100%': { transform: 'translateY(0)' },
 					'50%': { transform: 'translateY(-10px)' }
@@ -171,6 +166,10 @@ export default {
 				'3d-float': {
 					'0%, 100%': { transform: 'translateY(0) rotateY(0deg)' },
 					'50%': { transform: 'translateY(-10px) rotateY(5deg)' }
+				},
+				'float-reverse': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(8px)' }
 				}
 			},
 			animation: {
@@ -190,7 +189,8 @@ export default {
 				'blink': 'blink 0.2s ease-in-out',
 				'gradient-flow': 'gradient-flow 3s ease infinite',
 				'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-				'3d-float': '3d-float 5s ease-in-out infinite'
+				'3d-float': '3d-float 5s ease-in-out infinite',
+				'float-reverse': 'float-reverse 4s ease-in-out infinite'
 			}
 		}
 	},

@@ -1,3 +1,4 @@
+
 import { Pocket } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,25 +7,38 @@ import PennyPenguin from "../PennyPenguin";
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-background via-background/95 to-background/90">
-      {/* Simple animated background with minimal pockets */}
+      {/* Minimalistic animated background shapes */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        {/* Floating pockets animation */}
-        {[...Array(3)].map((_, i) => (
-          <div key={i} className="absolute">
+        {/* Large soft gradient circle */}
+        <div 
+          className="absolute w-[800px] h-[800px] -top-1/4 -right-1/4 rounded-full 
+          bg-gradient-to-br from-blue-500/5 to-transparent dark:from-blue-400/10 
+          animate-pulse-slow"
+        />
+        <div 
+          className="absolute w-[600px] h-[600px] -bottom-1/4 -left-1/4 rounded-full 
+          bg-gradient-to-tr from-blue-500/5 to-transparent dark:from-blue-400/10 
+          animate-pulse-slow"
+          style={{ animationDelay: '1s' }}
+        />
+
+        {/* Floating pockets with staggered animation */}
+        <div className="absolute inset-0">
+          {[...Array(4)].map((_, i) => (
             <Pocket
-              className={`text-primary/5 dark:text-primary/10 ${
-                i % 2 === 0 ? 'animate-float' : 'animate-float-reverse'
-              }`}
-              size={56 + i * 8}
+              key={i}
+              className={`absolute text-primary/5 dark:text-primary/10 
+                ${i % 2 === 0 ? 'animate-float' : 'animate-float-reverse'}`}
+              size={48 + i * 8}
               style={{
-                top: `${20 + i * 25}%`,
-                left: `${15 + i * 30}%`,
-                animationDelay: `${i * 0.8}s`,
-                transform: `rotate(${i * 30}deg)`
+                top: `${25 + i * 15}%`,
+                left: `${20 + i * 20}%`,
+                animationDelay: `${i * 0.5}s`,
+                transform: `rotate(${i * 45}deg)`
               }}
             />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Content */}

@@ -167,17 +167,25 @@ const PennyPenguin = () => {
         <rect x="90" y="94" width="14" height="2" rx="1" fill="#1EAEDB" />
         <line x1="75" y1="89" x2="79" y2="91" stroke="#fff" strokeWidth="1" opacity="0.5" />
         <line x1="107" y1="89" x2="111" y2="91" stroke="#fff" strokeWidth="1" opacity="0.5" />
-        {/* Beak */}
+        {/* Beak with improved styling */}
         <polygon
           points="92,112 100,108 92,108"
           fill="#FFD700"
           filter="url(#shadow)"
+        />
+        <path
+          d="M92 110 Q96 113 100 110"
+          stroke="#EA384C"
+          strokeWidth="2"
+          fill="none"
+          opacity="0.6"
         />
         <ellipse
           cx="95" cy="113" rx="4" ry="1.5"
           fill="#EA384C"
           opacity="0.4"
         />
+        
         {/* Cheeks */}
         <ellipse cx="73" cy="106" rx="4" ry="2" fill="#EA384C" opacity="0.4" />
         <ellipse cx="112" cy="106" rx="4" ry="2" fill="#EA384C" opacity="0.4" />

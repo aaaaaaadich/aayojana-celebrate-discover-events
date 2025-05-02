@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar, Filter, MapPin, Search } from "lucide-react";
+import EventsCarousel from "@/components/EventsCarousel";
+import { Link } from "react-router-dom";
 
 const EventsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -71,6 +73,29 @@ const EventsPage = () => {
               </div>
             </div>
           </div>
+
+          {/* Featured Events Section */}
+          <section className="mb-16 animate-fade-in">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold mb-4">Featured Events</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Discover and join exciting events happening across Nepal. From music festivals to tech conferences, 
+                find experiences that match your interests.
+              </p>
+            </div>
+            
+            <EventsCarousel />
+            
+            <div className="mt-10 text-center">
+              <Button 
+                asChild 
+                variant="outline" 
+                className="border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
+              >
+                <Link to="/events/featured">View All Featured Events</Link>
+              </Button>
+            </div>
+          </section>
           
           {isLoading ? (
             // Loading skeleton
@@ -91,7 +116,7 @@ const EventsPage = () => {
             // Coming soon message (will be replaced with actual events later)
             <div className="grid gap-8 animate-fade-in">
               <div className="p-16 border rounded-lg text-center bg-background shadow-sm hover:shadow-md transition-all duration-300">
-                <h2 className="text-2xl font-semibold mb-4 text-foreground">Events Coming Soon</h2>
+                <h2 className="text-2xl font-semibold mb-4 text-foreground">More Events Coming Soon</h2>
                 <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
                   We're currently curating a list of amazing events across Nepal. Check back soon or sign up to be notified when new events are added.
                 </p>

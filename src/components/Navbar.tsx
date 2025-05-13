@@ -33,9 +33,21 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
     setIsMobileMenuOpen(false);
   }, [location]);
 
+  // Add body class when mobile menu is open to prevent scrolling
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.classList.add('overflow-hidden');
+    } else {
+      document.body.classList.remove('overflow-hidden');
+    }
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled
+      isScrolled || isMobileMenuOpen
         ? "bg-white/95 dark:bg-nepali-700/95 backdrop-blur-md shadow-md py-3"
         : "bg-white/0 dark:bg-transparent py-5"
     }`}>

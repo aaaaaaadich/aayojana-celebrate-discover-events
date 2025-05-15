@@ -4,9 +4,69 @@ import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Calendar, Filter, MapPin, Search } from "lucide-react";
+import { Calendar, Filter, MapPin, Search, Music, Coffee, Briefcase, Globe, Cpu, HeartPulse, Brush, GraduationCap } from "lucide-react";
 import EventsCarousel from "@/components/EventsCarousel";
 import { Link } from "react-router-dom";
+
+// Category data, copied and kept in sync with CategoriesPage
+const categories = [
+  { 
+    name: "Music & Concerts", 
+    icon: Music, 
+    href: "/events/categories/music",
+    color: "bg-purple-100 dark:bg-purple-900/30",
+    iconColor: "text-purple-500"
+  },
+  { 
+    name: "Food & Drinks", 
+    icon: Coffee, 
+    href: "/events/categories/food",
+    color: "bg-orange-100 dark:bg-orange-900/30",
+    iconColor: "text-orange-500"
+  },
+  { 
+    name: "Business & Professional", 
+    icon: Briefcase, 
+    href: "/events/categories/business",
+    color: "bg-blue-100 dark:bg-blue-900/30",
+    iconColor: "text-blue-500"
+  },
+  { 
+    name: "Cultural", 
+    icon: Globe, 
+    href: "/events/categories/cultural",
+    color: "bg-red-100 dark:bg-red-900/30",
+    iconColor: "text-red-500"
+  },
+  { 
+    name: "Technology", 
+    icon: Cpu, 
+    href: "/events/categories/technology",
+    color: "bg-teal-100 dark:bg-teal-900/30",
+    iconColor: "text-teal-500"
+  },
+  { 
+    name: "Health & Wellness", 
+    icon: HeartPulse, 
+    href: "/events/categories/health",
+    color: "bg-green-100 dark:bg-green-900/30",
+    iconColor: "text-green-500"
+  },
+  { 
+    name: "Arts", 
+    icon: Brush, 
+    href: "/events/categories/arts",
+    color: "bg-pink-100 dark:bg-pink-900/30",
+    iconColor: "text-pink-500"
+  },
+  { 
+    name: "Education", 
+    icon: GraduationCap, 
+    href: "/events/categories/education",
+    color: "bg-amber-100 dark:bg-amber-900/30",
+    iconColor: "text-amber-500"
+  },
+];
 
 const EventsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -74,7 +134,31 @@ const EventsPage = () => {
             </div>
           </div>
 
-          {/* Featured Events Section */}
+          {/* --- New: Browse by Category Section --- */}
+          <section className="mb-16 animate-fade-in">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">Browse by Category</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Select a category to see events curated by your interests.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+              {categories.map((category) => (
+                <Link 
+                  key={category.name}
+                  to={category.href}
+                  className="flex flex-col items-center justify-center p-6 rounded-lg border hover:shadow-md transition-all duration-300 bg-background hover:scale-105 group"
+                >
+                  <div className={`p-4 rounded-full mb-3 ${category.color} group-hover:scale-110 transition-transform duration-300`}>
+                    <category.icon className={`h-7 w-7 ${category.iconColor}`} />
+                  </div>
+                  <div className="font-medium text-center">{category.name}</div>
+                </Link>
+              ))}
+            </div>
+          </section>
+
+          {/* --- Featured Events Section --- */}
           <section className="mb-16 animate-fade-in">
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold mb-4">Featured Events</h2>
@@ -83,7 +167,6 @@ const EventsPage = () => {
                 find experiences that match your interests.
               </p>
             </div>
-            
             <EventsCarousel />
             
             <div className="mt-10 text-center">
@@ -138,3 +221,4 @@ const EventsPage = () => {
 };
 
 export default EventsPage;
+

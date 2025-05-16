@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
@@ -68,11 +67,11 @@ const TicketingPage = () => {
             </p>
             
             <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
-                Sell Tickets Now
+              <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white" asChild>
+                <a href="/ticketing/sell">Sell Tickets Now</a>
               </Button>
-              <Button size="lg" variant="outline">
-                Learn More
+              <Button size="lg" variant="outline" asChild>
+                <a href="/ticketing/learn">Learn More</a>
               </Button>
             </div>
           </div>
@@ -239,7 +238,9 @@ const TicketingPage = () => {
               <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
                 We're working on enhancing our ticketing platform with more features including reserved seating, integrated marketing tools, and advanced analytics.
               </p>
-              <Button variant="outline">Get Notified</Button>
+              <Button variant="outline" asChild>
+                <a href="/ticketing/notify">Get Notified</a>
+              </Button>
             </div>
           </div>
           
@@ -249,8 +250,8 @@ const TicketingPage = () => {
             <p className="mb-8 max-w-2xl mx-auto">
               Join event organizers across Nepal who trust Aayojana for their ticketing needs. Get started today and make your next event a success.
             </p>
-            <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-blue-50">
-              Get Started <ChevronRight className="ml-1 h-4 w-4" />
+            <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-blue-50" asChild>
+              <a href="/ticketing/get-started">Get Started</a>
             </Button>
           </div>
         </div>

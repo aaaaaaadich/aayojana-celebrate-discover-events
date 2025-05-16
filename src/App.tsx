@@ -19,6 +19,8 @@ import FeaturedEventsPage from "./pages/events/FeaturedEventsPage";
 import NearbyEventsPage from "./pages/events/NearbyEventsPage";
 import CategoriesPage from "./pages/events/CategoriesPage";
 import SignInPage from "./pages/auth/SignInPage";
+import OrganizersDemoPage from "./pages/OrganizersDemoPage";
+import OrganizersGettingStartedPage from "./pages/OrganizersGettingStartedPage";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +68,8 @@ const App = () => {
                 <Route path="/events/nearby" element={<NearbyEventsPage />} />
                 <Route path="/events/categories" element={<CategoriesPage />} />
                 <Route path="/organizers" element={<OrganizersPage />} />
+                <Route path="/organizers/demo" element={<OrganizersDemoPage />} />
+                <Route path="/organizers/getting-started" element={<OrganizersGettingStartedPage />} />
                 <Route path="/ticketing" element={<TicketingPage />} />
                 <Route path="/features" element={<FeaturesPage />} />
                 <Route path="/create-event" element={<CreateEventPage />} />

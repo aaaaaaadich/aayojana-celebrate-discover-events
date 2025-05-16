@@ -20,11 +20,7 @@ export const navigationConfig: NavConfig = {
         href: "/events/nearby",
         description: "Events happening close to you",
       },
-      {
-        title: "Categories",
-        href: "/events/categories",
-        description: "Browse events by category",
-      },
+      // The Categories item is removed as requested
     ],
   },
   forOrganizers: {
@@ -68,3 +64,4 @@ export const navigationConfig: NavConfig = {
     ],
   },
 };
+

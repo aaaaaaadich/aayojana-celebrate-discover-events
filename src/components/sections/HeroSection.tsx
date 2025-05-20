@@ -1,7 +1,7 @@
+
 import { Pocket } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import PennyPenguin from "../PennyPenguin";
 
 const HeroSection = () => {
   return (
@@ -86,13 +86,15 @@ const HeroSection = () => {
             </div>
           </div>
           
-          {/* Right: Image/Illustration */}
+          {/* Right: Realistic Penguin Image */}
           <div className="flex justify-center md:justify-end relative">
-            <div className="relative z-10 w-80 h-80 md:w-96 md:h-96 perspective-800">
-              <div className="absolute inset-0 rounded-full bg-blue-500/10 dark:bg-blue-400/10 blur-2xl"></div>
-              <div className="relative animate-3d-float">
-                <PennyPenguin />
-              </div>
+            <div className="relative z-10 w-80 h-80 md:w-96 md:h-96 flex items-end">
+              <img
+                src="/photo-1441057206919-63d19fac2369"
+                alt="Realistic penguins standing on a rock"
+                className="object-cover rounded-3xl shadow-lg w-full h-full border-4 border-blue-100 dark:border-blue-900 bg-white"
+                style={{ objectPosition: "center bottom" }}
+              />
             </div>
           </div>
         </div>

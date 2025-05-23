@@ -16,30 +16,29 @@ const HeroSection = () => {
               "radial-gradient(ellipse at center, #F4A26190 0%, #4e7dd199 80%, #fff0 100%)",
           }}
         ></div>
-        {/* Decorative border pattern on top (REMOVED) */}
-        {/* Two arrow-like background elements (REMOVED) */}
+        {/* All top border patterns/lines or arrow-like elements are REMOVED for a premium, clean look */}
       </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 z-10 relative">
-        <div className="grid md:grid-cols-2 gap-y-20 gap-x-24 items-center">
+        <div className="grid md:grid-cols-2 gap-y-24 gap-x-20 items-center">
           {/* Left: Content */}
           <div className="text-center md:text-left max-w-2xl md:max-w-xl mx-auto md:mx-0">
-            <div className="inline-block mb-6 px-6 py-2 bg-saffron-500/10 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-base md:text-lg font-semibold backdrop-blur">
+            <div className="inline-block mb-6 px-6 py-2 bg-saffron-500/10 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-base md:text-lg font-semibold backdrop-blur border border-blue-200/40 dark:border-blue-600/40 shadow-md shadow-saffron-400/15">
               Nepal's First Digital Event Platform
             </div>
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-8 tracking-tight text-gray-900 dark:text-white text-gradient-animate transition-all duration-300">
-              <span className="bg-gradient-to-r from-blue-700 via-blue-500 to-saffron-500 dark:from-blue-300 dark:via-saffron-500 dark:to-white bg-clip-text text-transparent shadow-sm">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-8 tracking-tight text-gray-900 dark:text-white text-gradient-animate transition-all duration-300 leading-tight drop-shadow-xl">
+              <span className="bg-gradient-to-r from-blue-700 via-blue-400 to-saffron-500 dark:from-blue-300 dark:via-saffron-400 dark:to-white bg-clip-text text-transparent shadow-lg">
                 Organize, Discover
               </span>
               <br />
-              <span className="text-saffron-600 dark:text-saffron-400 drop-shadow">
+              <span className="text-saffron-600 dark:text-saffron-400 drop-shadow-2xl">
                 & Celebrate Events
               </span>
             </h1>
 
-            <p className="text-xl md:text-2xl text-blue-900 dark:text-blue-100 mb-12 md:mb-12 font-medium max-w-xl">
+            <p className="text-xl md:text-2xl text-blue-900 dark:text-blue-100 mb-12 md:mb-12 font-medium max-w-xl drop-shadow sm:drop-shadow-md">
               The future of events in Nepal: organize, browse, and celebrate with stunning, smart and secure digital experiences.
             </p>
 
@@ -47,14 +46,14 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-6 justify-center md:justify-start mb-12">
               <Button
                 asChild
-                className="bg-saffron-500 hover:bg-saffron-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white text-xl py-7 px-10 shadow-lg shadow-saffron-500/30 font-bold rounded-full animate-hover-lift"
+                className="bg-saffron-500 hover:bg-saffron-600 dark:bg-blue-500 dark:hover:bg-blue-600 text-white text-xl py-7 px-10 shadow-lg shadow-saffron-500/30 font-bold rounded-full animate-hover-lift transition-transform duration-300 focus:ring-4 focus:ring-saffron-300"
               >
                 <Link to="/create-event">Create Event</Link>
               </Button>
               <Button
                 asChild
                 variant="outline"
-                className="border-saffron-500 text-saffron-500 hover:bg-saffron-500 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 text-xl py-7 px-10 rounded-full animate-hover-lift"
+                className="border-saffron-500 text-saffron-500 hover:bg-saffron-500 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 text-xl py-7 px-10 rounded-full animate-hover-lift focus:ring-4 focus:ring-blue-200/40"
               >
                 <Link to="/explore">Explore Events</Link>
               </Button>
@@ -80,10 +79,20 @@ const HeroSection = () => {
           </div>
           {/* Right: 3D Infinity Illustration (Infinity3D replaces Penguin) */}
           <div className="flex justify-center md:justify-end relative mt-10 md:mt-0">
-            <div className="relative z-10 w-64 h-64 md:w-96 md:h-96 flex items-center justify-center drop-shadow-xl transition-all duration-500 animate-float group">
+            <div className="relative z-10 w-[320px] h-[320px] md:w-[420px] md:h-[420px] lg:w-[500px] lg:h-[500px] flex items-center justify-center animate-float group transition-transform"
+              style={{
+                filter: "drop-shadow(0 6px 72px #70caf5cc) drop-shadow(0 2px 24px #f4a26188)"
+              }}
+            >
+              {/* Outer glow for depth and "glass" feeling */}
+              <div className="absolute inset-0 rounded-full blur-3xl opacity-50 pointer-events-none z-0"
+                style={{
+                  background: "radial-gradient(ellipse at center, #f4a26160 10%, #56ccf250 60%, #1a237e10 100%)"
+                }}
+              ></div>
               <Infinity3D />
-              {/* Optional: Glowy circle behind Infinity */}
-              <div className="absolute -z-10 left-1/2 -translate-x-1/2 bottom-2 w-72 h-36 bg-saffron-500/50 rounded-full blur-2xl opacity-40 shadow-2xl pointer-events-none"></div>
+              {/* Subtle glowy circle behind Infinity */}
+              <div className="absolute -z-10 left-1/2 -translate-x-1/2 bottom-4 w-80 h-40 bg-blue-400/40 dark:bg-saffron-400/30 rounded-full blur-2xl opacity-50 shadow-2xl pointer-events-none"></div>
             </div>
           </div>
         </div>
@@ -93,4 +102,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-

@@ -2,7 +2,7 @@
 import React, { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, Environment } from "@react-three/drei";
-import { MeshPhysicalMaterial, Color } from "three";
+import { MeshPhysicalMaterial, Color, TubeGeometry, CatmullRomCurve3, Vector3 } from "three";
 
 function InfinityMesh() {
   const mesh = useRef<THREE.Mesh>(null);
@@ -31,11 +31,7 @@ function InfinityMesh() {
   }
 
   // Create a tube geometry along the ∞ curve
-  // We'll use THREE.TubeGeometry directly here (not using drei)
-  // @ts-expect-error: types
   const geometry = React.useMemo(() => {
-    // @ts-expect-error: Custom geometry below
-    const { TubeGeometry, CatmullRomCurve3, Vector3 } = require("three");
     const curve = new CatmullRomCurve3(
       points.map(([x, y, z]) => new Vector3(x, y, z)),
       true,
@@ -68,9 +64,7 @@ function InfinityMesh() {
   );
 
   return (
-    <mesh ref={mesh} geometry={geometry} material={material} castShadow receiveShadow scale={1.4}>
-      {/* Optionally add a blur/glow effect with post-processing */}
-    </mesh>
+    <mesh ref={mesh} geometry={geometry} material={material} castShadow receiveShadow scale={1.4} />
   );
 }
 

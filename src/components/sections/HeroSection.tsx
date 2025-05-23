@@ -16,15 +16,8 @@ const HeroSection = () => {
               "radial-gradient(ellipse at center, #F4A26190 0%, #4e7dd199 80%, #fff0 100%)",
           }}
         ></div>
-        {/* Decorative border pattern on top */}
-        <div
-          className="absolute left-0 right-0 top-0 h-[26px] bg-repeat-x z-10"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg width='60' height='12' viewBox='0 0 60 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,6 C5,0 10,12 15,6 C20,0 25,12 30,6 C35,0 40,12 45,6 C50,0 55,12 60,6' fill='none' stroke='%23F4A261' stroke-width='2'/%3E%3C/svg%3E\")",
-            opacity: 0.27,
-          }}
-        ></div>
+        {/* Decorative border pattern on top (REMOVED) */}
+        {/* Two arrow-like background elements (REMOVED) */}
       </div>
 
       {/* Main Content */}
@@ -85,7 +78,7 @@ const HeroSection = () => {
               </div>
             </div>
           </div>
-          {/* Right: 3D Infinity Illustration */}
+          {/* Right: 3D Infinity Illustration (Infinity3D replaces Penguin) */}
           <div className="flex justify-center md:justify-end relative mt-10 md:mt-0">
             <div className="relative z-10 w-64 h-64 md:w-96 md:h-96 flex items-center justify-center drop-shadow-xl transition-all duration-500 animate-float group">
               <Infinity3D />
@@ -100,3 +93,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+

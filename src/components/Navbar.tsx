@@ -43,11 +43,12 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
   }, [isMobileMenuOpen]);
 
   return (
+    // REMOVE 'nepali-border-pattern' and similar decorative underline classes!
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled || isMobileMenuOpen
-        ? "bg-white/95 dark:bg-nepali-700/95 backdrop-blur-lg shadow-lg py-2" // underline removed: no border-b or similar
+        ? "bg-white/95 dark:bg-nepali-700/95 backdrop-blur-lg shadow-lg py-2"
         : "bg-transparent dark:bg-transparent py-5"
-    }`}>
+    }`}> {/* <-- no .nepali-border-pattern, no decorative border/underline! */}
       <div className="container mx-auto px-4 flex items-center justify-between relative">
         {/* Logo + Brand with bg logo */}
         <Link to="/" className="flex items-center group relative h-16">

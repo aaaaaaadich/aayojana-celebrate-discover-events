@@ -19,15 +19,6 @@ import FeaturedEventsPage from "./pages/events/FeaturedEventsPage";
 import NearbyEventsPage from "./pages/events/NearbyEventsPage";
 import CategoriesPage from "./pages/events/CategoriesPage";
 import SignInPage from "./pages/auth/SignInPage";
-import OrganizersDemoPage from "./pages/OrganizersDemoPage";
-import OrganizersGettingStartedPage from "./pages/OrganizersGettingStartedPage";
-import ExplorePage from "./pages/ExplorePage";
-import TicketSellPage from "./pages/TicketSellPage";
-import TicketLearnPage from "./pages/TicketLearnPage";
-import TicketNotifyPage from "./pages/TicketNotifyPage";
-import TicketGetStartedPage from "./pages/TicketGetStartedPage";
-import OrganizersAnalyticsPage from "./pages/OrganizersAnalyticsPage";
-import OrganizersPricingPage from "./pages/OrganizersPricingPage";
 
 const queryClient = new QueryClient();
 
@@ -75,19 +66,10 @@ const App = () => {
                 <Route path="/events/nearby" element={<NearbyEventsPage />} />
                 <Route path="/events/categories" element={<CategoriesPage />} />
                 <Route path="/organizers" element={<OrganizersPage />} />
-                <Route path="/organizers/demo" element={<OrganizersDemoPage />} />
-                <Route path="/organizers/getting-started" element={<OrganizersGettingStartedPage />} />
                 <Route path="/ticketing" element={<TicketingPage />} />
                 <Route path="/features" element={<FeaturesPage />} />
                 <Route path="/create-event" element={<CreateEventPage />} />
                 <Route path="/sign-in" element={<SignInPage />} />
-                <Route path="/explore" element={<ExplorePage />} />
-                <Route path="/organizers/analytics" element={<OrganizersAnalyticsPage />} />
-                <Route path="/organizers/pricing" element={<OrganizersPricingPage />} />
-                <Route path="/ticketing/sell" element={<TicketSellPage />} />
-                <Route path="/ticketing/learn" element={<TicketLearnPage />} />
-                <Route path="/ticketing/notify" element={<TicketNotifyPage />} />
-                <Route path="/ticketing/get-started" element={<TicketGetStartedPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </main>

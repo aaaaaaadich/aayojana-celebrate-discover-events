@@ -25,11 +25,11 @@ export const DesktopNav = () => {
           </NavigationMenuItem>
           
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="animate-hover-lift bg-gradient-to-r from-blue-500/5 to-blue-700/5 hover:from-blue-500/10 hover:to-blue-700/10 transition-all duration-300">
+            <NavigationMenuTrigger className="animate-hover-lift bg-gradient-to-r from-saffron-500/10 to-nepali-500/10 hover:from-saffron-500/20 hover:to-nepali-500/20 transition-all duration-300">
               {navigationConfig.discoverEvents.title}
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <div className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px] bg-background/98 backdrop-blur-sm shadow-lg rounded-md animate-fade-in">
+              <div className="grid gap-3 p-6 w-[400px] md:w-[500px] lg:w-[600px] bg-background/95 backdrop-blur-sm animate-fade-in">
                 <div className="grid grid-cols-2 gap-4">
                   {navigationConfig.discoverEvents.items.map((item, index) => (
                     <MenuItem
@@ -50,14 +50,13 @@ export const DesktopNav = () => {
               {navigationConfig.forOrganizers.title}
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <div className="grid gap-3 p-6 w-[400px] bg-background/98 backdrop-blur-sm shadow-lg rounded-md animate-fade-in">
-                {navigationConfig.forOrganizers.items.map((item, index) => (
+              <div className="grid gap-3 p-4 w-[400px]">
+                {navigationConfig.forOrganizers.items.map((item) => (
                   <MenuItem
                     key={item.href}
                     title={item.title}
                     description={item.description}
                     href={item.href}
-                    delay={index * 100}
                   />
                 ))}
               </div>
@@ -69,14 +68,13 @@ export const DesktopNav = () => {
               {navigationConfig.ticketing.title}
             </NavigationMenuTrigger>
             <NavigationMenuContent>
-              <div className="grid gap-3 p-6 w-[400px] bg-background/98 backdrop-blur-sm shadow-lg rounded-md animate-fade-in">
-                {navigationConfig.ticketing.items.map((item, index) => (
+              <div className="grid gap-3 p-4 w-[400px]">
+                {navigationConfig.ticketing.items.map((item) => (
                   <MenuItem
                     key={item.href}
                     title={item.title}
                     description={item.description}
                     href={item.href}
-                    delay={index * 100}
                   />
                 ))}
               </div>

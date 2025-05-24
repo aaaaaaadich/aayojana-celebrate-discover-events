@@ -1,12 +1,10 @@
 
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Sun, Moon, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DesktopNav } from "./navigation/DesktopNav";
 import { MobileNav } from "./navigation/MobileNav";
-
-// Assuming your logo is uploaded as /logo.png in the public folder
 
 interface NavbarProps {
   isDarkMode: boolean;
@@ -16,7 +14,6 @@ interface NavbarProps {
 const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,54 +21,23 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
       setIsScrolled(offset > 50);
     };
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location]);
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.classList.add('overflow-hidden');
-    } else {
-      document.body.classList.remove('overflow-hidden');
-    }
     return () => {
-      document.body.classList.remove('overflow-hidden');
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [isMobileMenuOpen]);
+  }, []);
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled || isMobileMenuOpen
-        ? "bg-white/95 dark:bg-nepali-700/95 backdrop-blur-lg shadow-lg py-2"
-        : "bg-transparent dark:bg-transparent py-5"
+      isScrolled
+        ? "bg-background/60 backdrop-blur-md shadow-lg py-3"
+        : "bg-transparent py-5"
     }`}>
-      <div className="container mx-auto px-4 flex items-center justify-between relative">
-        {/* Logo + Brand with bg logo */}
-        <Link to="/" className="flex items-center group relative h-16">
-          {/* Layered Logo behind brand text */}
-          <span className="absolute left-0 top-1/2 -translate-y-1/2 z-0 pointer-events-none">
-            <img 
-              src="/logo.png"
-              alt="Aayojana Logo"
-              className="w-14 h-14 opacity-30 group-hover:opacity-60 transition-all duration-300 filter blur-[1px] drop-shadow-[0_2px_15px_rgba(29,53,87,0.23)]"
-              style={{
-                left: '-8px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                position: 'absolute',
-                zIndex: 0,
-                pointerEvents: "none"
-              }}
-            />
-          </span>
-          <span className="relative z-10 select-none text-4xl font-extrabold bg-gradient-to-r from-saffron-500 via-blue-600 to-nepali-500 bg-clip-text text-transparent transition-all duration-300 tracking-wide drop-shadow-[0_2px_10px_rgba(29,53,87,0.06)]"
-            style={{
-              letterSpacing: "0.045em"
-            }}
-          >
+      <div className="container mx-auto px-4 flex items-center justify-between">
+        <Link 
+          to="/" 
+          className="flex items-center space-x-2 group"
+        >
+          <span className="text-2xl font-bold bg-gradient-to-r from-saffron-500 to-nepali-500 bg-clip-text text-transparent transition-all duration-300 transform group-hover:scale-105">
             Aayojana
           </span>
         </Link>
@@ -83,20 +49,20 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
             variant="outline" 
             size="icon" 
             onClick={toggleDarkMode} 
-            className="rounded-full"
+            className="rounded-full animate-hover-lift"
             aria-label="Toggle dark mode"
           >
-            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+            {isDarkMode ? <Sun size={18} className="animate-pulse-slow" /> : <Moon size={18} className="animate-pulse-slow" />}
           </Button>
           <Button 
-            asChild
-            className="bg-blue-700 hover:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600 text-white shadow-lg shadow-blue-700/10"
+            onClick={() => window.location.href = "/sign-in"}
+            className="bg-gradient-to-r from-saffron-500 to-nepali-500 hover:from-saffron-600 hover:to-nepali-600 text-white animate-hover-lift transition-all duration-300"
           >
-            <Link to="/sign-in">Sign In</Link>
+            Sign In
           </Button>
         </div>
 
-        <div className="flex items-center space-x-2 md:hidden">
+        <div className="flex items-center space-x-4 md:hidden">
           <Button 
             variant="outline" 
             size="icon" 
@@ -104,7 +70,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
             className="rounded-full"
             aria-label="Toggle dark mode"
           >
-            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+            {isDarkMode ? <Sun size={18} className="animate-pulse-slow" /> : <Moon size={18} className="animate-pulse-slow" />}
           </Button>
           <Button
             variant="ghost"
@@ -122,6 +88,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
           </Button>
         </div>
       </div>
+
       <MobileNav isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
     </header>
   );

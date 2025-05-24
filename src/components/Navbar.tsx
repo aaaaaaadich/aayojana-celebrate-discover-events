@@ -45,7 +45,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled || isMobileMenuOpen
-        ? "bg-white/95 dark:bg-nepali-700/95 backdrop-blur-lg shadow-lg py-2"
+        ? "bg-white/95 dark:bg-nepali-700/95 backdrop-blur-lg shadow-lg py-2" // underline removed: no border-b or similar
         : "bg-transparent dark:bg-transparent py-5"
     }`}>
       <div className="container mx-auto px-4 flex items-center justify-between relative">
@@ -128,3 +128,4 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
 };
 
 export default Navbar;
+

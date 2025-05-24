@@ -1,55 +1,33 @@
-
 import { Pocket } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import PennyPenguin from "@/components/PennyPenguin";
+import Infinity3D from "@/components/Infinity3D";
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center bg-gradient-to-b from-saffron-100 via-blue-50 to-white dark:from-nepali-800 dark:via-blue-900/20 dark:to-nepali-900 py-36 md:py-44 overflow-hidden">
-      {/* Gradient + Mandala + Floating pockets */}
+      {/* PREMIUM GRADIENT BACKGROUND, NO POCKETS OR LINES */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        {/* Glowing Mandala radial illustration */}
-        <div className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] max-w-2xl max-h-2xl rounded-full opacity-25 blur-3xl"
+        {/* Faint, elegant glowing mandala radial bg */}
+        <div 
+          className="absolute left-1/2 top-1/3 -translate-x-1/2 -translate-y-1/2 w-[75vw] h-[75vw] max-w-3xl max-h-3xl rounded-full opacity-25 blur-[84px]"
           style={{
-            background: 'radial-gradient(ellipse at center, #F4A26190 0%, #4e7dd199 80%, #fff0 100%)'
+            background: 'radial-gradient(ellipse at center, #F4A26180 0%, #56ccf26b 70%, #fff0 100%)'
           }}
         ></div>
-        {/* Fewer, larger floating pockets for depth effect */}
-        {[...Array(2)].map((_, i) => (
-          <Pocket
-            key={i}
-            className={`absolute text-saffron-500/10 dark:text-blue-300/7
-              ${i % 2 === 0 ? 'animate-float' : 'animate-float-reverse'}
-              transition-all`}
-            size={getRandomSize()}
-            style={{
-              top: `${22 + i * 53}%`,
-              left: `${8 + i * 70}%`,
-              animationDelay: `${i * 1.7}s`,
-              animationDuration: `${10+i*2}s`,
-              transform: `rotate(${80 + i * 70}deg)`
-            }}
-          />
-        ))}
-        {/* Decorative border pattern on top */}
-        <div className="absolute left-0 right-0 top-0 h-[26px] bg-repeat-x z-10"
-          style={{
-            backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='12' viewBox='0 0 60 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,6 C5,0 10,12 15,6 C20,0 25,12 30,6 C35,0 40,12 45,6 C50,0 55,12 60,6' fill='none' stroke='%23F4A261' stroke-width='2'/%3E%3C/svg%3E\")",
-            opacity: 0.27
-          }}
-        ></div>
+        {/* No pockets, NO top border */}
       </div>
 
-      {/* Main Content */}
+      {/* MAIN CONTENT */}
       <div className="container mx-auto px-4 z-10 relative">
         <div className="grid md:grid-cols-2 gap-y-20 gap-x-24 items-center">
-          {/* Left: Content */}
+          {/* LEFT: TEXT CONTENT */}
           <div className="text-center md:text-left max-w-2xl md:max-w-xl mx-auto md:mx-0">
             <div className="inline-block mb-6 px-6 py-2 bg-saffron-500/10 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-base md:text-lg font-semibold backdrop-blur">
               Nepal's First Digital Event Platform
             </div>
-            
+
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-8 tracking-tight text-gray-900 dark:text-white text-gradient-animate transition-all duration-300">
               <span className="bg-gradient-to-r from-blue-700 via-blue-500 to-saffron-500 dark:from-blue-300 dark:via-saffron-500 dark:to-white bg-clip-text text-transparent shadow-sm">
                 Organize, Discover
@@ -60,11 +38,11 @@ const HeroSection = () => {
               </span>
             </h1>
             
-            <p className="text-xl md:text-2xl text-blue-900 dark:text-blue-100 mb-12 md:mb-12 font-medium max-w-xl">
+            <p className="text-xl md:text-2xl text-blue-900 dark:text-blue-100 mb-12 md:mb-12 font-medium max-w-xl animate-fade-in">
               The future of events in Nepal: organize, browse, and celebrate with stunning, smart and secure digital experiences.
             </p>
             
-            {/* Buttons */}
+            {/* BUTTONS */}
             <div className="flex flex-col sm:flex-row gap-6 justify-center md:justify-start mb-12">
               <Button
                 asChild
@@ -81,7 +59,7 @@ const HeroSection = () => {
               </Button>
             </div>
             
-            {/* Trust indicators */}
+            {/* TRUST INDICATORS */}
             <div className="mt-14 flex flex-wrap items-center justify-center md:justify-start gap-8">
               <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-300 text-lg">
                 <svg className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
@@ -97,12 +75,14 @@ const HeroSection = () => {
               </div>
             </div>
           </div>
-          {/* Right: SVG PennyPenguin Illustration */}
+
+          {/* RIGHT: 3D INFINITY SYMBOL */}
           <div className="flex justify-center md:justify-end relative mt-10 md:mt-0">
-            <div className="relative z-10 w-64 h-64 md:w-96 md:h-96 flex items-end filter drop-shadow-xl hover:drop-shadow-2xl transition-all duration-500 animate-float">
-              <PennyPenguin />
-              {/* Glowy circle behind Penguin */}
-              <div className="absolute -z-10 left-1/2 -translate-x-1/2 bottom-2 w-72 h-36 bg-saffron-500/50 rounded-full blur-2xl opacity-40 shadow-2xl pointer-events-none"></div>
+            <div className="relative z-10 w-64 h-64 md:w-[420px] md:h-[360px] flex items-end filter drop-shadow-xl hover:drop-shadow-2xl transition-all duration-500 animate-float">
+              {/* 3D Infinity Sign */}
+              <Infinity3D />
+              {/* Elegant glowy circle behind */}
+              <div className="absolute -z-10 left-1/2 -translate-x-1/2 bottom-4 w-80 h-40 bg-saffron-500/40 rounded-full blur-2xl opacity-40 shadow-2xl pointer-events-none"></div>
             </div>
           </div>
         </div>

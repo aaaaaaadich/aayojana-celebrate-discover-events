@@ -43,16 +43,18 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled || isMobileMenuOpen
+    // Ensure NO .nepali-border-pattern or border classes or decorative backgrounds
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen
         ? "bg-white/95 dark:bg-nepali-700/95 backdrop-blur-lg shadow-lg py-2"
         : "bg-transparent dark:bg-transparent py-5"
-    }`} // Make sure there is NO 'nepali-border-pattern', 'border-b', or similar line-creating classes here
-    style={{
-      boxShadow: (isScrolled || isMobileMenuOpen) ? "0 4px 24px 0 rgba(80,170,210,0.05)" : undefined,
-      borderBottom: "none",
-      backgroundImage: "none"
-    }}
+      } !border-none !shadow-none`} // Apply !border-none and !shadow-none just in case
+      style={{
+        boxShadow: (isScrolled || isMobileMenuOpen) ? "0 4px 24px 0 rgba(80,170,210,0.05)" : undefined,
+        borderBottom: "none",
+        backgroundImage: "none"
+      }}
+      // No nepali-border-pattern, no border-b, etc.
     >
       <div className="container mx-auto px-4 flex items-center justify-between relative">
         {/* Logo + Brand with bg logo */}
@@ -134,3 +136,4 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
 };
 
 export default Navbar;
+

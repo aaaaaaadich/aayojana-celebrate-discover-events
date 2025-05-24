@@ -43,18 +43,23 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
   }, [isMobileMenuOpen]);
 
   return (
-    // REMOVE 'nepali-border-pattern' and similar decorative underline classes!
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       isScrolled || isMobileMenuOpen
         ? "bg-white/95 dark:bg-nepali-700/95 backdrop-blur-lg shadow-lg py-2"
         : "bg-transparent dark:bg-transparent py-5"
-    }`}> {/* <-- no .nepali-border-pattern, no decorative border/underline! */}
+    }`} // Make sure there is NO 'nepali-border-pattern', 'border-b', or similar line-creating classes here
+    style={{
+      boxShadow: (isScrolled || isMobileMenuOpen) ? "0 4px 24px 0 rgba(80,170,210,0.05)" : undefined,
+      borderBottom: "none",
+      backgroundImage: "none"
+    }}
+    >
       <div className="container mx-auto px-4 flex items-center justify-between relative">
         {/* Logo + Brand with bg logo */}
         <Link to="/" className="flex items-center group relative h-16">
           {/* Layered Logo behind brand text */}
           <span className="absolute left-0 top-1/2 -translate-y-1/2 z-0 pointer-events-none">
-            <img 
+            <img
               src="/logo.png"
               alt="Aayojana Logo"
               className="w-14 h-14 opacity-30 group-hover:opacity-60 transition-all duration-300 filter blur-[1px] drop-shadow-[0_2px_15px_rgba(29,53,87,0.23)]"
@@ -80,16 +85,16 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
         <DesktopNav />
 
         <div className="hidden md:flex items-center space-x-4">
-          <Button 
-            variant="outline" 
-            size="icon" 
-            onClick={toggleDarkMode} 
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleDarkMode}
             className="rounded-full"
             aria-label="Toggle dark mode"
           >
             {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
           </Button>
-          <Button 
+          <Button
             asChild
             className="bg-blue-700 hover:bg-blue-800 dark:bg-blue-500 dark:hover:bg-blue-600 text-white shadow-lg shadow-blue-700/10"
           >
@@ -98,10 +103,10 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
         </div>
 
         <div className="flex items-center space-x-2 md:hidden">
-          <Button 
-            variant="outline" 
-            size="icon" 
-            onClick={toggleDarkMode} 
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={toggleDarkMode}
             className="rounded-full"
             aria-label="Toggle dark mode"
           >
@@ -129,4 +134,3 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
 };
 
 export default Navbar;
-

@@ -1,126 +1,104 @@
 
-import React, { Suspense, useRef, useMemo } from "react";
+import React, { Suspense, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, OrbitControls } from "@react-three/drei";
-import * as THREE from "three";
+import { OrbitControls, Environment } from "@react-three/drei";
+import { MeshPhysicalMaterial, Color } from "three";
 
-// Creates a beautiful, glossy, animated infinity sign
 function InfinityMesh() {
   const mesh = useRef<THREE.Mesh>(null);
 
   // Animate rotation
   useFrame((state, delta) => {
     if (mesh.current) {
-      mesh.current.rotation.y += 0.38 * delta;
-      mesh.current.rotation.x = Math.sin(state.clock.getElapsedTime() / 2) * 0.25;
+      mesh.current.rotation.y += 0.5 * delta;
+      mesh.current.rotation.x = Math.sin(state.clock.getElapsedTime() / 2) * 0.2;
     }
   });
 
-  // Generate points for ∞ (lemniscate of Bernoulli)
+  // Create the infinity geometry using a custom parametric curve
+  // Parametric equation for ∞ shape
   const INF_POINTS = 160;
-  const points = useMemo(() => {
-    const arr = [];
-    for (let i = 0; i <= INF_POINTS; i++) {
-      const t = (i / INF_POINTS) * Math.PI * 2;
-      const a = 1.2, b = 0.53;
-      const denom = 1 + Math.sin(t) ** 2;
-      const x = a * Math.cos(t) / denom;
-      const y = b * Math.sin(t) * Math.cos(t) / denom;
-      const z = a * Math.sin(t) / denom;
-      arr.push(new THREE.Vector3(x * 12, y * 9, z * 10));
-    }
-    return arr;
-  }, []);
+  const points: [number, number, number][] = [];
+  for (let i = 0; i <= INF_POINTS; i++) {
+    const t = (i / INF_POINTS) * Math.PI * 2;
+    // Lemniscate
+    const a = 1.3, b = 0.6;
+    const denom = 1 + Math.sin(t) ** 2;
+    const x = (a * Math.cos(t)) / denom;
+    const y = (b * Math.sin(t) * Math.cos(t)) / denom;
+    const z = (a * Math.sin(t)) / denom;
+    points.push([x * 10, y * 10, z * 10]);
+  }
 
-  // Tube geometry along the infinity curve
-  const geometry = useMemo(() => {
-    const curve = new THREE.CatmullRomCurve3(points, true, "catmullrom", 1.25);
-    return new THREE.TubeGeometry(curve, 700, 1.58, 64, true);
+  // Create a tube geometry along the ∞ curve
+  // We'll use THREE.TubeGeometry directly here (not using drei)
+  // @ts-expect-error: types
+  const geometry = React.useMemo(() => {
+    // @ts-expect-error: Custom geometry below
+    const { TubeGeometry, CatmullRomCurve3, Vector3 } = require("three");
+    const curve = new CatmullRomCurve3(
+      points.map(([x, y, z]) => new Vector3(x, y, z)),
+      true,
+      "catmullrom",
+      1.25
+    );
+    return new TubeGeometry(curve, 700, 1.65, 64, true);
   }, [points]);
 
-  // Glossy/glassy/iridescent material
-  const material = useMemo(
+  // Material: glossy, glassy, iridescent-like shader
+  const material = React.useMemo(
     () =>
-      new THREE.MeshPhysicalMaterial({
-        color: new THREE.Color("#56CCF2").lerp(new THREE.Color("#F4A261"), 0.12),
-        roughness: 0.09,
-        metalness: 0.65,
-        transmission: 0.89,
-        thickness: 2.2,
-        clearcoat: 0.78,
-        clearcoatRoughness: 0.13,
-        reflectivity: 0.87,
-        ior: 1.48,
-        iridescence: 0.21,
-        iridescenceIOR: 1.28,
-        sheen: 0.32,
-        sheenColor: new THREE.Color("#f4a261").lerp(new THREE.Color("#fff"), 0.62),
-        envMapIntensity: 1.53,
+      new MeshPhysicalMaterial({
+        color: new Color("#56CCF2"),
+        roughness: 0.05,
+        metalness: 0.55,
+        transmission: 0.95,
+        thickness: 2,
+        clearcoat: 0.8,
+        clearcoatRoughness: 0.15,
+        reflectivity: 0.7,
+        ior: 1.55,
+        iridescence: 0.15,
+        iridescenceIOR: 1.35,
+        // Add a slight sheen with white highlight
+        sheen: 0.55,
+        sheenColor: new Color("#f4a261"),
       }),
     []
   );
 
   return (
-    <mesh
-      ref={mesh}
-      geometry={geometry}
-      material={material}
-      castShadow
-      receiveShadow
-      scale={1.47}
-    />
+    <mesh ref={mesh} geometry={geometry} material={material} castShadow receiveShadow scale={1.4}>
+      {/* Optionally add a blur/glow effect with post-processing */}
+    </mesh>
   );
 }
 
-// 3D Infinity Sign Canvas
+// 3D Infinity sign canvas wrapper
 const Infinity3D = () => (
   <Canvas
-    camera={{
-      position: [0, 3.5, 19],
-      fov: 32,
-    }}
+    camera={{ position: [0, 2, 22], fov: 32 }}
     dpr={[1, 1.5]}
     shadows
     style={{
       width: "100%",
       height: "100%",
-      borderRadius: "2.2rem",
-      background: "radial-gradient(ellipse at center, #202654cc 2%, #f4a26114 84%, #fff0 100%)",
-      boxShadow: "0 8px 48px 0 rgba(80,170,210,0.16), 0 1.5px 8px #56ccf285",
+      borderRadius: "2.5rem",
+      background:
+        "radial-gradient(ellipse at center, #202654cc 2%, #f4a26110 75%, #fff0 100%)",
+      boxShadow:
+        "0 8px 56px 0 rgba(80,170,210,0.15), 0 1.5px 6.5px #56ccf270",
     }}
   >
-    {/* Lights */}
-    <ambientLight intensity={0.76} />
-    <directionalLight
-      position={[-8, 14, 12]}
-      intensity={0.81}
-      color="#f4a261"
-      castShadow
-    />
-    <directionalLight
-      position={[9, -13, 22]}
-      intensity={0.53}
-      color="#56ccf2"
-    />
-    <pointLight
-      position={[1, 15, 8]}
-      intensity={0.22}
-      color="#fff"
-    />
-
-    {/* Environment lighting and the main mesh */}
+    <ambientLight intensity={0.8} />
+    <directionalLight position={[-8, 16, 12]} intensity={0.85} color="#f4a261" castShadow />
+    <directionalLight position={[8, -10, 18]} intensity={0.52} color="#56ccf2" />
+    <pointLight position={[0, 12, 6]} intensity={0.32} color="#fff" />
     <Suspense fallback={null}>
       <InfinityMesh />
-      <Environment preset="sunset" blur={0.9} />
+      <Environment preset="sunset" blur={0.8} />
     </Suspense>
-    {/* Orbit controls for subtle autoRotate */}
-    <OrbitControls
-      autoRotate
-      autoRotateSpeed={0.59}
-      enablePan={false}
-      enableZoom={false}
-      enableRotate={false}
-    />
+    <OrbitControls autoRotate autoRotateSpeed={1.28} enablePan={false} enableZoom={false} enableRotate={false} />
   </Canvas>
 );
 

@@ -42,26 +42,33 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
 
   return (
     <>
-      {/* Failsafe: forcibly hide any before pseudo-element on the navbar/header */}
+      {/* Failsafe: forcibly hide any before/after pseudo-elements (zigzag lines) on navbar/header */}
       <style>
         {`
-          header.nepali-border-pattern::before,
           header[class*="nepali-border-pattern"]::before,
-          header[style*="nepali-border-pattern"]::before,
-          header::before {
+          header.nepali-border-pattern::before,
+          header::before,
+          header[class*="nepali-border-pattern"]::after,
+          header.nepali-border-pattern::after,
+          header::after {
             display: none !important;
             background: none !important;
             border: none !important;
+            box-shadow: none !important;
             content: none !important;
             height: 0 !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
           }
         `}
       </style>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled || isMobileMenuOpen
-          ? "bg-white/95 dark:bg-nepali-700/95 backdrop-blur-lg shadow-lg py-2"
-          : "bg-transparent dark:bg-transparent py-5"
-        } !border-none !shadow-none`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
+          ${isScrolled || isMobileMenuOpen
+            ? "bg-white/95 dark:bg-nepali-700/95 backdrop-blur-lg shadow-lg py-0"
+            : "bg-transparent dark:bg-transparent py-0"
+          } !border-none !shadow-none`}
         style={{
           boxShadow: (isScrolled || isMobileMenuOpen) ? "0 4px 24px 0 rgba(80,170,210,0.05)" : undefined,
           borderBottom: "none",

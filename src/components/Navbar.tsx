@@ -52,32 +52,11 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
         : "bg-white/0 dark:bg-transparent py-5"
     }`}>
       <div className="container mx-auto px-4 flex items-center justify-between">
-        {/* Logo with Aayojana text */}
         <Link 
           to="/" 
-          className="flex items-center space-x-2 group relative"
-          style={{ minWidth: 130 }}
+          className="flex items-center space-x-2 group"
         >
-          {/* Decorative logo behind text */}
-          <span
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none"
-            aria-hidden="true"
-            style={{
-              width: 58,
-              height: 58,
-              opacity: 0.15,
-              zIndex: 0,
-            }}
-          >
-            <img
-              src="/lovable-uploads/11b101da-3409-4529-a4d3-2ffe5f547639.png"
-              alt=""
-              className="w-full h-full object-contain"
-              draggable={false}
-            />
-          </span>
-          {/* Text sits above logo */}
-          <span className="relative z-10 text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent transition-all duration-300 transform group-hover:scale-105">
+          <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent transition-all duration-300 transform group-hover:scale-105">
             Aayojana
           </span>
         </Link>
@@ -135,4 +114,3 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
 };
 
 export default Navbar;
-

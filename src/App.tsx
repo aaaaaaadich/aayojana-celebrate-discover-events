@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
@@ -59,42 +60,44 @@ const App = () => {
   
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <div className="min-h-screen flex flex-col">
-            <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
-            <main className="flex-grow pt-16">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/events" element={<EventsPage />} />
-                <Route path="/events/featured" element={<FeaturedEventsPage />} />
-                <Route path="/events/nearby" element={<NearbyEventsPage />} />
-                <Route path="/events/categories" element={<CategoriesPage />} />
-                <Route path="/organizers" element={<OrganizersPage />} />
-                <Route path="/organizers/demo" element={<OrganizersDemoPage />} />
-                <Route path="/organizers/getting-started" element={<OrganizersGettingStartedPage />} />
-                <Route path="/ticketing" element={<TicketingPage />} />
-                <Route path="/features" element={<FeaturesPage />} />
-                <Route path="/create-event" element={<CreateEventPage />} />
-                <Route path="/sign-in" element={<SignInPage />} />
-                <Route path="/explore" element={<ExplorePage />} />
-                <Route path="/organizers/analytics" element={<OrganizersAnalyticsPage />} />
-                <Route path="/organizers/pricing" element={<OrganizersPricingPage />} />
-                <Route path="/ticketing/sell" element={<TicketSellPage />} />
-                <Route path="/ticketing/learn" element={<TicketLearnPage />} />
-                <Route path="/ticketing/notify" element={<TicketNotifyPage />} />
-                <Route path="/ticketing/get-started" element={<TicketGetStartedPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
-        </BrowserRouter>
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <div className="min-h-screen flex flex-col">
+              <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+              <main className="flex-grow pt-16">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/events" element={<EventsPage />} />
+                  <Route path="/events/featured" element={<FeaturedEventsPage />} />
+                  <Route path="/events/nearby" element={<NearbyEventsPage />} />
+                  <Route path="/events/categories" element={<CategoriesPage />} />
+                  <Route path="/organizers" element={<OrganizersPage />} />
+                  <Route path="/organizers/demo" element={<OrganizersDemoPage />} />
+                  <Route path="/organizers/getting-started" element={<OrganizersGettingStartedPage />} />
+                  <Route path="/ticketing" element={<TicketingPage />} />
+                  <Route path="/features" element={<FeaturesPage />} />
+                  <Route path="/create-event" element={<CreateEventPage />} />
+                  <Route path="/sign-in" element={<SignInPage />} />
+                  <Route path="/explore" element={<ExplorePage />} />
+                  <Route path="/organizers/analytics" element={<OrganizersAnalyticsPage />} />
+                  <Route path="/organizers/pricing" element={<OrganizersPricingPage />} />
+                  <Route path="/ticketing/sell" element={<TicketSellPage />} />
+                  <Route path="/ticketing/learn" element={<TicketLearnPage />} />
+                  <Route path="/ticketing/notify" element={<TicketNotifyPage />} />
+                  <Route path="/ticketing/get-started" element={<TicketGetStartedPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
+          </BrowserRouter>
+        </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 };

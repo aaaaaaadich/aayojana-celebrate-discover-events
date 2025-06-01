@@ -1,3 +1,4 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -43,81 +44,79 @@
 
 /* Premium Animation Classes */
 .animate-hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .animate-hover-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.08);
 }
 
 .animate-shimmer {
   position: relative;
   overflow: hidden;
-}
-
-.animate-shimmer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
-  transform: translateX(-100%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
+  background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
 
 @keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
   100% {
-    transform: translateX(100%);
+    background-position: 200% 0;
   }
 }
 
 .glow-on-hover {
   position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glow-on-hover::after {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, rgba(244, 162, 97, 0.4) 0%, rgba(244, 162, 97, 0) 70%);
+  top: -2px;
+  left: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background: linear-gradient(45deg, #3B82F6, #1D4ED8, #F59E0B, #3B82F6);
+  background-size: 400% 400%;
   opacity: 0;
   border-radius: inherit;
-  transition: opacity 0.3s ease;
   z-index: -1;
   pointer-events: none;
+  animation: gradient-flow 3s ease infinite;
+  transition: opacity 0.3s ease;
 }
 
 .glow-on-hover:hover::after {
-  opacity: 1;
+  opacity: 0.7;
 }
 
 .text-gradient-animate {
-  background: linear-gradient(90deg, #F4A261, #E76F51, #F4A261);
-  background-size: 200% auto;
+  background: linear-gradient(90deg, #3B82F6, #1D4ED8, #F59E0B, #3B82F6);
+  background-size: 400% auto;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  animation: textShimmer 3s linear infinite;
+  animation: gradient-flow 3s linear infinite;
 }
 
-@keyframes textShimmer {
-  to {
-    background-position: 200% center;
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-/* Nepali-inspired UI Elements */
+/* Enhanced Nepali-inspired UI Elements */
 .nepali-pattern-border {
   position: relative;
   border: 4px solid transparent;
@@ -128,16 +127,11 @@
   content: "";
   position: absolute;
   inset: -4px;
-  background: linear-gradient(45deg, #F4A261, #E9C46A, #F4A261);
-  background-size: 200% 200%;
-  animation: border-flow 4s linear infinite;
+  background: linear-gradient(45deg, #3B82F6, #1D4ED8, #F59E0B, #3B82F6);
+  background-size: 400% 400%;
+  animation: gradient-flow 4s linear infinite;
   z-index: -1;
   border-radius: inherit;
-}
-
-@keyframes border-flow {
-  0% { background-position: 0% 0%; }
-  100% { background-position: 200% 200%; }
 }
 
 .nepali-decoration-top {
@@ -153,13 +147,13 @@
   transform: translateX(-50%);
   width: 60px;
   height: 12px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='12' viewBox='0 0 60 12'%3E%3Cpath d='M0,6 C5,0 10,12 15,6 C20,0 25,12 30,6 C35,0 40,12 45,6 C50,0 55,12 60,6' fill='none' stroke='%23F4A261' stroke-width='1'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='12' viewBox='0 0 60 12'%3E%3Cpath d='M0,6 C5,0 10,12 15,6 C20,0 25,12 30,6 C35,0 40,12 45,6 C50,0 55,12 60,6' fill='none' stroke='%233B82F6' stroke-width='2'/%3E%3C/svg%3E");
 }
 
 /* Traditional Nepali Design Elements */
 .nepali-mandala-bg {
-  background-color: rgba(244, 162, 97, 0.05);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%23F4A261' stroke-width='0.5' /%3E%3Ccircle cx='50' cy='50' r='35' fill='none' stroke='%23F4A261' stroke-width='0.5' /%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='%23F4A261' stroke-width='0.5' /%3E%3Ccircle cx='50' cy='50' r='25' fill='none' stroke='%23F4A261' stroke-width='0.5' /%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='%23F4A261' stroke-width='0.5' /%3E%3C/svg%3E");
+  background-color: rgba(59, 130, 246, 0.03);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='%233B82F6' stroke-width='0.5' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='35' fill='none' stroke='%233B82F6' stroke-width='0.5' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='30' fill='none' stroke='%233B82F6' stroke-width='0.5' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='25' fill='none' stroke='%233B82F6' stroke-width='0.5' opacity='0.3'/%3E%3Ccircle cx='50' cy='50' r='20' fill='none' stroke='%233B82F6' stroke-width='0.5' opacity='0.3'/%3E%3C/svg%3E");
   background-repeat: repeat;
 }
 
@@ -169,37 +163,21 @@
 
 /* Enhanced Hover Effects */
 .hover-lift-3d {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .hover-lift-3d:hover {
-  transform: translateY(-5px) rotateX(5deg);
-  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px) rotateX(10deg) scale(1.05);
+  box-shadow: 0 25px 50px -5px rgba(0, 0, 0, 0.2), 0 15px 30px -10px rgba(59, 130, 246, 0.15);
 }
 
-/* Nav Menu Animation Classes */
-@keyframes menuFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-[data-state=open] > [data-radix-navigation-menu-content] {
-  animation: menuFadeIn 0.2s ease forwards;
-}
-
-/* Robot Animation Classes */
+/* Advanced Animation Keyframes */
 @keyframes float {
   0%, 100% {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-15px);
   }
 }
 
@@ -210,7 +188,7 @@
   }
   50% {
     opacity: 1;
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
 }
 
@@ -226,73 +204,205 @@
 @keyframes bubble {
   0% {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px) scale(0.8);
   }
   10% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   90% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(-20px) scale(1.2);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 .animate-pulse-slow {
-  animation: pulse-slow 2s ease-in-out infinite;
+  animation: pulse-slow 3s ease-in-out infinite;
 }
 
 .animate-rotate-slow {
-  animation: rotate-slow 20s linear infinite;
+  animation: rotate-slow 30s linear infinite;
 }
 
 .animate-bubble {
-  animation: bubble 5s ease-in-out 1s infinite;
+  animation: bubble 6s ease-in-out 1s infinite;
 }
 
-.robot-eye-left.blink,
-.robot-eye-right.blink {
-  transform: scaleY(0.1);
+.animate-ripple {
+  animation: ripple 0.6s ease-out;
 }
 
-.robot {
-  animation: float 3s ease-in-out infinite;
+.animate-scale-in {
+  animation: scale-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+/* Interactive Glow Effects */
+.animate-glow {
+  position: relative;
+}
+
+.animate-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: inherit;
+  border-radius: inherit;
+  filter: blur(15px);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.animate-glow:hover::before {
+  opacity: 0.7;
 }
 
 /* Page Transition Animations */
 .page-enter {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(30px) scale(0.95);
 }
 
 .page-enter-active {
   opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
+  transform: translateY(0) scale(1);
+  transition: all 500ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .page-exit {
   opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 .page-exit-active {
   opacity: 0;
-  transition: opacity 300ms;
+  transform: translateY(-30px) scale(1.05);
+  transition: all 300ms ease-in;
 }
 
-/* Mandala Watermark for Body */
+/* Enhanced Background Effects */
 .mandala-bg {
   position: relative;
-  background: radial-gradient(circle at 50% 40%, #D3E4FD22 0%, #fff 70%, #1D3557 100%);
+  background: radial-gradient(circle at 50% 40%, rgba(59, 130, 246, 0.08) 0%, transparent 50%, rgba(29, 53, 87, 0.05) 100%);
 }
 
 body,
 html,
 #root {
-  background: radial-gradient(circle at 50% 40%, #D3E4FD22 0%, #fff 70%, #1D3557 100%);
-  /* subtle mandala watermark with blue accent */
+  background: radial-gradient(circle at 50% 40%, rgba(59, 130, 246, 0.08) 0%, transparent 50%, rgba(29, 53, 87, 0.05) 100%);
+  scroll-behavior: smooth;
+}
+
+/* Scroll-triggered animations */
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.scroll-animate-left {
+  animation: slideInFromLeft 0.8s ease-out;
+}
+
+.scroll-animate-right {
+  animation: slideInFromRight 0.8s ease-out;
+}
+
+/* Enhanced Button Animations */
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.btn-premium:hover::before {
+  left: 100%;
+}
+
+/* Pulse ring effect */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 1.5s ease-out infinite;
 }

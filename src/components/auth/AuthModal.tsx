@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { Eye, EyeOff, Mail, Lock, User, Sparkles } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, Sparkles, Zap } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 interface AuthModalProps {
@@ -117,31 +117,37 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-white/95 dark:bg-nepali-700/95 backdrop-blur-xl border-0 shadow-2xl animate-scale-in">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-saffron-500/5 rounded-lg pointer-events-none"></div>
-        <div className="absolute inset-0 mandala-pattern opacity-5 pointer-events-none"></div>
+      <DialogContent className="sm:max-w-md bg-white/95 dark:bg-nepali-700/95 backdrop-blur-xl border-0 shadow-2xl animate-bounce-in overflow-hidden">
+        {/* Animated Background Effects */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-saffron-500/10 rounded-lg pointer-events-none animate-pulse-slow"></div>
+        <div className="absolute inset-0 mandala-pattern opacity-5 pointer-events-none animate-rotate-slow"></div>
         
-        <DialogHeader className="relative">
-          <DialogTitle className="text-center text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent animate-fade-in">
+        {/* Floating Particles */}
+        <div className="absolute top-4 left-4 w-2 h-2 bg-blue-500/30 rounded-full animate-float"></div>
+        <div className="absolute top-8 right-6 w-1 h-1 bg-saffron-500/40 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute bottom-6 left-8 w-1.5 h-1.5 bg-blue-600/20 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
+        
+        <DialogHeader className="relative z-10">
+          <DialogTitle className="text-center text-2xl font-bold text-gradient-animate animate-stagger">
             <div className="flex items-center justify-center gap-2">
-              <Sparkles className="w-6 h-6 text-saffron-500 animate-pulse" />
-              {isSignUp ? "Create Account" : "Welcome Back"}
-              <Sparkles className="w-6 h-6 text-saffron-500 animate-pulse" />
+              <Sparkles className="w-6 h-6 text-saffron-500 animate-pulse animate-elastic" />
+              <span className="animate-shimmer">{isSignUp ? "Create Account" : "Welcome Back"}</span>
+              <Zap className="w-6 h-6 text-blue-500 animate-bounce-in" style={{ animationDelay: '0.3s' }} />
             </div>
           </DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-6 relative">
-          {/* OAuth Buttons */}
-          <div className="space-y-3 animate-fade-in" style={{ animationDelay: "0.1s" }}>
+        <div className="space-y-6 relative z-10">
+          {/* OAuth Buttons with Enhanced Animations */}
+          <div className="space-y-3 animate-stagger" style={{ animationDelay: "0.1s" }}>
             <Button
               variant="outline"
-              className="w-full h-12 border-2 border-transparent bg-gradient-to-r from-white to-gray-50 dark:from-nepali-600 dark:to-nepali-700 hover:from-blue-50 hover:to-blue-100 dark:hover:from-nepali-500 dark:hover:to-nepali-600 transition-all duration-300 transform hover:scale-105 hover:shadow-lg group animate-shimmer"
+              className="w-full h-12 border-2 border-transparent bg-gradient-to-r from-white to-gray-50 dark:from-nepali-600 dark:to-nepali-700 hover:from-blue-50 hover:to-blue-100 dark:hover:from-nepali-500 dark:hover:to-nepali-600 transition-all duration-500 animate-hover-lift animate-shimmer animate-morph group glow-on-hover animate-particle"
               onClick={handleGoogleSignIn}
               disabled={isLoading}
             >
               <div className="flex items-center gap-3">
-                <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 animate-magnetic transition-transform duration-300" viewBox="0 0 24 24">
                   <path
                     fill="#4285F4"
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -159,30 +165,30 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                <span className="font-medium">Continue with Google</span>
+                <span className="font-medium animate-shimmer">Continue with Google</span>
               </div>
             </Button>
           </div>
 
-          <div className="relative animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            <Separator />
+          <div className="relative animate-stagger" style={{ animationDelay: "0.2s" }}>
+            <Separator className="animate-liquid" />
             <div className="absolute inset-0 flex items-center justify-center">
-              <span className="bg-background px-3 text-muted-foreground text-sm font-medium">or</span>
+              <span className="bg-background px-3 text-muted-foreground text-sm font-medium animate-pulse-slow">or</span>
             </div>
           </div>
 
-          {/* Email/Password Form */}
+          {/* Enhanced Form with Advanced Animations */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {isSignUp && (
-              <div className="space-y-2 animate-fade-in" style={{ animationDelay: "0.3s" }}>
-                <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
-                <div className="relative group">
-                  <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-hover:text-saffron-500 transition-colors duration-300" />
+              <div className="space-y-2 animate-slide-up" style={{ animationDelay: "0.3s" }}>
+                <Label htmlFor="name" className="text-sm font-medium animate-fade-in">Full Name</Label>
+                <div className="relative group animate-3d-hover">
+                  <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-hover:text-saffron-500 transition-all duration-300 animate-magnetic" />
                   <Input
                     id="name"
                     type="text"
                     placeholder="Enter your full name"
-                    className="pl-10 h-12 border-2 focus:border-saffron-500 transition-all duration-300 hover:border-blue-400"
+                    className="pl-10 h-12 border-2 focus:border-saffron-500 transition-all duration-500 hover:border-blue-400 animate-morph glow-on-hover animate-tilt"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required={isSignUp}
@@ -191,15 +197,15 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
               </div>
             )}
 
-            <div className="space-y-2 animate-fade-in" style={{ animationDelay: isSignUp ? "0.4s" : "0.3s" }}>
-              <Label htmlFor="email" className="text-sm font-medium">Email</Label>
-              <div className="relative group">
-                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-hover:text-saffron-500 transition-colors duration-300" />
+            <div className="space-y-2 animate-slide-up" style={{ animationDelay: isSignUp ? "0.4s" : "0.3s" }}>
+              <Label htmlFor="email" className="text-sm font-medium animate-fade-in">Email</Label>
+              <div className="relative group animate-3d-hover">
+                <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-hover:text-saffron-500 transition-all duration-300 animate-magnetic" />
                 <Input
                   id="email"
                   type="email"
                   placeholder="Enter your email"
-                  className="pl-10 h-12 border-2 focus:border-saffron-500 transition-all duration-300 hover:border-blue-400"
+                  className="pl-10 h-12 border-2 focus:border-saffron-500 transition-all duration-500 hover:border-blue-400 animate-morph glow-on-hover animate-tilt"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
@@ -207,15 +213,15 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
               </div>
             </div>
 
-            <div className="space-y-2 animate-fade-in" style={{ animationDelay: isSignUp ? "0.5s" : "0.4s" }}>
-              <Label htmlFor="password" className="text-sm font-medium">Password</Label>
-              <div className="relative group">
-                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-hover:text-saffron-500 transition-colors duration-300" />
+            <div className="space-y-2 animate-slide-up" style={{ animationDelay: isSignUp ? "0.5s" : "0.4s" }}>
+              <Label htmlFor="password" className="text-sm font-medium animate-fade-in">Password</Label>
+              <div className="relative group animate-3d-hover">
+                <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-hover:text-saffron-500 transition-all duration-300 animate-magnetic" />
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="Enter your password"
-                  className="pl-10 pr-10 h-12 border-2 focus:border-saffron-500 transition-all duration-300 hover:border-blue-400"
+                  className="pl-10 pr-10 h-12 border-2 focus:border-saffron-500 transition-all duration-500 hover:border-blue-400 animate-morph glow-on-hover animate-tilt"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   required
@@ -224,28 +230,28 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent hover:scale-110 transition-transform duration-300"
+                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent animate-elastic transition-transform duration-300"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-4 w-4 text-muted-foreground hover:text-saffron-500 transition-colors duration-300" />
+                    <EyeOff className="h-4 w-4 text-muted-foreground hover:text-saffron-500 transition-colors duration-300 animate-bounce-in" />
                   ) : (
-                    <Eye className="h-4 w-4 text-muted-foreground hover:text-saffron-500 transition-colors duration-300" />
+                    <Eye className="h-4 w-4 text-muted-foreground hover:text-saffron-500 transition-colors duration-300 animate-bounce-in" />
                   )}
                 </Button>
               </div>
             </div>
 
             {isSignUp && (
-              <div className="space-y-2 animate-fade-in" style={{ animationDelay: "0.6s" }}>
-                <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirm Password</Label>
-                <div className="relative group">
-                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-hover:text-saffron-500 transition-colors duration-300" />
+              <div className="space-y-2 animate-slide-up" style={{ animationDelay: "0.6s" }}>
+                <Label htmlFor="confirmPassword" className="text-sm font-medium animate-fade-in">Confirm Password</Label>
+                <div className="relative group animate-3d-hover">
+                  <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground group-hover:text-saffron-500 transition-all duration-300 animate-magnetic" />
                   <Input
                     id="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm your password"
-                    className="pl-10 pr-10 h-12 border-2 focus:border-saffron-500 transition-all duration-300 hover:border-blue-400"
+                    className="pl-10 pr-10 h-12 border-2 focus:border-saffron-500 transition-all duration-500 hover:border-blue-400 animate-morph glow-on-hover animate-tilt"
                     value={formData.confirmPassword}
                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                     required={isSignUp}
@@ -254,13 +260,13 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent hover:scale-110 transition-transform duration-300"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent animate-elastic transition-transform duration-300"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
                     {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4 text-muted-foreground hover:text-saffron-500 transition-colors duration-300" />
+                      <EyeOff className="h-4 w-4 text-muted-foreground hover:text-saffron-500 transition-colors duration-300 animate-bounce-in" />
                     ) : (
-                      <Eye className="h-4 w-4 text-muted-foreground hover:text-saffron-500 transition-colors duration-300" />
+                      <Eye className="h-4 w-4 text-muted-foreground hover:text-saffron-500 transition-colors duration-300 animate-bounce-in" />
                     )}
                   </Button>
                 </div>
@@ -269,29 +275,30 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
 
             <Button 
               type="submit" 
-              className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg animate-fade-in glow-on-hover" 
+              className="w-full h-12 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium transition-all duration-500 animate-hover-lift animate-slide-up glow-on-hover btn-premium animate-particle animate-ripple-effect" 
               disabled={isLoading}
               style={{ animationDelay: isSignUp ? "0.7s" : "0.5s" }}
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  Loading...
+                  <span className="loading-dots">Loading</span>
                 </div>
               ) : (
-                isSignUp ? "Create Account" : "Sign In"
+                <span className="animate-shimmer">{isSignUp ? "Create Account" : "Sign In"}</span>
               )}
             </Button>
           </form>
 
-          <div className="text-center text-sm animate-fade-in" style={{ animationDelay: isSignUp ? "0.8s" : "0.6s" }}>
+          <div className="text-center text-sm animate-stagger" style={{ animationDelay: isSignUp ? "0.8s" : "0.6s" }}>
             <span className="text-muted-foreground">
               {isSignUp ? "Already have an account?" : "Don't have an account?"}
             </span>
             <Button 
               variant="link" 
               onClick={toggleMode} 
-              className="p-0 ml-1 h-auto text-blue-600 hover:text-saffron-500 font-medium transition-colors duration-300 hover:scale-105 transform"
+              className="p-0 ml-1 h-auto text-blue-600 hover:text-saffron-500 font-medium transition-all duration-300 animate-elastic text-glitch"
+              data-text={isSignUp ? "Sign In" : "Sign Up"}
             >
               {isSignUp ? "Sign In" : "Sign Up"}
             </Button>

@@ -54,7 +54,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         isScrolled || isMobileMenuOpen
-          ? "bg-white/90 dark:bg-nepali-700/90 shadow-2xl py-3 border-b border-gray-200 dark:border-gray-700"
+          ? "bg-white dark:bg-nepali-700 shadow-2xl py-3 border-b border-gray-200 dark:border-gray-700"
           : "bg-transparent py-5"
       } animate-slide-up`}>
         

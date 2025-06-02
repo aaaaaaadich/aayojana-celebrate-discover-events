@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -117,18 +116,14 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-white/95 dark:bg-nepali-700/95 backdrop-blur-xl border-0 shadow-2xl animate-bounce-in overflow-hidden">
-        {/* Enhanced Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-saffron-500/10 rounded-lg pointer-events-none animate-pulse-slow"></div>
-        <div className="absolute inset-0 mandala-pattern opacity-5 pointer-events-none animate-rotate-slow"></div>
-        
+      <DialogContent className="sm:max-w-md bg-white dark:bg-nepali-700 border-0 shadow-2xl animate-bounce-in overflow-hidden">
         {/* Floating Particles */}
         <div className="absolute top-4 left-4 w-2 h-2 bg-blue-500/30 rounded-full animate-float"></div>
         <div className="absolute top-8 right-6 w-1 h-1 bg-saffron-500/40 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
         <div className="absolute bottom-6 left-8 w-1.5 h-1.5 bg-blue-600/20 rounded-full animate-float" style={{ animationDelay: '2s' }}></div>
         
         <DialogHeader className="relative z-10">
-          <DialogTitle className="text-center text-2xl font-bold text-gradient-animate animate-fade-in">
+          <DialogTitle className="text-center text-2xl font-bold animate-fade-in">
             <div className="flex items-center justify-center gap-2">
               <Sparkles className="w-6 h-6 text-saffron-500 animate-pulse" />
               <span>{isSignUp ? "Create Account" : "Welcome Back"}</span>
@@ -142,7 +137,7 @@ export const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
           <div className="space-y-3 animate-fade-in" style={{ animationDelay: "0.1s" }}>
             <Button
               variant="outline"
-              className="w-full h-12 border-2 border-transparent bg-gradient-to-r from-white to-gray-50 dark:from-nepali-600 dark:to-nepali-700 hover:from-blue-50 hover:to-blue-100 dark:hover:from-nepali-500 dark:hover:to-nepali-600 transition-all duration-500 animate-hover-lift animate-morph group btn-premium"
+              className="w-full h-12 border-2 border-transparent bg-white dark:bg-nepali-600 hover:bg-blue-50 dark:hover:bg-nepali-500 transition-all duration-500 animate-hover-lift animate-morph group btn-premium"
               onClick={handleGoogleSignIn}
               disabled={isLoading}
             >

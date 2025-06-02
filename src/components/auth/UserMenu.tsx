@@ -48,9 +48,6 @@ export const UserMenu = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full animate-hover-lift animate-3d-hover group overflow-hidden">
-          {/* Animated Ring Effect */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-saffron-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-ring"></div>
-          
           {/* Rotating Glow */}
           <div className="absolute inset-0 bg-gradient-conic from-blue-500 via-saffron-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-30 transition-opacity duration-500 animate-rotate-slow blur-sm"></div>
           
@@ -67,11 +64,7 @@ export const UserMenu = () => {
         </Button>
       </DropdownMenuTrigger>
       
-      <DropdownMenuContent className="w-64 bg-white/95 dark:bg-nepali-700/95 backdrop-blur-xl border-0 shadow-2xl animate-bounce-in overflow-hidden" align="end" forceMount>
-        {/* Animated Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-saffron-500/5 rounded-lg pointer-events-none animate-pulse-slow"></div>
-        <div className="absolute inset-0 mandala-pattern opacity-5 pointer-events-none animate-rotate-slow"></div>
-        
+      <DropdownMenuContent className="w-64 bg-white dark:bg-nepali-700 shadow-2xl animate-bounce-in overflow-hidden border border-gray-200 dark:border-gray-600" align="end" forceMount>
         {/* Floating Elements */}
         <div className="absolute top-2 right-2 w-1 h-1 bg-blue-500/30 rounded-full animate-float"></div>
         <div className="absolute bottom-4 left-4 w-1.5 h-1.5 bg-saffron-500/20 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
@@ -85,7 +78,7 @@ export const UserMenu = () => {
           </Avatar>
           <div className="flex flex-col space-y-1 leading-none">
             <div className="flex items-center gap-1">
-              <p className="font-semibold text-sm text-gradient-animate">
+              <p className="font-semibold text-sm text-blue-600 dark:text-blue-400">
                 {displayName}
               </p>
               <Crown className="w-3 h-3 text-saffron-500 animate-pulse animate-float" />
@@ -97,7 +90,7 @@ export const UserMenu = () => {
           </div>
         </div>
         
-        <DropdownMenuSeparator className="bg-gradient-to-r from-transparent via-border to-transparent animate-liquid" />
+        <DropdownMenuSeparator className="bg-gray-200 dark:bg-gray-600 animate-liquid" />
         
         <DropdownMenuItem className="cursor-pointer hover:bg-blue-50 dark:hover:bg-nepali-600 transition-all duration-500 group animate-hover-lift">
           <User className="mr-3 h-4 w-4 text-blue-500 animate-magnetic transition-transform duration-300" />
@@ -111,7 +104,7 @@ export const UserMenu = () => {
           <Zap className="ml-auto w-3 h-3 text-saffron-500/50 opacity-0 group-hover:opacity-100 animate-bounce-in" />
         </DropdownMenuItem>
         
-        <DropdownMenuSeparator className="bg-gradient-to-r from-transparent via-border to-transparent animate-liquid" />
+        <DropdownMenuSeparator className="bg-gray-200 dark:bg-gray-600 animate-liquid" />
         
         <DropdownMenuItem 
           onClick={handleSignOut} 

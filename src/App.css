@@ -91,21 +91,6 @@
   .btn-outline {
     @apply border border-saffron-500 text-saffron-500 hover:bg-saffron-500 hover:text-white font-medium px-6 py-3 rounded-md transition-colors duration-300;
   }
-  
-  .mandala-pattern {
-    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='50' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='40' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='30' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='20' /%3E%3Cline x1='10' y1='60' x2='110' y2='60' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='60' y1='10' x2='60' y2='110' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='25' y1='25' x2='95' y2='95' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='95' y1='25' x2='25' y2='95' stroke='%23F4A261' stroke-width='1' /%3E%3C/g%3E%3C/svg%3E");
-  }
-
-  .nepali-border-pattern {
-    @apply relative;
-  }
-
-  .nepali-border-pattern::before {
-    content: '';
-    @apply absolute top-0 left-0 right-0 h-2 bg-saffron-500 opacity-30;
-    background-image: url("data:image/svg+xml,%3Csvg width='30' height='10' viewBox='0 0 30 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,5 C2.5,2.5 7.5,2.5 10,5 C12.5,7.5 17.5,7.5 20,5 C22.5,2.5 27.5,2.5 30,5' fill='none' stroke='%23F4A261' stroke-width='2'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
-  }
 
   .perspective-800 {
     perspective: 800px;
@@ -282,32 +267,6 @@
   }
 }
 
-/* Text Gradient Animation */
-.text-gradient-animate {
-  background: linear-gradient(
-    45deg,
-    #3B82F6,
-    #1D4ED8,
-    #F59E0B,
-    #F4A261,
-    #3B82F6
-  );
-  background-size: 400% 400%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: gradient-flow 3s ease infinite;
-}
-
-@keyframes gradient-flow {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
 /* Premium Pulse Effects */
 .animate-pulse-slow {
   animation: pulse-slow 2s ease-in-out infinite;
@@ -418,16 +377,9 @@
   left: 100%;
 }
 
-/* Enhanced Background Effects */
-.mandala-bg {
-  position: relative;
-  background: radial-gradient(circle at 50% 40%, rgba(59, 130, 246, 0.05) 0%, transparent 50%, rgba(29, 53, 87, 0.03) 100%);
-}
-
 body,
 html,
 #root {
-  background: radial-gradient(circle at 50% 40%, rgba(59, 130, 246, 0.05) 0%, transparent 50%, rgba(29, 53, 87, 0.03) 100%);
   scroll-behavior: smooth;
 }
 

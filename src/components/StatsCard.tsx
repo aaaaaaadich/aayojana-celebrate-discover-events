@@ -74,7 +74,7 @@ const StatsCard = ({
       <div className="absolute top-2 right-2 w-1 h-1 bg-blue-500/30 rounded-full opacity-0 group-hover:opacity-100 animate-float transition-opacity duration-500"></div>
       <div className="absolute bottom-2 left-2 w-1.5 h-1.5 bg-saffron-500/20 rounded-full opacity-0 group-hover:opacity-100 animate-float transition-opacity duration-500" style={{ animationDelay: '0.5s' }}></div>
       
-      <div className="text-4xl font-bold mb-2 transition-all duration-500 group-hover:text-saffron-500 text-gradient-animate relative z-10">
+      <div className="text-4xl font-bold mb-2 transition-all duration-500 group-hover:text-saffron-500 text-blue-600 dark:text-blue-400 relative z-10">
         {prefix}
         <span className="animate-magnetic">{count.toLocaleString()}</span>
         {suffix}

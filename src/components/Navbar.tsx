@@ -54,12 +54,9 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         isScrolled || isMobileMenuOpen
-          ? "bg-white/90 dark:bg-nepali-700/90 backdrop-blur-xl shadow-2xl py-3 border-b border-white/20"
+          ? "bg-white/90 dark:bg-nepali-700/90 shadow-2xl py-3 border-b border-gray-200 dark:border-gray-700"
           : "bg-transparent py-5"
       } animate-slide-up`}>
-        {/* Enhanced Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-saffron-500/5 pointer-events-none animate-pulse-slow"></div>
-        <div className="absolute inset-0 mandala-pattern opacity-5 pointer-events-none animate-rotate-slow"></div>
         
         {/* Floating Particles */}
         <div className="absolute top-2 left-4 w-1 h-1 bg-blue-500/30 rounded-full animate-float"></div>
@@ -69,14 +66,11 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
         <div className="container mx-auto px-4 flex items-center justify-between relative z-10">
           <Link 
             to="/" 
-            className="flex items-center space-x-2 group animate-stagger animate-3d-hover"
+            className="flex items-center space-x-2 group animate-3d-hover"
           >
             <div className="relative animate-magnetic">
-              {/* Logo Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-800 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-700 pointer-events-none animate-pulse-ring"></div>
-              
               {/* Logo Text */}
-              <span className="text-2xl font-bold text-gradient-animate transition-all duration-700 transform group-hover:scale-110 animate-shimmer bg-[length:200%_auto] relative z-10">
+              <span className="text-2xl font-bold text-blue-600 dark:text-blue-400 transition-all duration-700 transform group-hover:scale-110 relative z-10">
                 Aayojana
               </span>
               
@@ -93,7 +87,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
               variant="outline" 
               size="icon" 
               onClick={toggleDarkMode} 
-              className="rounded-full border-2 border-transparent hover:border-saffron-500/50 hover:bg-saffron-50 dark:hover:bg-saffron-900/20 transition-all duration-500 animate-hover-lift glow-on-hover animate-3d-hover group animate-elastic overflow-hidden"
+              className="rounded-full border-2 border-transparent hover:border-saffron-500/50 hover:bg-saffron-50 dark:hover:bg-saffron-900/20 transition-all duration-500 animate-hover-lift animate-3d-hover group overflow-hidden"
               aria-label="Toggle dark mode"
             >
               <div className="relative animate-magnetic">
@@ -102,24 +96,21 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
                 ) : (
                   <Moon size={18} className="group-hover:rotate-12 transition-transform duration-700 animate-bounce-in" />
                 )}
-                
-                {/* Icon Glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-saffron-500/30 to-blue-500/30 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md"></div>
               </div>
             </Button>
             
             {loading ? (
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-200 to-saffron-200 dark:from-blue-700 dark:to-saffron-700 animate-pulse animate-shimmer"></div>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-200 to-saffron-200 dark:from-blue-700 dark:to-saffron-700 animate-pulse"></div>
             ) : user ? (
-              <div className="animate-stagger">
+              <div>
                 <UserMenu />
               </div>
             ) : (
               <Button 
                 onClick={() => setIsAuthModalOpen(true)}
-                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white transition-all duration-500 animate-hover-lift glow-on-hover font-medium px-6 btn-premium animate-particle animate-morph group overflow-hidden"
+                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white transition-all duration-500 animate-hover-lift font-medium px-6 btn-premium animate-morph group overflow-hidden"
               >
-                <span className="animate-shimmer">Sign In</span>
+                <span>Sign In</span>
                 <Sparkles className="ml-2 w-4 h-4 opacity-0 group-hover:opacity-100 animate-bounce-in" style={{ animationDelay: '0.1s' }} />
               </Button>
             )}
@@ -130,7 +121,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
               variant="outline" 
               size="icon" 
               onClick={toggleDarkMode} 
-              className="rounded-full border-2 border-transparent hover:border-saffron-500/50 transition-all duration-500 animate-elastic animate-3d-hover"
+              className="rounded-full border-2 border-transparent hover:border-saffron-500/50 transition-all duration-500 animate-3d-hover"
               aria-label="Toggle dark mode"
             >
               <div className="animate-magnetic">
@@ -144,12 +135,12 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
                 size="sm"
                 className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white transition-all duration-500 animate-hover-lift btn-premium"
               >
-                <span className="animate-shimmer">Sign In</span>
+                <span>Sign In</span>
               </Button>
             )}
             
             {!loading && user && (
-              <div className="animate-stagger">
+              <div>
                 <UserMenu />
               </div>
             )}
@@ -168,9 +159,6 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
               <div className={`absolute inset-0 flex items-center justify-center transition-all duration-500 ${isMobileMenuOpen ? "opacity-100 rotate-0 scale-100" : "opacity-0 rotate-90 scale-75"} animate-magnetic`}>
                 <X size={24} />
               </div>
-              
-              {/* Button Glow */}
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-saffron-500/20 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-ring"></div>
             </Button>
           </div>
         </div>

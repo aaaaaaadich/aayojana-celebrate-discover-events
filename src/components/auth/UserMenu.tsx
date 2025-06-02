@@ -47,7 +47,7 @@ export const UserMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-10 w-10 rounded-full animate-hover-lift glow-on-hover animate-3d-hover group overflow-hidden">
+        <Button variant="ghost" className="relative h-10 w-10 rounded-full animate-hover-lift animate-3d-hover group overflow-hidden">
           {/* Animated Ring Effect */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-saffron-500/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-ring"></div>
           
@@ -56,7 +56,7 @@ export const UserMenu = () => {
           
           <Avatar className="h-10 w-10 ring-2 ring-transparent group-hover:ring-saffron-500/50 transition-all duration-500 animate-magnetic relative z-10">
             <AvatarImage src={avatarUrl} alt={displayName} className="animate-morph" />
-            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold animate-shimmer">
+            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold">
               {displayName.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
@@ -76,10 +76,10 @@ export const UserMenu = () => {
         <div className="absolute top-2 right-2 w-1 h-1 bg-blue-500/30 rounded-full animate-float"></div>
         <div className="absolute bottom-4 left-4 w-1.5 h-1.5 bg-saffron-500/20 rounded-full animate-float" style={{ animationDelay: '1s' }}></div>
         
-        <div className="flex items-center justify-start gap-2 p-3 animate-stagger relative z-10">
+        <div className="flex items-center justify-start gap-2 p-3 relative z-10">
           <Avatar className="h-12 w-12 ring-2 ring-saffron-500/30 animate-3d-hover">
             <AvatarImage src={avatarUrl} alt={displayName} />
-            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold animate-shimmer">
+            <AvatarFallback className="bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold">
               {displayName.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
@@ -99,15 +99,15 @@ export const UserMenu = () => {
         
         <DropdownMenuSeparator className="bg-gradient-to-r from-transparent via-border to-transparent animate-liquid" />
         
-        <DropdownMenuItem className="cursor-pointer hover:bg-blue-50 dark:hover:bg-nepali-600 transition-all duration-500 animate-stagger group animate-hover-lift animate-ripple-effect" style={{ animationDelay: "0.1s" }}>
+        <DropdownMenuItem className="cursor-pointer hover:bg-blue-50 dark:hover:bg-nepali-600 transition-all duration-500 group animate-hover-lift">
           <User className="mr-3 h-4 w-4 text-blue-500 animate-magnetic transition-transform duration-300" />
-          <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 animate-shimmer">Profile</span>
+          <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Profile</span>
           <Zap className="ml-auto w-3 h-3 text-saffron-500/50 opacity-0 group-hover:opacity-100 animate-bounce-in" />
         </DropdownMenuItem>
         
-        <DropdownMenuItem className="cursor-pointer hover:bg-blue-50 dark:hover:bg-nepali-600 transition-all duration-500 animate-stagger group animate-hover-lift animate-ripple-effect" style={{ animationDelay: "0.2s" }}>
+        <DropdownMenuItem className="cursor-pointer hover:bg-blue-50 dark:hover:bg-nepali-600 transition-all duration-500 group animate-hover-lift">
           <Settings className="mr-3 h-4 w-4 text-blue-500 animate-magnetic transition-transform duration-300" />
-          <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 animate-shimmer">Settings</span>
+          <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Settings</span>
           <Zap className="ml-auto w-3 h-3 text-saffron-500/50 opacity-0 group-hover:opacity-100 animate-bounce-in" />
         </DropdownMenuItem>
         
@@ -116,11 +116,10 @@ export const UserMenu = () => {
         <DropdownMenuItem 
           onClick={handleSignOut} 
           disabled={isLoading}
-          className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-500 animate-stagger group animate-hover-lift animate-ripple-effect"
-          style={{ animationDelay: "0.3s" }}
+          className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-500 group animate-hover-lift"
         >
           <LogOut className="mr-3 h-4 w-4 text-red-500 animate-magnetic transition-transform duration-300" />
-          <span className="group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300 animate-shimmer">
+          <span className="group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300">
             {isLoading ? (
               <span className="loading-dots">Signing out</span>
             ) : (

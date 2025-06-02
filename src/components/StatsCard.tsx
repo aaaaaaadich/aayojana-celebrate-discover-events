@@ -65,7 +65,7 @@ const StatsCard = ({
   return (
     <div 
       ref={cardRef} 
-      className="flex flex-col items-center justify-center p-4 animate-3d-hover animate-morph glow-on-hover group transition-all duration-500 hover:scale-105 relative overflow-hidden"
+      className="flex flex-col items-center justify-center p-4 animate-3d-hover animate-morph group transition-all duration-500 hover:scale-105 relative overflow-hidden"
     >
       {/* Background Effects */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-saffron-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse-slow"></div>
@@ -80,7 +80,7 @@ const StatsCard = ({
         {suffix}
       </div>
       
-      <div className="text-muted-foreground font-medium transition-all duration-500 group-hover:text-foreground/80 animate-shimmer relative z-10">
+      <div className="text-muted-foreground font-medium transition-all duration-500 group-hover:text-foreground/80 relative z-10">
         {label}
       </div>
       

@@ -1,45 +1,161 @@
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+
+    --primary: 29 93% 67%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 215 50% 23%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 29 93% 67%;
+
+    --radius: 0.5rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .dark {
+    --background: 215 50% 15%;
+    --foreground: 210 40% 98%;
+
+    --card: 215 50% 18%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 215 50% 18%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 29 93% 67%;
+    --primary-foreground: 215 50% 23%;
+
+    --secondary: 215 50% 23%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 29 93% 67%;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
   }
 }
 
-.card {
-  padding: 2em;
+@layer components {
+  .btn-primary {
+    @apply bg-saffron-500 hover:bg-saffron-600 text-white font-medium px-6 py-3 rounded-md transition-colors duration-300;
+  }
+  
+  .btn-secondary {
+    @apply bg-nepali-500 hover:bg-nepali-600 text-white font-medium px-6 py-3 rounded-md transition-colors duration-300;
+  }
+  
+  .btn-outline {
+    @apply border border-saffron-500 text-saffron-500 hover:bg-saffron-500 hover:text-white font-medium px-6 py-3 rounded-md transition-colors duration-300;
+  }
+  
+  .mandala-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='50' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='40' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='30' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='20' /%3E%3Cline x1='10' y1='60' x2='110' y2='60' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='60' y1='10' x2='60' y2='110' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='25' y1='25' x2='95' y2='95' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='95' y1='25' x2='25' y2='95' stroke='%23F4A261' stroke-width='1' /%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .nepali-border-pattern {
+    @apply relative;
+  }
+
+  .nepali-border-pattern::before {
+    content: '';
+    @apply absolute top-0 left-0 right-0 h-2 bg-saffron-500 opacity-30;
+    background-image: url("data:image/svg+xml,%3Csvg width='30' height='10' viewBox='0 0 30 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,5 C2.5,2.5 7.5,2.5 10,5 C12.5,7.5 17.5,7.5 20,5 C22.5,2.5 27.5,2.5 30,5' fill='none' stroke='%23F4A261' stroke-width='2'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+  }
+
+  .perspective-800 {
+    perspective: 800px;
+  }
 }
 
-.read-the-docs {
-  color: #888;
+/* Nepal-inspired decorative elements */
+.nepali-decoration {
+  position: relative;
+}
+
+.nepali-decoration::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,20 L10,0 L20,20 L30,0 L40,20' fill='none' stroke='%23F4A261' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+}
+
+.nepali-card {
+  @apply relative bg-white rounded-lg p-6 shadow-md overflow-hidden;
+}
+
+.nepali-card::before {
+  content: '';
+  @apply absolute top-0 left-0 right-0 h-1 bg-saffron-500;
+}
+
+.nepali-card::after {
+  content: '';
+  @apply absolute -top-10 -right-10 w-20 h-20 bg-nepali-500/10 rounded-full;
+}
+
+/* Nepali motifs for corners and decorations */
+.nepali-corner {
+  @apply relative;
+}
+
+.nepali-corner::before {
+  content: '';
+  @apply absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-saffron-500;
+}
+
+.nepali-corner::after {
+  content: '';
+  @apply absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-saffron-500;
 }
 
 /* Premium Motion System - Enhanced Hover Effects */
@@ -362,20 +478,33 @@ html,
   transform: scale(1) rotate(0deg);
 }
 
+.scroll-reveal-blur {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-reveal-blur.animate {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0);
+}
+
+.scroll-reveal-up {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.scroll-reveal-up.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Parallax Scroll Effects */
-.parallax-slow {
-  transform: translateY(0);
-  transition: transform 0.1s ease-out;
-}
-
-.parallax-medium {
-  transform: translateY(0);
-  transition: transform 0.1s ease-out;
-}
-
-.parallax-fast {
-  transform: translateY(0);
-  transition: transform 0.1s ease-out;
+.parallax-element {
+  will-change: transform;
 }
 
 /* Progressive Enhancement Scroll Animations */

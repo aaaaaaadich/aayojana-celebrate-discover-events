@@ -69,8 +69,8 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
             className="flex items-center space-x-2 group animate-3d-hover"
           >
             <div className="relative animate-magnetic">
-              {/* Logo Text with Gradient Animation */}
-              <span className="text-2xl font-bold animate-gradient-flow bg-clip-text text-transparent transition-all duration-700 transform group-hover:scale-110 relative z-10">
+              {/* Logo Text with proper color instead of transparent */}
+              <span className="text-2xl font-bold text-blue-600 dark:text-blue-400 transition-all duration-700 transform group-hover:scale-110 relative z-10">
                 Aayojana
               </span>
               
@@ -100,7 +100,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
             </Button>
             
             {loading ? (
-              <div className="w-10 h-10 rounded-full animate-gradient-flow animate-pulse"></div>
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 animate-pulse"></div>
             ) : user ? (
               <div>
                 <UserMenu />

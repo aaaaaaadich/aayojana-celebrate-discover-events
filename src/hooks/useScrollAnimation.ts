@@ -140,7 +140,7 @@ export const useScrollTranslate = (direction: 'up' | 'left' | 'right' = 'up') =>
 // Staggered form animation hook
 export const useStaggeredFormAnimation = (fieldCount: number) => {
   const [isVisible, setIsVisible] = useState(false);
-  const containerRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

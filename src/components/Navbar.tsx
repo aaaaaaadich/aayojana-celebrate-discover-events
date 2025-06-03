@@ -54,7 +54,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
         isScrolled || isMobileMenuOpen
-          ? "bg-white dark:bg-nepali-700 shadow-2xl py-3 border-b border-gray-200 dark:border-gray-700"
+          ? "glassmorphism shadow-2xl py-3 border-b border-white/20 dark:border-nepali-600/30"
           : "bg-transparent py-5"
       } animate-slide-up`}>
         
@@ -69,14 +69,14 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
             className="flex items-center space-x-2 group animate-3d-hover"
           >
             <div className="relative animate-magnetic">
-              {/* Logo Text */}
-              <span className="text-2xl font-bold text-blue-600 dark:text-blue-400 transition-all duration-700 transform group-hover:scale-110 relative z-10">
+              {/* Logo Text with Gradient Animation */}
+              <span className="text-2xl font-bold animate-gradient-flow bg-clip-text text-transparent transition-all duration-700 transform group-hover:scale-110 relative z-10">
                 Aayojana
               </span>
               
               {/* Decorative Elements */}
-              <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-saffron-500/70 opacity-0 group-hover:opacity-100 animate-bounce-in" style={{ animationDelay: '0.1s' }} />
-              <Zap className="absolute -bottom-1 -left-1 w-2 h-2 text-blue-500/60 opacity-0 group-hover:opacity-100 animate-bounce-in" style={{ animationDelay: '0.2s' }} />
+              <Sparkles className="absolute -top-1 -right-1 w-3 h-3 text-saffron-500/70 opacity-0 group-hover:opacity-100 animate-bounce-in icon-hover" style={{ animationDelay: '0.1s' }} />
+              <Zap className="absolute -bottom-1 -left-1 w-2 h-2 text-blue-500/60 opacity-0 group-hover:opacity-100 animate-bounce-in icon-hover" style={{ animationDelay: '0.2s' }} />
             </div>
           </Link>
 
@@ -87,20 +87,20 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
               variant="outline" 
               size="icon" 
               onClick={toggleDarkMode} 
-              className="rounded-full border-2 border-transparent hover:border-saffron-500/50 hover:bg-saffron-50 dark:hover:bg-saffron-900/20 transition-all duration-500 animate-hover-lift animate-3d-hover group overflow-hidden"
+              className="rounded-full border-2 border-transparent hover:border-saffron-500/50 hover:bg-saffron-50 dark:hover:bg-saffron-900/20 transition-all duration-500 animate-hover-lift animate-3d-hover group overflow-hidden animate-pulse-glow"
               aria-label="Toggle dark mode"
             >
               <div className="relative animate-magnetic">
                 {isDarkMode ? (
-                  <Sun size={18} className="group-hover:rotate-180 transition-transform duration-700 animate-bounce-in" />
+                  <Sun size={18} className="group-hover:rotate-180 transition-transform duration-700 animate-bounce-in icon-hover" />
                 ) : (
-                  <Moon size={18} className="group-hover:rotate-12 transition-transform duration-700 animate-bounce-in" />
+                  <Moon size={18} className="group-hover:rotate-12 transition-transform duration-700 animate-bounce-in icon-hover" />
                 )}
               </div>
             </Button>
             
             {loading ? (
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-200 to-saffron-200 dark:from-blue-700 dark:to-saffron-700 animate-pulse"></div>
+              <div className="w-10 h-10 rounded-full animate-gradient-flow animate-pulse"></div>
             ) : user ? (
               <div>
                 <UserMenu />
@@ -108,10 +108,10 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
             ) : (
               <Button 
                 onClick={() => setIsAuthModalOpen(true)}
-                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white transition-all duration-500 animate-hover-lift font-medium px-6 btn-premium animate-morph group overflow-hidden"
+                className="btn-premium text-white transition-all duration-500 animate-hover-lift font-medium px-6 animate-morph group overflow-hidden animate-shimmer"
               >
                 <span>Sign In</span>
-                <Sparkles className="ml-2 w-4 h-4 opacity-0 group-hover:opacity-100 animate-bounce-in" style={{ animationDelay: '0.1s' }} />
+                <Sparkles className="ml-2 w-4 h-4 opacity-0 group-hover:opacity-100 animate-bounce-in icon-hover" style={{ animationDelay: '0.1s' }} />
               </Button>
             )}
           </div>
@@ -121,11 +121,11 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
               variant="outline" 
               size="icon" 
               onClick={toggleDarkMode} 
-              className="rounded-full border-2 border-transparent hover:border-saffron-500/50 transition-all duration-500 animate-3d-hover"
+              className="rounded-full border-2 border-transparent hover:border-saffron-500/50 transition-all duration-500 animate-3d-hover animate-pulse-glow"
               aria-label="Toggle dark mode"
             >
               <div className="animate-magnetic">
-                {isDarkMode ? <Sun size={18} className="animate-bounce-in" /> : <Moon size={18} className="animate-bounce-in" />}
+                {isDarkMode ? <Sun size={18} className="animate-bounce-in icon-hover" /> : <Moon size={18} className="animate-bounce-in icon-hover" />}
               </div>
             </Button>
             
@@ -133,7 +133,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
               <Button 
                 onClick={() => setIsAuthModalOpen(true)}
                 size="sm"
-                className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white transition-all duration-500 animate-hover-lift btn-premium"
+                className="btn-premium text-white transition-all duration-500 animate-hover-lift animate-shimmer"
               >
                 <span>Sign In</span>
               </Button>

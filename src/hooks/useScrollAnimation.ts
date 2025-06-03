@@ -101,3 +101,68 @@ export const useCascadeAnimation = (itemCount: number, delay: number = 100) => {
 
   return { elementRef, visibleItems };
 };
+
+// Premium scroll translate effect hook
+export const useScrollTranslate = (direction: 'up' | 'left' | 'right' = 'up') => {
+  const [isInView, setIsInView] = useState(false);
+  const elementRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px',
+      }
+    );
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => {
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
+      }
+    };
+  }, []);
+
+  const getClassNames = () => {
+    const baseClass = `scroll-translate-${direction}`;
+    return `${baseClass} ${isInView ? 'in-view' : ''}`;
+  };
+
+  return { elementRef, isInView, className: getClassNames() };
+};
+
+// Staggered form animation hook
+export const useStaggeredFormAnimation = (fieldCount: number) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
+  }, []);
+
+  return { containerRef, isVisible };
+};

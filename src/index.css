@@ -76,6 +76,7 @@
 
   body {
     @apply bg-background text-foreground font-sans;
+    scroll-behavior: smooth;
   }
 }
 
@@ -91,69 +92,379 @@
   .btn-outline {
     @apply border border-saffron-500 text-saffron-500 hover:bg-saffron-500 hover:text-white font-medium px-6 py-3 rounded-md transition-colors duration-300;
   }
-  
-  .mandala-pattern {
-    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='50' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='40' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='30' /%3E%3Ccircle stroke='%23F4A261' stroke-width='1' cx='60' cy='60' r='20' /%3E%3Cline x1='10' y1='60' x2='110' y2='60' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='60' y1='10' x2='60' y2='110' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='25' y1='25' x2='95' y2='95' stroke='%23F4A261' stroke-width='1' /%3E%3Cline x1='95' y1='25' x2='25' y2='95' stroke='%23F4A261' stroke-width='1' /%3E%3C/g%3E%3C/svg%3E");
-  }
-
-  .nepali-border-pattern {
-    @apply relative;
-  }
-
-  .nepali-border-pattern::before {
-    content: '';
-    @apply absolute top-0 left-0 right-0 h-2 bg-saffron-500 opacity-30;
-    background-image: url("data:image/svg+xml,%3Csvg width='30' height='10' viewBox='0 0 30 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,5 C2.5,2.5 7.5,2.5 10,5 C12.5,7.5 17.5,7.5 20,5 C22.5,2.5 27.5,2.5 30,5' fill='none' stroke='%23F4A261' stroke-width='2'/%3E%3C/svg%3E");
-    background-repeat: repeat-x;
-  }
 
   .perspective-800 {
     perspective: 800px;
   }
+
+  /* Premium Glassmorphism Effects */
+  .glassmorphism {
+    @apply backdrop-blur-md bg-white/80 dark:bg-nepali-700/80 border border-white/20 dark:border-nepali-600/30;
+  }
+
+  .glassmorphism-strong {
+    @apply backdrop-blur-lg bg-white/90 dark:bg-nepali-700/90 border border-white/30 dark:border-nepali-600/40;
+  }
+
+  /* Premium Button Effects */
+  .btn-premium {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    box-shadow: 
+      0 4px 15px rgba(59, 130, 246, 0.3),
+      0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-premium:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 8px 25px rgba(59, 130, 246, 0.4),
+      0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.6s;
+  }
+
+  .btn-premium:hover::before {
+    left: 100%;
+  }
+
+  /* Premium Scroll Translate Effects */
+  .scroll-translate {
+    transform: translateY(50px);
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .scroll-translate.in-view {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .scroll-translate-left {
+    transform: translateX(-50px);
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .scroll-translate-left.in-view {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .scroll-translate-right {
+    transform: translateX(50px);
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .scroll-translate-right.in-view {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  /* Staggered Animations */
+  .stagger-animation {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .stagger-animation.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .stagger-animation:nth-child(1) { transition-delay: 0ms; }
+  .stagger-animation:nth-child(2) { transition-delay: 100ms; }
+  .stagger-animation:nth-child(3) { transition-delay: 200ms; }
+  .stagger-animation:nth-child(4) { transition-delay: 300ms; }
+  .stagger-animation:nth-child(5) { transition-delay: 400ms; }
+  .stagger-animation:nth-child(6) { transition-delay: 500ms; }
 }
 
-/* Nepal-inspired decorative elements */
-.nepali-decoration {
+/* Premium Motion System */
+.animate-hover-lift {
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+
+.animate-hover-lift:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(59, 130, 246, 0.3),
+    0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.animate-3d-hover {
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.animate-3d-hover:hover {
+  transform: rotateY(5deg) rotateX(5deg) translateZ(10px);
+  box-shadow: 
+    -10px 15px 30px rgba(59, 130, 246, 0.2),
+    0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.animate-magnetic {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  cursor: pointer;
+}
+
+.animate-magnetic:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* Floating Animations */
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+/* Premium Morphing Effects */
+.animate-morph {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border-radius: 12px;
+}
+
+.animate-morph:hover {
+  border-radius: 20px;
+  transform: scale(1.01);
+}
+
+/* Enhanced Fade Animations */
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Premium Pulse Effects */
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+  }
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s ease-out infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 1;
+  }
+  70%, 100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+/* Gradient Animations */
+.animate-gradient-flow {
+  background: linear-gradient(-45deg, #3b82f6, #1d4ed8, #2563eb, #1e40af);
+  background-size: 400% 400%;
+  animation: gradient-flow 4s ease infinite;
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Shimmer Effects */
+.animate-shimmer {
   position: relative;
+  overflow: hidden;
 }
 
-.nepali-decoration::before {
+.animate-shimmer::before {
   content: '';
   position: absolute;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 20px;
-  background-image: url("data:image/svg+xml,%3Csvg width='40' height='20' viewBox='0 0 40 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,20 L10,0 L20,20 L30,0 L40,20' fill='none' stroke='%23F4A261' stroke-width='2'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
 }
 
-.nepali-card {
-  @apply relative bg-white rounded-lg p-6 shadow-md overflow-hidden;
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
-.nepali-card::before {
-  content: '';
-  @apply absolute top-0 left-0 right-0 h-1 bg-saffron-500;
+/* Scale Animations */
+.animate-scale-in {
+  animation: scale-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.nepali-card::after {
-  content: '';
-  @apply absolute -top-10 -right-10 w-20 h-20 bg-nepali-500/10 rounded-full;
+@keyframes scale-in {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-/* Nepali motifs for corners and decorations */
-.nepali-corner {
-  @apply relative;
+/* Icon Animations */
+.icon-hover {
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.nepali-corner::before {
-  content: '';
-  @apply absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-saffron-500;
+.icon-hover:hover {
+  transform: scale(1.2) rotate(5deg);
+  color: #f4a261;
+  filter: drop-shadow(0 4px 8px rgba(244, 162, 97, 0.3));
 }
 
-.nepali-corner::after {
-  content: '';
-  @apply absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-saffron-500;
+/* Enhanced Hover States */
+.scroll-hover-lift {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.scroll-hover-lift:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
+}
+
+/* Form Element Animations */
+.form-element-stagger {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.form-element-stagger.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.form-element-stagger:nth-of-type(1) { transition-delay: 0ms; }
+.form-element-stagger:nth-of-type(2) { transition-delay: 150ms; }
+.form-element-stagger:nth-of-type(3) { transition-delay: 300ms; }
+.form-element-stagger:nth-of-type(4) { transition-delay: 450ms; }
+
+/* Premium Performance Optimizations */
+.gpu-accelerated {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Mobile Optimizations */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

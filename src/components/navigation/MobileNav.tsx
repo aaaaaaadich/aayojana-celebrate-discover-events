@@ -85,7 +85,7 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
         <div className="pt-4 animate-fade-in stagger-animation animate" style={{ animationDelay: "0.9s" }}>
           <Button 
             asChild
-            className="w-full btn-premium text-white transition-all duration-300 animate-shimmer"
+            className="w-full btn-premium text-white transition-all duration-300"
           >
             <Link to="/sign-in" onClick={onClose}>
               Sign In
@@ -97,7 +97,7 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
           <Button 
             asChild
             variant="outline" 
-            className="w-full border-blue-500 text-blue-600 hover:glassmorphism-strong hover:text-white transition-all duration-300 animate-shimmer"
+            className="w-full border-blue-500 text-blue-600 hover:glassmorphism-strong hover:text-white transition-all duration-300"
           >
             <Link to="/create-event" onClick={onClose}>
               Create Event

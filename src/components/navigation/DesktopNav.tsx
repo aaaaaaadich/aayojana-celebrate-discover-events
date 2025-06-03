@@ -21,14 +21,14 @@ export const DesktopNav = () => {
           <NavigationMenuItem>
             <Link 
               to="/" 
-              className={navigationMenuTriggerStyle() + " animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 transform hover:scale-105 font-medium animate-shimmer"}
+              className={navigationMenuTriggerStyle() + " animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 transform hover:scale-105 font-medium"}
             >
               Home
             </Link>
           </NavigationMenuItem>
           
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong animate-shimmer">
+            <NavigationMenuTrigger className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong">
               {navigationConfig.discoverEvents.title}
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -52,7 +52,7 @@ export const DesktopNav = () => {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong animate-shimmer">
+            <NavigationMenuTrigger className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong">
               {navigationConfig.forOrganizers.title}
             </NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -76,7 +76,7 @@ export const DesktopNav = () => {
           </NavigationMenuItem>
 
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong animate-shimmer">
+            <NavigationMenuTrigger className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong">
               {navigationConfig.ticketing.title}
             </NavigationMenuTrigger>
             <NavigationMenuContent>

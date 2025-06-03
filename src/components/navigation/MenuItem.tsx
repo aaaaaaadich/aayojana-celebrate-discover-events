@@ -14,7 +14,7 @@ export const MenuItem = ({ title, description, icon: Icon, href, delay = 0 }: Me
   return (
     <Link
       to={href}
-      className="flex flex-col space-y-1 rounded-md p-4 hover:glassmorphism-strong transition-all duration-300 animate-fade-in scroll-hover-lift group animate-shimmer relative overflow-hidden"
+      className="flex flex-col space-y-1 rounded-md p-4 hover:glassmorphism-strong transition-all duration-300 animate-fade-in scroll-hover-lift group relative overflow-hidden"
       style={{ 
         animationDelay: `${delay}ms`,
       }}

@@ -108,7 +108,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
             ) : (
               <Button 
                 onClick={() => setIsAuthModalOpen(true)}
-                className="btn-premium text-white transition-all duration-500 animate-hover-lift font-medium px-6 animate-morph group overflow-hidden animate-shimmer"
+                className="btn-premium text-white transition-all duration-500 animate-hover-lift font-medium px-6 animate-morph group overflow-hidden"
               >
                 <span>Sign In</span>
                 <Sparkles className="ml-2 w-4 h-4 opacity-0 group-hover:opacity-100 animate-bounce-in icon-hover" style={{ animationDelay: '0.1s' }} />
@@ -133,7 +133,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
               <Button 
                 onClick={() => setIsAuthModalOpen(true)}
                 size="sm"
-                className="btn-premium text-white transition-all duration-500 animate-hover-lift animate-shimmer"
+                className="btn-premium text-white transition-all duration-500 animate-hover-lift"
               >
                 <span>Sign In</span>
               </Button>

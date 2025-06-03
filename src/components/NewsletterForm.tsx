@@ -49,13 +49,13 @@ const NewsletterForm = () => {
           placeholder="Enter your email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className={`flex-1 glassmorphism hover:glassmorphism-strong transition-all duration-500 animate-shimmer form-element-stagger ${isVisible ? 'animate' : ''}`}
+          className={`flex-1 glassmorphism hover:glassmorphism-strong transition-all duration-500 form-element-stagger ${isVisible ? 'animate' : ''}`}
           required
           disabled={isSubmitting}
         />
         <Button 
           type="submit" 
-          className={`btn-premium text-white animate-shimmer form-element-stagger ${isVisible ? 'animate' : ''}`}
+          className={`btn-premium text-white form-element-stagger ${isVisible ? 'animate' : ''}`}
           disabled={isSubmitting}
         >
           {isSubmitting ? "Subscribing..." : "Subscribe"}

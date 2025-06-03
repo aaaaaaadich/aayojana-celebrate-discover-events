@@ -13,7 +13,7 @@ interface FeatureCardProps {
 const FeatureCard = ({ title, description, icon: Icon, iconColor = "#F4A261" }: FeatureCardProps) => {
   return (
     <ScrollReveal direction="scale" className="h-full">
-      <Card className="bg-card transition-all duration-500 animate-hover-lift h-full animate-3d-hover group overflow-hidden animate-morph scroll-hover-lift glassmorphism hover:glassmorphism-strong animate-shimmer">
+      <Card className="bg-card transition-all duration-500 animate-hover-lift h-full animate-3d-hover group overflow-hidden animate-morph scroll-hover-lift glassmorphism hover:glassmorphism-strong">
         {/* Card Background Effects */}
         <div className="absolute inset-0 animate-gradient-flow opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
         

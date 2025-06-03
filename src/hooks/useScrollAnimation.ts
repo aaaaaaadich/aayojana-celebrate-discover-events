@@ -103,9 +103,9 @@ export const useCascadeAnimation = (itemCount: number, delay: number = 100) => {
 };
 
 // Premium scroll translate effect hook
-export const useScrollTranslate = (direction: 'up' | 'left' | 'right' = 'up') => {
+export const useScrollTranslate = <T extends HTMLElement = HTMLDivElement>(direction: 'up' | 'left' | 'right' = 'up') => {
   const [isInView, setIsInView] = useState(false);
-  const elementRef = useRef<HTMLElement>(null);
+  const elementRef = useRef<T>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

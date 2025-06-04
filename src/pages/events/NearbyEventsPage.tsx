@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
@@ -86,9 +87,9 @@ const NearbyEventsPage = () => {
                     We're currently setting up our location-based event discovery system. Soon you'll be able to find events happening right around you, with distances and directions.
                   </p>
                   
-                  {/* Google Maps Embed */}
+                  {/* Google Maps Embed with glowing effect and navy border */}
                   <div className="mb-8 max-w-4xl mx-auto">
-                    <div className="mapouter">
+                    <div className="mapouter border-4 border-blue-900 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] hover:border-blue-700">
                       <div className="gmap_canvas">
                         <iframe 
                           className="gmap_iframe rounded-lg shadow-lg" 

@@ -86,6 +86,42 @@ const NearbyEventsPage = () => {
                   <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
                     We're currently setting up our location-based event discovery system. Soon you'll be able to find events happening right around you, with distances and directions.
                   </p>
+                  
+                  {/* Google Maps Embed */}
+                  <div className="mb-8 max-w-4xl mx-auto">
+                    <div className="mapouter">
+                      <div className="gmap_canvas">
+                        <iframe 
+                          className="gmap_iframe rounded-lg shadow-lg" 
+                          width="100%" 
+                          frameBorder="0" 
+                          scrolling="no" 
+                          marginHeight="0" 
+                          marginWidth="0" 
+                          src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=dhulikhel, nepal&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
+                          title="Map showing Dhulikhel, Nepal"
+                        />
+                      </div>
+                      <style jsx>{`
+                        .mapouter {
+                          position: relative;
+                          text-align: right;
+                          width: 100%;
+                          height: 400px;
+                        }
+                        .gmap_canvas {
+                          overflow: hidden;
+                          background: none !important;
+                          width: 100%;
+                          height: 400px;
+                        }
+                        .gmap_iframe {
+                          height: 400px !important;
+                        }
+                      `}</style>
+                    </div>
+                  </div>
+                  
                   <div className="flex flex-wrap justify-center gap-4">
                     <Button className="bg-blue-600 hover:bg-blue-700 text-white">
                       Get Notified When Ready

@@ -52,7 +52,7 @@ const HeroSection = () => {
           {/* Left: Content */}
           <div 
             ref={contentRef}
-            className={`text-center md:text-left max-w-xl md:max-w-xl mx-auto md:mx-0 transition-all duration-800 ease-out ${
+            className={`text-center md:text-left max-w-xl md:max-w-xl mx-auto md:mx-0 transition-all duration-1000 ease-out ${
               contentVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
             }`}
           >
@@ -77,7 +77,7 @@ const HeroSection = () => {
             {/* Buttons */}
             <div 
               ref={buttonRef}
-              className={`flex flex-col sm:flex-row gap-5 justify-center md:justify-start mb-9 transition-all duration-800 ease-out delay-200 ${
+              className={`flex flex-col sm:flex-row gap-5 justify-center md:justify-start mb-9 transition-all duration-1000 ease-out delay-200 ${
                 buttonVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'
               }`}
             >
@@ -97,7 +97,7 @@ const HeroSection = () => {
             </div>
             
             {/* Trust indicators */}
-            <div className={`mt-14 flex flex-wrap items-center justify-center md:justify-start gap-8 transition-all duration-800 ease-out delay-400 ${
+            <div className={`mt-14 flex flex-wrap items-center justify-center md:justify-start gap-8 transition-all duration-1000 ease-out delay-400 ${
               buttonVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
             }`}>
               <div className="flex items-center space-x-2 text-gray-500 dark:text-gray-400 text-base">
@@ -118,7 +118,7 @@ const HeroSection = () => {
           {/* Right: SVG PennyPenguin Illustration */}
           <div 
             ref={illustrationRef}
-            className={`flex justify-center md:justify-end relative mt-14 md:mt-0 transition-all duration-800 ease-out delay-300 ${
+            className={`flex justify-center md:justify-end relative mt-14 md:mt-0 transition-all duration-1000 ease-out delay-300 ${
               illustrationVisible ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
             }`}
           >

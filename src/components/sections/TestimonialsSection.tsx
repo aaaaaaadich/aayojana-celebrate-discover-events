@@ -1,16 +1,38 @@
 
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+
 const TestimonialsSection = () => {
+  const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation({
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+  
+  const { elementRef: testimonialsRef, isVisible: testimonialsVisible } = useScrollAnimation({
+    threshold: 0.2,
+    rootMargin: '0px 0px -100px 0px'
+  });
+
   return (
     <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-12 transition-all duration-1000 ease-out ${
+            headerVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
+          }`}
+        >
           <h2 className="text-3xl font-bold mb-4">What Our Users Say</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Hear from event organizers and attendees who have experienced the Aayojana platform.
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div 
+          ref={testimonialsRef}
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-1000 ease-out delay-200 ${
+            testimonialsVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
+          }`}
+        >
           <div className="bg-background p-6 rounded-lg shadow-md">
             <div className="flex items-center mb-4">
               <div className="w-12 h-12 rounded-full bg-saffron-100 flex items-center justify-center mr-4">

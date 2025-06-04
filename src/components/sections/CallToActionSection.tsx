@@ -1,12 +1,23 @@
 
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const CallToActionSection = () => {
+  const { elementRef: sectionRef, isVisible: sectionVisible } = useScrollAnimation({
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+
   return (
     <section className="py-16 bg-gradient-to-r from-saffron-500 to-nepali-500 text-white">
       <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center">
+        <div 
+          ref={sectionRef}
+          className={`max-w-3xl mx-auto text-center transition-all duration-1000 ease-out ${
+            sectionVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
+          }`}
+        >
           <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Events?</h2>
           <p className="mb-8 text-white/90">
             Whether you're organizing your first event or your fiftieth, Aayojana provides

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
@@ -94,15 +93,15 @@ const NearbyEventsPage = () => {
                         <iframe 
                           className="gmap_iframe rounded-lg shadow-lg" 
                           width="100%" 
-                          frameBorder="0" 
+                          frameBorder={0}
                           scrolling="no" 
-                          marginHeight="0" 
-                          marginWidth="0" 
+                          marginHeight={0}
+                          marginWidth={0}
                           src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=dhulikhel, nepal&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"
                           title="Map showing Dhulikhel, Nepal"
                         />
                       </div>
-                      <style jsx>{`
+                      <style>{`
                         .mapouter {
                           position: relative;
                           text-align: right;

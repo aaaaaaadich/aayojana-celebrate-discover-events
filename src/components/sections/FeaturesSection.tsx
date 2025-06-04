@@ -23,7 +23,7 @@ const FeaturesSection = () => {
       <div className="container mx-auto px-4">
         <div 
           ref={headerRef}
-          className={`text-center mb-12 transition-all duration-1000 ease-out ${
+          className={`text-center mb-12 transition-all duration-1200 ease-out ${
             headerVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
           }`}
         >
@@ -36,7 +36,7 @@ const FeaturesSection = () => {
         
         <div 
           ref={tabsRef}
-          className={`w-full transition-all duration-1000 ease-out delay-200 ${
+          className={`w-full transition-all duration-1200 ease-out delay-200 ${
             tabsVisible ? 'translate-y-0 opacity-100' : 'translate-y-16 opacity-0'
           }`}
         >

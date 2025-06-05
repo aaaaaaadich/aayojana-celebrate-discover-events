@@ -7,6 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar, MapPin, Search, Music, Coffee, Briefcase, Globe, Cpu, HeartPulse, Brush, GraduationCap } from "lucide-react";
 import EventsCarousel from "@/components/EventsCarousel";
 import { Link } from "react-router-dom";
+import EventCard from "@/components/EventCard";
+import { supabase } from "@/integrations/supabase/client";
 
 // Category data, copied and kept in sync with CategoriesPage
 const categories = [
@@ -76,98 +78,42 @@ const categories = [
   },
 ];
 
-// Example events, categorized
-const allEvents = [
-  {
-    id: "1",
-    title: "Rocking Kathmandu Night",
-    date: "June 22, 2025",
-    time: "7:00 PM",
-    location: "Kathmandu Durbar Square",
-    image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=600&q=80",
-    category: "music",
-  },
-  {
-    id: "2",
-    title: "Tech Future Expo",
-    date: "July 2, 2025",
-    time: "10:00 AM",
-    location: "AITM College, Lalitpur",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80",
-    category: "technology",
-  },
-  {
-    id: "3",
-    title: "Newari Cuisine Feast",
-    date: "July 6, 2025",
-    time: "1:00 PM",
-    location: "Bhaktapur",
-    image: "https://images.unsplash.com/photo-1505935428862-770b6f24f629?auto=format&fit=crop&w=600&q=80",
-    category: "food",
-  },
-  {
-    id: "4",
-    title: "Corporate Networking Gala",
-    date: "September 12, 2025",
-    time: "5:30 PM",
-    location: "Soaltee Hotel",
-    image: "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
-    category: "business",
-  },
-  {
-    id: "5",
-    title: "Tharu Dance Festival",
-    date: "August 30, 2025",
-    time: "6:00 PM",
-    location: "Bardiya Community Hall",
-    image: "https://images.unsplash.com/photo-1605629921711-2f6b00c6bbf4?auto=format&fit=crop&w=600&q=80",
-    category: "cultural",
-  },
-  {
-    id: "6",
-    title: "Yoga for Life",
-    date: "July 15, 2025",
-    time: "7:00 AM",
-    location: "Pokhara Lakeside",
-    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-    category: "health",
-  },
-  {
-    id: "7",
-    title: "Gallery Art Show",
-    date: "September 9, 2025",
-    time: "2:00 PM",
-    location: "Imago Dei Gallery",
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=600&q=80",
-    category: "arts",
-  },
-  {
-    id: "8",
-    title: "EdTech Innovations Seminar",
-    date: "August 11, 2025",
-    time: "10:30 AM",
-    location: "Pulchowk Campus",
-    image: "https://images.unsplash.com/photo-1464037866556-6812c9d1c72e?auto=format&fit=crop&w=600&q=80",
-    category: "education",
-  },
-];
-
-// Import EventCard for event list
-import EventCard from "@/components/EventCard";
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  image: string;
+  category: string;
+}
 
 const EventsPage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [search, setSearch] = useState("");
+  const [allEvents, setAllEvents] = useState<Event[]>([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Simulate loading state for better UX
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
+    fetchEvents();
   }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('events')
+        .select('id, title, date, time, location, image, category')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setAllEvents(data || []);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   // Filtering events by selected category and search term
   const filteredEvents = allEvents.filter(
@@ -284,7 +230,7 @@ const EventsPage = () => {
                       time={event.time}
                       location={event.location}
                       image={event.image}
-                      category={categories.find(cat => cat.value === event.category)?.name || ""}
+                      category={categories.find(cat => cat.value === event.category)?.name || event.category}
                     />
                   ))}
                 </div>
@@ -302,4 +248,3 @@ const EventsPage = () => {
 };
 
 export default EventsPage;
-

@@ -435,13 +435,13 @@ const EventDetailsPage = () => {
                         <Users className="h-5 w-5 text-blue-600" />
                         <div>
                           <p className="font-medium">Price</p>
-                          <p className="text-sm text-muted-foreground">NPR {event.price}</p>
+                          <p className="text-sm text-muted-foreground">NPR {event.price.toString()}</p>
                         </div>
                       </div>
                     )}
                   </div>
                   <Button className="w-full mt-6 bg-blue-600 hover:bg-blue-700">
-                    {event.price > 0 ? `Buy Tickets - NPR ${event.price}` : 'Register for Free'}
+                    {event.price > 0 ? `Buy Tickets - NPR ${event.price.toString()}` : 'Register for Free'}
                   </Button>
                 </CardContent>
               </Card>

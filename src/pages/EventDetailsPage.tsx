@@ -441,7 +441,7 @@ const EventDetailsPage = () => {
                     )}
                   </div>
                   <Button className="w-full mt-6 bg-blue-600 hover:bg-blue-700">
-                    {event.price > 0 ? `Buy Tickets - NPR ${event.price.toString()}` : 'Register for Free'}
+                    {event.price > 0 ? `Buy Tickets - NPR ${String(event.price)}` : 'Register for Free'}
                   </Button>
                 </CardContent>
               </Card>

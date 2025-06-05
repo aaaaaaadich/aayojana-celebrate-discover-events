@@ -92,7 +92,7 @@ const HeroSection = () => {
                 variant="outline"
                 className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-500 text-lg py-6 px-8"
               >
-                <Link to="/explore">Explore Events</Link>
+                <Link to="/events">Explore Events</Link>
               </Button>
             </div>
             

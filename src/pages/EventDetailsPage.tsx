@@ -435,7 +435,7 @@ const EventDetailsPage = () => {
                         <Users className="h-5 w-5 text-blue-600" />
                         <div>
                           <p className="font-medium">Price</p>
-                          <p className="text-sm text-muted-foreground">NPR {event.price.toString()}</p>
+                          <p className="text-sm text-muted-foreground">NPR {String(event.price)}</p>
                         </div>
                       </div>
                     )}

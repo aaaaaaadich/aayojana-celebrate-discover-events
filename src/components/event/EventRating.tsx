@@ -47,6 +47,16 @@ export const EventRating = ({
       return;
     }
 
+    // Guard: Ensure eventId is a string
+    if (!eventId || typeof eventId !== "string") {
+      toast({
+        title: "Error",
+        description: "Invalid event. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmittingRating(true);
     try {
       const { error } = await supabase
@@ -134,3 +144,4 @@ export const EventRating = ({
     </Card>
   );
 };
+

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { navigationConfig } from "@/config/navigation";
 import { ChevronRight } from "lucide-react";
+import { useUserRoles } from "@/hooks/useUserRoles";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -10,6 +12,9 @@ interface MobileNavProps {
 }
 
 export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
+  const { user } = useAuth();
+  const { hasRole } = useUserRoles();
+
   if (!isOpen) return null;
 
   return (
@@ -26,17 +31,44 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
           <span className="animate-gradient-flow bg-clip-text text-transparent group-hover:text-blue-500">Home</span>
         </Link>
 
-        {Object.values(navigationConfig).map((group, index) => (
-          <div key={group.title} className="space-y-4 stagger-animation animate" style={{ animationDelay: `${0.1 + index * 0.1}s` }}>
-            <div className="font-medium text-lg animate-gradient-flow bg-clip-text text-transparent">{group.title}</div>
+        {/* Discover Events - Always visible */}
+        <div className="space-y-4 stagger-animation animate" style={{ animationDelay: "0.1s" }}>
+          <div className="font-medium text-lg animate-gradient-flow bg-clip-text text-transparent">
+            {navigationConfig.discoverEvents.title}
+          </div>
+          <div className="space-y-1 pl-4 border-l-2 border-blue-500/20">
+            {navigationConfig.discoverEvents.items.map((item, itemIndex) => (
+              <Link 
+                key={item.href}
+                to={item.href} 
+                className="flex items-center justify-between text-foreground hover:text-blue-500 transition-colors py-2 animate-fade-in group scroll-hover-lift"
+                onClick={onClose}
+                style={{ animationDelay: `${0.2 + (itemIndex * 0.05)}s` }}
+              >
+                <div>
+                  <div className="group-hover:text-blue-500">{item.title}</div>
+                  <div className="text-xs text-muted-foreground group-hover:text-blue-400">{item.description}</div>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-blue-500 transition-colors icon-hover" />
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* For Organizers - Only visible for organizers */}
+        {user && hasRole('organizer') && (
+          <div className="space-y-4 stagger-animation animate" style={{ animationDelay: "0.2s" }}>
+            <div className="font-medium text-lg animate-gradient-flow bg-clip-text text-transparent">
+              {navigationConfig.forOrganizers.title}
+            </div>
             <div className="space-y-1 pl-4 border-l-2 border-blue-500/20">
-              {group.items.map((item, itemIndex) => (
+              {navigationConfig.forOrganizers.items.map((item, itemIndex) => (
                 <Link 
                   key={item.href}
                   to={item.href} 
                   className="flex items-center justify-between text-foreground hover:text-blue-500 transition-colors py-2 animate-fade-in group scroll-hover-lift"
                   onClick={onClose}
-                  style={{ animationDelay: `${0.2 + (index * 0.1) + (itemIndex * 0.05)}s` }}
+                  style={{ animationDelay: `${0.3 + (itemIndex * 0.05)}s` }}
                 >
                   <div>
                     <div className="group-hover:text-blue-500">{item.title}</div>
@@ -47,7 +79,31 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
               ))}
             </div>
           </div>
-        ))}
+        )}
+
+        {/* Ticketing - Always visible */}
+        <div className="space-y-4 stagger-animation animate" style={{ animationDelay: "0.3s" }}>
+          <div className="font-medium text-lg animate-gradient-flow bg-clip-text text-transparent">
+            {navigationConfig.ticketing.title}
+          </div>
+          <div className="space-y-1 pl-4 border-l-2 border-blue-500/20">
+            {navigationConfig.ticketing.items.map((item, itemIndex) => (
+              <Link 
+                key={item.href}
+                to={item.href} 
+                className="flex items-center justify-between text-foreground hover:text-blue-500 transition-colors py-2 animate-fade-in group scroll-hover-lift"
+                onClick={onClose}
+                style={{ animationDelay: `${0.4 + (itemIndex * 0.05)}s` }}
+              >
+                <div>
+                  <div className="group-hover:text-blue-500">{item.title}</div>
+                  <div className="text-xs text-muted-foreground group-hover:text-blue-400">{item.description}</div>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-blue-500 transition-colors icon-hover" />
+              </Link>
+            ))}
+          </div>
+        </div>
 
         <div className="space-y-4 pt-2 stagger-animation animate" style={{ animationDelay: "0.5s" }}>
           <div className="font-medium text-lg animate-gradient-flow bg-clip-text text-transparent">Pages</div>
@@ -93,17 +149,20 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
           </Button>
         </div>
         
-        <div className="animate-fade-in stagger-animation animate" style={{ animationDelay: "1s" }}>
-          <Button 
-            asChild
-            variant="outline" 
-            className="w-full border-blue-500 text-blue-600 hover:glassmorphism-strong hover:text-white transition-all duration-300"
-          >
-            <Link to="/create-event" onClick={onClose}>
-              Create Event
-            </Link>
-          </Button>
-        </div>
+        {/* Create Event button - Only visible for organizers */}
+        {user && hasRole('organizer') && (
+          <div className="animate-fade-in stagger-animation animate" style={{ animationDelay: "1s" }}>
+            <Button 
+              asChild
+              variant="outline" 
+              className="w-full border-blue-500 text-blue-600 hover:glassmorphism-strong hover:text-white transition-all duration-300"
+            >
+              <Link to="/create-event" onClick={onClose}>
+                Create Event
+              </Link>
+            </Button>
+          </div>
+        )}
       </nav>
     </div>
   );

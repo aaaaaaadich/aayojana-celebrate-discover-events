@@ -7,6 +7,7 @@ import { DesktopNav } from "./navigation/DesktopNav";
 import { MobileNav } from "./navigation/MobileNav";
 import { AuthModal } from "./auth/AuthModal";
 import { UserMenu } from "./auth/UserMenu";
+import { RoleSelectionModal } from "./auth/RoleSelectionModal";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface NavbarProps {
@@ -19,7 +20,7 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const location = useLocation();
-  const { user, loading } = useAuth();
+  const { user, loading, needsRoleSelection, setNeedsRoleSelection } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,6 +50,10 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
       document.body.classList.remove('overflow-hidden');
     };
   }, [isMobileMenuOpen]);
+
+  const handleRoleSelected = () => {
+    setNeedsRoleSelection(false);
+  };
 
   return (
     <>
@@ -169,6 +174,12 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
       <AuthModal 
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 
+      />
+
+      <RoleSelectionModal 
+        isOpen={needsRoleSelection && !!user} 
+        onClose={() => setNeedsRoleSelection(false)}
+        onRoleSelected={handleRoleSelected}
       />
     </>
   );

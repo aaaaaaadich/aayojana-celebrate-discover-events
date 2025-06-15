@@ -11,6 +11,8 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signInWithGoogle: () => Promise<{ error: any }>;
   signOut: () => Promise<{ error: any }>;
+  needsRoleSelection: boolean;
+  setNeedsRoleSelection: (needs: boolean) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,22 +29,51 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [needsRoleSelection, setNeedsRoleSelection] = useState(false);
+
+  const checkUserRoles = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', userId);
+      
+      if (error) throw error;
+      
+      // If user has no roles, they need role selection
+      setNeedsRoleSelection(!data || data.length === 0);
+    } catch (error) {
+      console.error('Error checking user roles:', error);
+      setNeedsRoleSelection(true);
+    }
+  };
 
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
+        
+        // Check if user needs role selection after successful authentication
+        if (session?.user && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
+          await checkUserRoles(session.user.id);
+        } else if (!session?.user) {
+          setNeedsRoleSelection(false);
+        }
       }
     );
 
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+      
+      if (session?.user) {
+        await checkUserRoles(session.user.id);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -83,6 +114,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
+    setNeedsRoleSelection(false);
     const { error } = await supabase.auth.signOut();
     return { error };
   };
@@ -95,6 +127,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signIn,
     signInWithGoogle,
     signOut,
+    needsRoleSelection,
+    setNeedsRoleSelection,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

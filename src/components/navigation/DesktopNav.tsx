@@ -12,8 +12,13 @@ import {
 import { NavigationLinks } from "./NavigationLinks";
 import { MenuItem } from "./MenuItem";
 import { navigationConfig } from "@/config/navigation";
+import { useUserRoles } from "@/hooks/useUserRoles";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const DesktopNav = () => {
+  const { user } = useAuth();
+  const { hasRole } = useUserRoles();
+
   return (
     <div className="hidden md:block">
       <NavigationMenu>
@@ -51,29 +56,32 @@ export const DesktopNav = () => {
             </NavigationMenuContent>
           </NavigationMenuItem>
 
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong">
-              {navigationConfig.forOrganizers.title}
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <div className="grid gap-3 p-6 w-[400px] glassmorphism-strong shadow-2xl rounded-lg animate-scale-in border-0 animate-pulse-glow">
-                <div className="absolute inset-0 animate-gradient-flow opacity-10 rounded-lg pointer-events-none"></div>
-                
-                <div className="relative">
-                  {navigationConfig.forOrganizers.items.map((item, index) => (
-                    <div key={item.href} className="stagger-animation animate">
-                      <MenuItem
-                        title={item.title}
-                        description={item.description}
-                        href={item.href}
-                        delay={index * 100}
-                      />
-                    </div>
-                  ))}
+          {/* Show organizer menu only for organizers */}
+          {user && hasRole('organizer') && (
+            <NavigationMenuItem>
+              <NavigationMenuTrigger className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong">
+                {navigationConfig.forOrganizers.title}
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <div className="grid gap-3 p-6 w-[400px] glassmorphism-strong shadow-2xl rounded-lg animate-scale-in border-0 animate-pulse-glow">
+                  <div className="absolute inset-0 animate-gradient-flow opacity-10 rounded-lg pointer-events-none"></div>
+                  
+                  <div className="relative">
+                    {navigationConfig.forOrganizers.items.map((item, index) => (
+                      <div key={item.href} className="stagger-animation animate">
+                        <MenuItem
+                          title={item.title}
+                          description={item.description}
+                          href={item.href}
+                          delay={index * 100}
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          )}
 
           <NavigationMenuItem>
             <NavigationMenuTrigger className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong">

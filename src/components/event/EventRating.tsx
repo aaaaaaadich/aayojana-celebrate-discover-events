@@ -31,8 +31,8 @@ export const EventRating = ({
   const { toast } = useToast();
   const [isSubmittingRating, setIsSubmittingRating] = useState(false);
 
-  const calculateAverageRating = () => {
-    if (ratings.length === 0) return 0;
+  const calculateAverageRating = (): string => {
+    if (ratings.length === 0) return "0.0";
     const sum = ratings.reduce((acc, rating) => acc + rating.rating, 0);
     return (sum / ratings.length).toFixed(1);
   };
@@ -87,6 +87,8 @@ export const EventRating = ({
     }
   };
 
+  const averageRating = calculateAverageRating();
+
   return (
     <Card className="mb-8">
       <CardHeader>
@@ -98,13 +100,13 @@ export const EventRating = ({
       <CardContent>
         <div className="mb-4">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-2xl font-bold">{calculateAverageRating()}</span>
+            <span className="text-2xl font-bold">{averageRating}</span>
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
                   key={star}
                   className={`h-5 w-5 ${
-                    star <= parseFloat(calculateAverageRating())
+                    star <= parseFloat(averageRating)
                       ? 'text-yellow-500 fill-current'
                       : 'text-gray-300'
                   }`}
@@ -144,4 +146,3 @@ export const EventRating = ({
     </Card>
   );
 };
-

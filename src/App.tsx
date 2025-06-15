@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -18,6 +19,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import FeaturedEventsPage from "./pages/events/FeaturedEventsPage";
+import AllEventsPage from "./pages/events/AllEventsPage";
 import NearbyEventsPage from "./pages/events/NearbyEventsPage";
 import CategoriesPage from "./pages/events/CategoriesPage";
 import SignInPage from "./pages/auth/SignInPage";
@@ -71,6 +73,7 @@ const App = () => {
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/events" element={<EventsPage />} />
                   <Route path="/events/:id" element={<EventDetailsPage />} />
+                  <Route path="/events/all" element={<AllEventsPage />} />
                   <Route path="/events/featured" element={<FeaturedEventsPage />} />
                   <Route path="/events/nearby" element={<NearbyEventsPage />} />
                   <Route path="/events/categories" element={<CategoriesPage />} />

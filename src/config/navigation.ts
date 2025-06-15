@@ -7,13 +7,8 @@ export const navigationConfig: NavConfig = {
     items: [
       {
         title: "All Events",
-        href: "/events",
-        description: "Explore all upcoming events",
-      },
-      {
-        title: "Featured Events",
-        href: "/events/featured",
-        description: "Handpicked premium events",
+        href: "/events/all",
+        description: "Browse all events including featured and regular",
       },
       {
         title: "Nearby Events",

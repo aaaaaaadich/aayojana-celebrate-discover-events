@@ -20,7 +20,6 @@ export const navigationConfig: NavConfig = {
         href: "/events/nearby",
         description: "Events happening close to you",
       },
-      // The Categories item is removed as requested
     ],
   },
   forOrganizers: {
@@ -47,21 +46,10 @@ export const navigationConfig: NavConfig = {
     title: "Ticketing",
     items: [
       {
-        title: "Ticket Management",
+        title: "Complete Solution",
         href: "/ticketing",
-        description: "Sell and manage tickets efficiently",
-      },
-      {
-        title: "Digital Tickets",
-        href: "/ticketing/digital",
-        description: "Paperless ticket solutions",
-      },
-      {
-        title: "Scanning Tools",
-        href: "/ticketing/scanning",
-        description: "Quick entry validation",
+        description: "All-in-one ticketing platform with management, scanning, and digital tickets",
       },
     ],
   },
 };
-

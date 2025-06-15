@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -12,7 +11,7 @@ import ContactPage from "./pages/ContactPage";
 import EventsPage from "./pages/EventsPage";
 import EventDetailsPage from "./pages/EventDetailsPage";
 import OrganizersPage from "./pages/OrganizersPage";
-import TicketingUnifiedPage from "./pages/TicketingUnifiedPage";
+import TicketingPage from "./pages/TicketingPage";
 import FeaturesPage from "./pages/FeaturesPage";
 import CreateEventPage from "./pages/CreateEventPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -78,7 +77,7 @@ const App = () => {
                   <Route path="/organizers" element={<OrganizersPage />} />
                   <Route path="/organizers/demo" element={<OrganizersDemoPage />} />
                   <Route path="/organizers/getting-started" element={<OrganizersGettingStartedPage />} />
-                  <Route path="/ticketing" element={<TicketingUnifiedPage />} />
+                  <Route path="/ticketing" element={<TicketingPage />} />
                   <Route path="/features" element={<FeaturesPage />} />
                   <Route path="/create-event" element={<CreateEventPage />} />
                   <Route path="/sign-in" element={<SignInPage />} />

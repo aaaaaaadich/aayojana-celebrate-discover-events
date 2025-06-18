@@ -9,7 +9,6 @@ interface AuthContextType {
   loading: boolean;
   signUp: (email: string, password: string, name: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
-  signInWithGoogle: () => Promise<{ error: any }>;
   signOut: () => Promise<{ error: any }>;
   needsRoleSelection: boolean;
   setNeedsRoleSelection: (needs: boolean) => void;
@@ -82,14 +81,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signUp = async (email: string, password: string, name: string) => {
-    const redirectUrl = `${window.location.origin}/`;
-    console.log('Sign up redirect URL:', redirectUrl);
+    console.log('Attempting email signup for:', email);
     
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: redirectUrl,
         data: {
           name: name,
         }
@@ -98,37 +95,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     if (error) {
       console.error('Sign up error:', error);
+    } else {
+      console.log('Sign up successful:', data);
     }
     
     return { error };
   };
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
+    console.log('Attempting email sign in for:', email);
+    
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
     
     if (error) {
       console.error('Sign in error:', error);
-    }
-    
-    return { error };
-  };
-
-  const signInWithGoogle = async () => {
-    const redirectUrl = `${window.location.origin}/`;
-    console.log('Google sign in redirect URL:', redirectUrl);
-    
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: redirectUrl
-      }
-    });
-    
-    if (error) {
-      console.error('Google sign in error:', error);
+    } else {
+      console.log('Sign in successful:', data);
     }
     
     return { error };
@@ -151,7 +136,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     loading,
     signUp,
     signIn,
-    signInWithGoogle,
     signOut,
     needsRoleSelection,
     setNeedsRoleSelection,

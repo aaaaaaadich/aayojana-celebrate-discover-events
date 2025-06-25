@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Sun, Moon, Menu, X, Sparkles, Zap } from "lucide-react";
@@ -18,7 +17,6 @@ interface NavbarProps {
 const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const location = useLocation();
   const { user, loading, needsRoleSelection, setNeedsRoleSelection } = useAuth();
 
@@ -112,11 +110,13 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
               </div>
             ) : (
               <Button 
-                onClick={() => setIsAuthModalOpen(true)}
+                asChild
                 className="btn-premium text-white transition-all duration-500 animate-hover-lift font-medium px-6 animate-morph group overflow-hidden"
               >
-                <span>Sign In</span>
-                <Sparkles className="ml-2 w-4 h-4 opacity-0 group-hover:opacity-100 animate-bounce-in icon-hover" style={{ animationDelay: '0.1s' }} />
+                <Link to="/auth">
+                  <span>Sign In</span>
+                  <Sparkles className="ml-2 w-4 h-4 opacity-0 group-hover:opacity-100 animate-bounce-in icon-hover" style={{ animationDelay: '0.1s' }} />
+                </Link>
               </Button>
             )}
           </div>
@@ -136,11 +136,13 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
             
             {!loading && !user && (
               <Button 
-                onClick={() => setIsAuthModalOpen(true)}
+                asChild
                 size="sm"
                 className="btn-premium text-white transition-all duration-500 animate-hover-lift"
               >
-                <span>Sign In</span>
+                <Link to="/auth">
+                  <span>Sign In</span>
+                </Link>
               </Button>
             )}
             
@@ -170,11 +172,6 @@ const Navbar = ({ isDarkMode, toggleDarkMode }: NavbarProps) => {
 
         <MobileNav isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
       </header>
-
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
-      />
 
       <RoleSelectionModal 
         isOpen={needsRoleSelection && !!user} 

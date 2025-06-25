@@ -69,6 +69,9 @@ const App = () => {
               <main className="flex-grow pt-16">
                 <Routes>
                   <Route path="/" element={<HomePage />} />
+                  <Route path="/auth" element={<AuthPage />} />
+                  <Route path="/dashboard/organizer" element={<OrganizerDashboard />} />
+                  <Route path="/dashboard/attendee" element={<AttendeeDashboard />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/events" element={<EventsPage />} />

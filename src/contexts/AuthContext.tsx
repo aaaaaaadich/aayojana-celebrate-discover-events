@@ -41,9 +41,29 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       // If user has no roles, they need role selection
       setNeedsRoleSelection(!data || data.length === 0);
+      
+      // Return roles for redirect logic
+      return data?.map(item => item.role) || [];
     } catch (error) {
       console.error('Error checking user roles:', error);
       setNeedsRoleSelection(true);
+      return [];
+    }
+  };
+
+  const redirectUserBasedOnRole = async (userId: string) => {
+    const roles = await checkUserRoles(userId);
+    
+    if (roles.length === 0) {
+      // No roles, will show role selection modal
+      return;
+    }
+    
+    // Redirect based on primary role (you can customize this logic)
+    if (roles.includes('organizer')) {
+      window.location.href = '/dashboard/organizer';
+    } else if (roles.includes('attendee')) {
+      window.location.href = '/dashboard/attendee';
     }
   };
 
@@ -58,7 +78,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         
         // Check if user needs role selection after successful authentication
         if (session?.user && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
-          await checkUserRoles(session.user.id);
+          await redirectUserBasedOnRole(session.user.id);
         } else if (!session?.user) {
           setNeedsRoleSelection(false);
         }
@@ -73,7 +93,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
       
       if (session?.user) {
-        await checkUserRoles(session.user.id);
+        await redirectUserBasedOnRole(session.user.id);
       }
     });
 

@@ -51,7 +51,45 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const handleGoogleOAuthRoleAssignment = async (userId: string) => {
+    // Check if there's a pending role from Google OAuth
+    const pendingRole = localStorage.getItem('pendingUserRole');
+    
+    if (pendingRole && (pendingRole === 'organizer' || pendingRole === 'attendee')) {
+      try {
+        // Check if user already has roles
+        const { data: existingRoles } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('user_id', userId);
+        
+        // Only assign role if user doesn't have any roles yet
+        if (!existingRoles || existingRoles.length === 0) {
+          const { error: roleError } = await supabase
+            .from('user_roles')
+            .insert({ user_id: userId, role: pendingRole });
+          
+          if (roleError) {
+            console.error('Error assigning Google OAuth role:', roleError);
+          } else {
+            console.log(`Successfully assigned ${pendingRole} role to Google OAuth user`);
+          }
+        }
+        
+        // Clean up the pending role
+        localStorage.removeItem('pendingUserRole');
+      } catch (error) {
+        console.error('Error handling Google OAuth role assignment:', error);
+        localStorage.removeItem('pendingUserRole');
+      }
+    }
+  };
+
   const redirectUserBasedOnRole = async (userId: string) => {
+    // First handle any pending Google OAuth role assignment
+    await handleGoogleOAuthRoleAssignment(userId);
+    
+    // Then check roles and redirect
     const roles = await checkUserRoles(userId);
     
     if (roles.length === 0) {
@@ -141,6 +179,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signOut = async () => {
     setNeedsRoleSelection(false);
+    // Clean up any pending role assignments
+    localStorage.removeItem('pendingUserRole');
+    
     const { error } = await supabase.auth.signOut();
     
     if (error) {

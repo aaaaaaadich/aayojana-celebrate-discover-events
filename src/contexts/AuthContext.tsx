@@ -178,17 +178,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const signOut = async () => {
-    setNeedsRoleSelection(false);
-    // Clean up any pending role assignments
-    localStorage.removeItem('pendingUserRole');
+    console.log('Attempting to sign out user');
     
-    const { error } = await supabase.auth.signOut();
-    
-    if (error) {
-      console.error('Sign out error:', error);
+    try {
+      // Clear local state first
+      setNeedsRoleSelection(false);
+      
+      // Clean up any pending role assignments
+      localStorage.removeItem('pendingUserRole');
+      
+      // Sign out from Supabase
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        console.error('Sign out error:', error);
+        return { error };
+      }
+      
+      console.log('Sign out successful');
+      
+      // Clear local state after successful sign out
+      setUser(null);
+      setSession(null);
+      
+      // Redirect to home page
+      window.location.href = '/';
+      
+      return { error: null };
+    } catch (error) {
+      console.error('Unexpected sign out error:', error);
+      return { error };
     }
-    
-    return { error };
   };
 
   const value = {

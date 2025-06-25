@@ -11,31 +11,46 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, User, Settings, Crown, Zap, Star } from "lucide-react";
+import { LogOut, User, Settings, Crown, Zap, Star, Loader2 } from "lucide-react";
 
 export const UserMenu = () => {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   const handleSignOut = async () => {
-    setIsLoading(true);
+    if (isSigningOut) return; // Prevent multiple sign out attempts
+    
+    setIsSigningOut(true);
+    console.log('Sign out button clicked');
+    
     try {
       const { error } = await signOut();
+      
       if (error) {
+        console.error('Sign out failed:', error);
         toast({
           title: "Error",
-          description: "Failed to sign out",
+          description: "Failed to sign out. Please try again.",
           variant: "destructive",
         });
+        setIsSigningOut(false); // Reset loading state on error
       } else {
+        console.log('Sign out successful, redirecting...');
         toast({
           title: "Signed out",
           description: "You have been successfully signed out",
         });
+        // Don't reset loading state here as we're redirecting
       }
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      console.error('Unexpected error during sign out:', error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+      setIsSigningOut(false);
     }
   };
 
@@ -108,18 +123,18 @@ export const UserMenu = () => {
         
         <DropdownMenuItem 
           onClick={handleSignOut} 
-          disabled={isLoading}
-          className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-500 group animate-hover-lift"
+          disabled={isSigningOut}
+          className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-500 group animate-hover-lift disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <LogOut className="mr-3 h-4 w-4 text-red-500 animate-magnetic transition-transform duration-300" />
+          {isSigningOut ? (
+            <Loader2 className="mr-3 h-4 w-4 text-red-500 animate-spin" />
+          ) : (
+            <LogOut className="mr-3 h-4 w-4 text-red-500 animate-magnetic transition-transform duration-300" />
+          )}
           <span className="group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300">
-            {isLoading ? (
-              <span className="loading-dots">Signing out</span>
-            ) : (
-              "Sign out"
-            )}
+            {isSigningOut ? "Signing out..." : "Sign out"}
           </span>
-          {!isLoading && <Zap className="ml-auto w-3 h-3 text-red-500/50 opacity-0 group-hover:opacity-100 animate-bounce-in" />}
+          {!isSigningOut && <Zap className="ml-auto w-3 h-3 text-red-500/50 opacity-0 group-hover:opacity-100 animate-bounce-in" />}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

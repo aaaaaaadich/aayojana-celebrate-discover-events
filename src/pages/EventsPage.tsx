@@ -9,6 +9,7 @@ import EventsCarousel from "@/components/EventsCarousel";
 import { Link } from "react-router-dom";
 import EventCard from "@/components/EventCard";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 // Category data, copied and kept in sync with CategoriesPage
 const categories = [
@@ -93,6 +94,7 @@ const EventsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [search, setSearch] = useState("");
   const [allEvents, setAllEvents] = useState<Event[]>([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -101,17 +103,92 @@ const EventsPage = () => {
 
   const fetchEvents = async () => {
     try {
-      const { data, error } = await supabase
+      console.log('Fetching events from Supabase...');
+      
+      const { data, error, count } = await supabase
         .from('events')
-        .select('id, title, date, time, location, image, category')
+        .select('id, title, date, time, location, image, category', { count: 'exact' })
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      console.log('Supabase response:', { data, error, count });
+
+      if (error) {
+        console.error('Error fetching events:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load events. Please try again.",
+          variant: "destructive",
+        });
+        throw error;
+      }
+
+      console.log(`Successfully fetched ${data?.length || 0} events`);
       setAllEvents(data || []);
+      
+      // If no events found, let's add some sample events for testing
+      if (!data || data.length === 0) {
+        console.log('No events found, adding sample events...');
+        await addSampleEvents();
+      }
     } catch (error) {
-      console.error('Error fetching events:', error);
+      console.error('Error in fetchEvents:', error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const addSampleEvents = async () => {
+    const sampleEvents = [
+      {
+        title: "Tech Conference Nepal 2024",
+        description: "Annual technology conference featuring the latest innovations",
+        date: "2024-12-15",
+        time: "09:00 AM",
+        location: "Kathmandu Convention Center",
+        image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800",
+        category: "technology",
+        price: 1500
+      },
+      {
+        title: "Nepali Music Festival",
+        description: "Celebrate traditional and modern Nepali music",
+        date: "2024-12-20",
+        time: "06:00 PM",
+        location: "Tundikhel, Kathmandu",
+        image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800",
+        category: "music",
+        price: 500
+      },
+      {
+        title: "Food & Culture Fair",
+        description: "Experience authentic Nepali cuisine and culture",
+        date: "2024-12-25",
+        time: "11:00 AM",
+        location: "Bhrikutimandap, Kathmandu",
+        image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800",
+        category: "food",
+        price: 0
+      }
+    ];
+
+    try {
+      const { data, error } = await supabase
+        .from('events')
+        .insert(sampleEvents)
+        .select();
+
+      if (error) {
+        console.error('Error adding sample events:', error);
+      } else {
+        console.log('Sample events added successfully:', data);
+        setAllEvents(data || []);
+        toast({
+          title: "Events Added",
+          description: "Sample events have been added to get you started!",
+        });
+      }
+    } catch (error) {
+      console.error('Error in addSampleEvents:', error);
     }
   };
 
@@ -236,7 +313,22 @@ const EventsPage = () => {
                 </div>
               ) : (
                 <div className="text-center text-muted-foreground py-16">
-                  No events found for this category.
+                  <Calendar className="h-16 w-16 mx-auto mb-4 opacity-50" />
+                  <h3 className="text-xl font-semibold mb-2">No events found</h3>
+                  <p className="mb-4">
+                    {search ? `No events match "${search}"` : selectedCategory !== "all" ? `No events in ${categories.find(cat => cat.value === selectedCategory)?.name}` : "No events available"}
+                  </p>
+                  {(search || selectedCategory !== "all") && (
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        setSearch("");
+                        setSelectedCategory("all");
+                      }}
+                    >
+                      Clear filters
+                    </Button>
+                  )}
                 </div>
               )
             )}

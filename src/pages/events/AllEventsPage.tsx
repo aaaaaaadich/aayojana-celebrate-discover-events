@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, Search, Music, Coffee, Briefcase, Globe, Cpu, HeartPulse, Brush, GraduationCap, Star } from "lucide-react";
 import EventCard from "@/components/EventCard";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 // Category data
 const categories = [
@@ -88,6 +89,7 @@ const AllEventsPage = () => {
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [allEvents, setAllEvents] = useState<Event[]>([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -96,12 +98,24 @@ const AllEventsPage = () => {
 
   const fetchEvents = async () => {
     try {
+      console.log('Fetching all events from Supabase...');
+      
       const { data, error } = await supabase
         .from('events')
         .select('id, title, description, date, time, location, image, category, price')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      console.log('Supabase response:', { data, error });
+
+      if (error) {
+        console.error('Error fetching events:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load events. Please try again.",
+          variant: "destructive",
+        });
+        throw error;
+      }
       
       // Add some mock featured events for demonstration
       const eventsWithFeatured = (data || []).map((event, index) => ({
@@ -109,9 +123,10 @@ const AllEventsPage = () => {
         featured: index < 3 // Mark first 3 events as featured
       }));
       
+      console.log(`Successfully fetched ${eventsWithFeatured.length} events`);
       setAllEvents(eventsWithFeatured);
     } catch (error) {
-      console.error('Error fetching events:', error);
+      console.error('Error in fetchEvents:', error);
     } finally {
       setIsLoading(false);
     }
@@ -284,14 +299,17 @@ const AllEventsPage = () => {
                 <div className="text-center text-muted-foreground py-16">
                   <Calendar className="h-16 w-16 mx-auto mb-4 opacity-50" />
                   <h3 className="text-xl font-semibold mb-2">No events found</h3>
-                  <p>Try adjusting your search or filter criteria</p>
-                  {search && (
+                  <p className="mb-4">Try adjusting your search or filter criteria</p>
+                  {(search || selectedCategory !== "all" || selectedFilter !== "all") && (
                     <Button 
                       variant="outline" 
-                      className="mt-4"
-                      onClick={() => setSearch("")}
+                      onClick={() => {
+                        setSearch("");
+                        setSelectedCategory("all");
+                        setSelectedFilter("all");
+                      }}
                     >
-                      Clear search
+                      Clear all filters
                     </Button>
                   )}
                 </div>

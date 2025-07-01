@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -32,15 +31,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const checkUserRoles = async (userId: string) => {
     try {
+      console.log('Checking user roles for:', userId);
       const { data, error } = await supabase
         .from('user_roles')
         .select('role')
         .eq('user_id', userId);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error checking user roles:', error);
+        throw error;
+      }
+      
+      console.log('User roles data:', data);
       
       // If user has no roles, they need role selection
-      setNeedsRoleSelection(!data || data.length === 0);
+      const hasRoles = data && data.length > 0;
+      console.log('User has roles:', hasRoles);
+      setNeedsRoleSelection(!hasRoles);
       
       // Return roles for redirect logic
       return data?.map(item => item.role) || [];
@@ -93,15 +100,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const roles = await checkUserRoles(userId);
     
     if (roles.length === 0) {
+      console.log('User has no roles, showing role selection modal');
       // No roles, will show role selection modal
       return;
     }
     
-    // Redirect based on primary role (you can customize this logic)
-    if (roles.includes('organizer')) {
-      window.location.href = '/dashboard/organizer';
-    } else if (roles.includes('attendee')) {
-      window.location.href = '/dashboard/attendee';
+    // Only redirect on initial sign in, not on every auth state change
+    const currentPath = window.location.pathname;
+    if (currentPath === '/auth' || currentPath === '/') {
+      // Redirect based on primary role (you can customize this logic)
+      if (roles.includes('organizer')) {
+        console.log('Redirecting organizer to dashboard');
+        window.location.href = '/dashboard/organizer';
+      } else if (roles.includes('attendee')) {
+        console.log('Redirecting attendee to dashboard');
+        window.location.href = '/dashboard/attendee';
+      }
     }
   };
 
@@ -109,7 +123,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        console.log('Auth state change:', event, session);
+        console.log('Auth state change:', event, session?.user?.id);
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
@@ -125,7 +139,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     // Get initial session
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      console.log('Initial session:', session);
+      console.log('Initial session:', session?.user?.id);
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);

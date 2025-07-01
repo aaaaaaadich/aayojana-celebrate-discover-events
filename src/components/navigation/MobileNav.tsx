@@ -12,7 +12,7 @@ interface MobileNavProps {
 }
 
 export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const { hasRole } = useUserRoles();
 
   if (!isOpen) return null;
@@ -138,16 +138,19 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
           </div>
         </div>
         
-        <div className="pt-4 animate-fade-in stagger-animation animate" style={{ animationDelay: "0.9s" }}>
-          <Button 
-            asChild
-            className="w-full btn-premium text-white transition-all duration-300"
-          >
-            <Link to="/sign-in" onClick={onClose}>
-              Sign In
-            </Link>
-          </Button>
-        </div>
+        {/* Authentication section - only show sign in if not authenticated */}
+        {!loading && !user && (
+          <div className="pt-4 animate-fade-in stagger-animation animate" style={{ animationDelay: "0.9s" }}>
+            <Button 
+              asChild
+              className="w-full btn-premium text-white transition-all duration-300"
+            >
+              <Link to="/auth" onClick={onClose}>
+                Sign In
+              </Link>
+            </Button>
+          </div>
+        )}
         
         {/* Create Event button - Only visible for organizers */}
         {user && hasRole('organizer') && (

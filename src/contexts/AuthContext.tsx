@@ -27,23 +27,18 @@ export const useAuth = () => {
 // Function to send welcome email
 const sendWelcomeEmail = async (email: string, name?: string, isNewUser: boolean = false) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-welcome-email`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-      },
-      body: JSON.stringify({
+    const { data, error } = await supabase.functions.invoke('send-welcome-email', {
+      body: {
         email,
         name,
         isNewUser
-      }),
+      }
     });
 
-    if (!response.ok) {
-      console.error('Failed to send welcome email:', await response.text());
+    if (error) {
+      console.error('Failed to send welcome email:', error);
     } else {
-      console.log('Welcome email sent successfully');
+      console.log('Welcome email sent successfully:', data);
     }
   } catch (error) {
     console.error('Error sending welcome email:', error);
@@ -55,6 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [needsRoleSelection, setNeedsRoleSelection] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   const checkUserRoles = async (userId: string) => {
     try {
@@ -140,11 +136,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state change:', event, session?.user?.id);
+        const previousUser = user;
+        
         setSession(session);
         setUser(session?.user ?? null);
         setLoading(false);
         
         if (session?.user) {
+          // Check if this is a new user by comparing with previous state
+          const isNewUser = !previousUser && !isInitialLoad;
+          const isReturningUser = !isNewUser && !isInitialLoad;
+          
           // Get user profile data for email
           const { data: profile } = await supabase
             .from('profiles')
@@ -152,21 +154,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             .eq('id', session.user.id)
             .single();
 
-          // Send welcome email based on event type
-          if (event === 'SIGNED_IN') {
-            setTimeout(() => {
-              sendWelcomeEmail(
-                session.user.email || '', 
-                profile?.name, 
-                false // returning user
-              );
-            }, 0);
-          } else if (event === 'SIGNED_UP') {
+          // Send welcome email with proper user detection
+          if (isNewUser || isReturningUser) {
             setTimeout(() => {
               sendWelcomeEmail(
                 session.user.email || '', 
                 profile?.name || session.user.user_metadata?.name, 
-                true // new user
+                isNewUser
               );
             }, 0);
           }
@@ -175,12 +169,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setTimeout(() => {
             redirectUserBasedOnRole(
               session.user.id, 
-              event === 'SIGNED_IN' || event === 'SIGNED_UP'
+              !isInitialLoad
             );
           }, 0);
         } else if (!session?.user) {
           setNeedsRoleSelection(false);
         }
+        
+        setIsInitialLoad(false);
       }
     );
 
@@ -195,6 +191,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           redirectUserBasedOnRole(session.user.id, false);
         }, 0);
       }
+      
+      setIsInitialLoad(false);
     });
 
     return () => subscription.unsubscribe();

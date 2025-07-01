@@ -11,63 +11,16 @@ import {
   BookOpen, 
   Bell, 
   Play, 
-  Check, 
+  Check,
   Star,
   Users,
-  CreditCard,
-  Shield,
-  BarChart
+  Shield
 } from "lucide-react";
 
 const TicketingUnifiedPage = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const features = [
-    {
-      icon: Ticket,
-      title: "Easy Ticket Sales",
-      description: "Create and sell tickets for your events with our user-friendly platform",
-      color: "bg-blue-100 dark:bg-blue-900/30",
-      iconColor: "text-blue-500"
-    },
-    {
-      icon: CreditCard,
-      title: "Secure Payments",
-      description: "Accept payments securely with multiple payment options",
-      color: "bg-green-100 dark:bg-green-900/30",
-      iconColor: "text-green-500"
-    },
-    {
-      icon: BarChart,
-      title: "Real-time Analytics",
-      description: "Track sales, attendance, and revenue with detailed analytics",
-      color: "bg-purple-100 dark:bg-purple-900/30",
-      iconColor: "text-purple-500"
-    },
-    {
-      icon: Users,
-      title: "Attendee Management",
-      description: "Manage your attendees with check-in systems and communication tools",
-      color: "bg-orange-100 dark:bg-orange-900/30",
-      iconColor: "text-orange-500"
-    },
-    {
-      icon: Shield,
-      title: "Fraud Protection",
-      description: "Advanced security measures to protect against fraudulent activities",
-      color: "bg-red-100 dark:bg-red-900/30",
-      iconColor: "text-red-500"
-    },
-    {
-      icon: Bell,
-      title: "Event Notifications",
-      description: "Keep attendees informed with automated notifications and updates",
-      color: "bg-teal-100 dark:bg-teal-900/30",
-      iconColor: "text-teal-500"
-    }
-  ];
 
   const pricingPlans = [
     {
@@ -173,33 +126,6 @@ const TicketingUnifiedPage = () => {
               </div>
             </div>
           </div>
-
-          {/* Features Section */}
-          <section className="mb-20">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Everything You Need to Succeed</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Our comprehensive ticketing platform provides all the tools you need to create, 
-                promote, and manage successful events.
-              </p>
-            </div>
-            
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {features.map((feature, index) => (
-                <Card key={index} className="hover:shadow-lg transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                  <CardHeader>
-                    <div className={`w-12 h-12 rounded-lg ${feature.color} flex items-center justify-center mb-4`}>
-                      <feature.icon className={`h-6 w-6 ${feature.iconColor}`} />
-                    </div>
-                    <CardTitle className="text-xl">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{feature.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
 
           {/* Pricing Section */}
           <section className="mb-20">

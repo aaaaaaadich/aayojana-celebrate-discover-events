@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -23,6 +24,32 @@ export const useAuth = () => {
   return context;
 };
 
+// Function to send welcome email
+const sendWelcomeEmail = async (email: string, name?: string, isNewUser: boolean = false) => {
+  try {
+    const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-welcome-email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+      },
+      body: JSON.stringify({
+        email,
+        name,
+        isNewUser
+      }),
+    });
+
+    if (!response.ok) {
+      console.error('Failed to send welcome email:', await response.text());
+    } else {
+      console.log('Welcome email sent successfully');
+    }
+  } catch (error) {
+    console.error('Error sending welcome email:', error);
+  }
+};
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -44,12 +71,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       console.log('User roles data:', data);
       
-      // If user has no roles, they need role selection
       const hasRoles = data && data.length > 0;
       console.log('User has roles:', hasRoles);
       setNeedsRoleSelection(!hasRoles);
       
-      // Return roles for redirect logic
       return data?.map(item => item.role) || [];
     } catch (error) {
       console.error('Error checking user roles:', error);
@@ -59,18 +84,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const handleGoogleOAuthRoleAssignment = async (userId: string) => {
-    // Check if there's a pending role from Google OAuth
     const pendingRole = localStorage.getItem('pendingUserRole');
     
     if (pendingRole && (pendingRole === 'organizer' || pendingRole === 'attendee')) {
       try {
-        // Check if user already has roles
         const { data: existingRoles } = await supabase
           .from('user_roles')
           .select('role')
           .eq('user_id', userId);
         
-        // Only assign role if user doesn't have any roles yet
         if (!existingRoles || existingRoles.length === 0) {
           const { error: roleError } = await supabase
             .from('user_roles')
@@ -83,7 +105,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }
         }
         
-        // Clean up the pending role
         localStorage.removeItem('pendingUserRole');
       } catch (error) {
         console.error('Error handling Google OAuth role assignment:', error);
@@ -92,23 +113,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const redirectUserBasedOnRole = async (userId: string) => {
-    // First handle any pending Google OAuth role assignment
+  const redirectUserBasedOnRole = async (userId: string, isNewSignIn: boolean = false) => {
     await handleGoogleOAuthRoleAssignment(userId);
     
-    // Then check roles and redirect
     const roles = await checkUserRoles(userId);
     
     if (roles.length === 0) {
       console.log('User has no roles, showing role selection modal');
-      // No roles, will show role selection modal
       return;
     }
     
     // Only redirect on initial sign in, not on every auth state change
     const currentPath = window.location.pathname;
-    if (currentPath === '/auth' || currentPath === '/') {
-      // Redirect based on primary role (you can customize this logic)
+    if (isNewSignIn && (currentPath === '/auth' || currentPath === '/')) {
       if (roles.includes('organizer')) {
         console.log('Redirecting organizer to dashboard');
         window.location.href = '/dashboard/organizer';
@@ -120,7 +137,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   useEffect(() => {
-    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state change:', event, session?.user?.id);
@@ -128,16 +144,46 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(session?.user ?? null);
         setLoading(false);
         
-        // Check if user needs role selection after successful authentication
-        if (session?.user && (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED')) {
-          await redirectUserBasedOnRole(session.user.id);
+        if (session?.user) {
+          // Get user profile data for email
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('name')
+            .eq('id', session.user.id)
+            .single();
+
+          // Send welcome email based on event type
+          if (event === 'SIGNED_IN') {
+            setTimeout(() => {
+              sendWelcomeEmail(
+                session.user.email || '', 
+                profile?.name, 
+                false // returning user
+              );
+            }, 0);
+          } else if (event === 'SIGNED_UP') {
+            setTimeout(() => {
+              sendWelcomeEmail(
+                session.user.email || '', 
+                profile?.name || session.user.user_metadata?.name, 
+                true // new user
+              );
+            }, 0);
+          }
+
+          // Handle role checking and redirection
+          setTimeout(() => {
+            redirectUserBasedOnRole(
+              session.user.id, 
+              event === 'SIGNED_IN' || event === 'SIGNED_UP'
+            );
+          }, 0);
         } else if (!session?.user) {
           setNeedsRoleSelection(false);
         }
       }
     );
 
-    // Get initial session
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       console.log('Initial session:', session?.user?.id);
       setSession(session);
@@ -145,7 +191,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
       
       if (session?.user) {
-        await redirectUserBasedOnRole(session.user.id);
+        setTimeout(() => {
+          redirectUserBasedOnRole(session.user.id, false);
+        }, 0);
       }
     });
 
@@ -155,10 +203,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signUp = async (email: string, password: string, name: string) => {
     console.log('Attempting email signup for:', email);
     
+    const redirectUrl = `${window.location.origin}/`;
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
+        emailRedirectTo: redirectUrl,
         data: {
           name: name,
         }
@@ -195,13 +246,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     console.log('Attempting to sign out user');
     
     try {
-      // Clear local state first
       setNeedsRoleSelection(false);
-      
-      // Clean up any pending role assignments
       localStorage.removeItem('pendingUserRole');
       
-      // Sign out from Supabase
       const { error } = await supabase.auth.signOut();
       
       if (error) {
@@ -211,11 +258,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       console.log('Sign out successful');
       
-      // Clear local state after successful sign out
       setUser(null);
       setSession(null);
       
-      // Redirect to home page
       window.location.href = '/';
       
       return { error: null };

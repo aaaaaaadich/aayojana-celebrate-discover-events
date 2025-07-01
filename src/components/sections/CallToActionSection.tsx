@@ -2,12 +2,22 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useAuth } from "@/contexts/AuthContext";
+import { useUserRoles } from "@/hooks/useUserRoles";
 
 const CallToActionSection = () => {
   const { elementRef: sectionRef, isVisible: sectionVisible } = useScrollAnimation({
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
   });
+
+  const { user } = useAuth();
+  const { hasRole } = useUserRoles();
+
+  // Don't show the CTA if user is logged in as organizer
+  if (user && hasRole('organizer')) {
+    return null;
+  }
 
   return (
     <section className="py-16 bg-gradient-to-r from-saffron-500 to-nepali-500 text-white">

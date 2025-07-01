@@ -6,21 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { 
-  QrCode, 
-  Smartphone, 
-  Settings, 
-  BarChart3,
-  Shield,
-  Zap,
   Check,
   Star,
   Users,
-  CreditCard,
+  Shield,
   Ticket,
-  ScanLine,
-  Download,
-  Mail,
-  Clock,
   TrendingUp
 } from "lucide-react";
 
@@ -34,51 +24,6 @@ const TicketingPage = () => {
     }, 700);
     return () => clearTimeout(timer);
   }, []);
-
-  const ticketingFeatures = [
-    {
-      icon: QrCode,
-      title: "Digital Tickets",
-      description: "Modern QR code tickets delivered instantly to attendees",
-      color: "bg-blue-100 dark:bg-blue-900/30",
-      iconColor: "text-blue-500"
-    },
-    {
-      icon: ScanLine,
-      title: "Scanning Tools",
-      description: "Fast and reliable ticket scanning for entry management",
-      color: "bg-green-100 dark:bg-green-900/30",
-      iconColor: "text-green-500"
-    },
-    {
-      icon: Settings,
-      title: "Ticket Management",
-      description: "Complete control over ticket types, pricing, and availability",
-      color: "bg-purple-100 dark:bg-purple-900/30",
-      iconColor: "text-purple-500"
-    },
-    {
-      icon: BarChart3,
-      title: "Sales Analytics",
-      description: "Real-time insights into ticket sales and revenue",
-      color: "bg-orange-100 dark:bg-orange-900/30",
-      iconColor: "text-orange-500"
-    },
-    {
-      icon: Shield,
-      title: "Fraud Protection",
-      description: "Advanced security to prevent ticket fraud and duplication",
-      color: "bg-red-100 dark:bg-red-900/30",
-      iconColor: "text-red-500"
-    },
-    {
-      icon: CreditCard,
-      title: "Payment Processing",
-      description: "Secure payment handling with multiple payment options",
-      color: "bg-teal-100 dark:bg-teal-900/30",
-      iconColor: "text-teal-500"
-    }
-  ];
 
   const managementFeatures = [
     "Create multiple ticket types",
@@ -132,7 +77,7 @@ const TicketingPage = () => {
             </h1>
             
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto">
-              Manage, scan, and deliver digital tickets with our comprehensive platform. 
+              Manage and deliver digital tickets with our comprehensive platform. 
               Everything you need for seamless event ticketing in one place.
             </p>
             
@@ -142,13 +87,6 @@ const TicketingPage = () => {
               >
                 <Ticket className="mr-2 h-5 w-5" />
                 Start Selling Tickets
-              </Button>
-              <Button
-                variant="outline"
-                className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white text-lg py-6 px-8"
-              >
-                <Download className="mr-2 h-5 w-5" />
-                Download Scanner App
               </Button>
             </div>
 
@@ -168,32 +106,6 @@ const TicketingPage = () => {
               </div>
             </div>
           </div>
-
-          {/* Features Overview */}
-          <section className="mb-20">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Complete Ticketing Ecosystem</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Our integrated platform handles every aspect of event ticketing from creation to entry.
-              </p>
-            </div>
-            
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {ticketingFeatures.map((feature, index) => (
-                <Card key={index} className="hover:shadow-lg transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                  <CardHeader>
-                    <div className={`w-12 h-12 rounded-lg ${feature.color} flex items-center justify-center mb-4`}>
-                      <feature.icon className={`h-6 w-6 ${feature.iconColor}`} />
-                    </div>
-                    <CardTitle className="text-xl">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-muted-foreground">{feature.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
 
           {/* Detailed Features Tabs */}
           <section className="mb-20">
@@ -227,10 +139,6 @@ const TicketingPage = () => {
                         </div>
                       ))}
                     </div>
-                    <Button className="mt-6 bg-purple-600 hover:bg-purple-700">
-                      <Settings className="mr-2 h-4 w-4" />
-                      Access Management Dashboard
-                    </Button>
                   </div>
                   <div className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-lg p-8">
                     <div className="space-y-4">
@@ -265,20 +173,12 @@ const TicketingPage = () => {
                   <div className="bg-gradient-to-br from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-lg p-8">
                     <div className="text-center space-y-4">
                       <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm max-w-xs mx-auto">
-                        <QrCode className="h-24 w-24 mx-auto mb-4 text-gray-400" />
+                        <div className="h-24 w-24 mx-auto mb-4 bg-gray-200 dark:bg-gray-600 rounded flex items-center justify-center">
+                          <span className="text-xs">QR Code</span>
+                        </div>
                         <div className="text-sm font-medium">Nepal Music Festival</div>
                         <div className="text-xs text-muted-foreground">Gate A • Seat 25</div>
                         <div className="text-xs text-muted-foreground mt-2">Valid: Dec 15, 2024</div>
-                      </div>
-                      <div className="flex justify-center gap-2">
-                        <Button size="sm" variant="outline">
-                          <Mail className="h-4 w-4 mr-1" />
-                          Email
-                        </Button>
-                        <Button size="sm" variant="outline">
-                          <Smartphone className="h-4 w-4 mr-1" />
-                          Wallet
-                        </Button>
                       </div>
                     </div>
                   </div>
@@ -296,10 +196,6 @@ const TicketingPage = () => {
                         </div>
                       ))}
                     </div>
-                    <Button className="mt-6 bg-blue-600 hover:bg-blue-700">
-                      <QrCode className="mr-2 h-4 w-4" />
-                      Create Digital Tickets
-                    </Button>
                   </div>
                 </div>
               </TabsContent>
@@ -320,25 +216,13 @@ const TicketingPage = () => {
                         </div>
                       ))}
                     </div>
-                    <div className="flex gap-3 mt-6">
-                      <Button className="bg-green-600 hover:bg-green-700">
-                        <ScanLine className="mr-2 h-4 w-4" />
-                        Download Scanner
-                      </Button>
-                      <Button variant="outline">
-                        <Smartphone className="mr-2 h-4 w-4" />
-                        Mobile App
-                      </Button>
-                    </div>
                   </div>
                   <div className="bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-lg p-8">
                     <div className="text-center space-y-6">
                       <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
-                        <ScanLine className="h-16 w-16 mx-auto mb-4 text-green-500" />
                         <div className="text-lg font-semibold text-green-600">Ticket Validated</div>
                         <div className="text-sm text-muted-foreground">John Doe • VIP Pass</div>
                         <div className="text-xs text-muted-foreground mt-2">
-                          <Clock className="inline h-3 w-3 mr-1" />
                           Scanned at 7:30 PM
                         </div>
                       </div>

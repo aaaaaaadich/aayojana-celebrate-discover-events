@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useAuth } from "@/contexts/AuthContext";
-import { useUserRoles } from "@/hooks/useUserRoles";
 
 const CallToActionSection = () => {
   const { elementRef: sectionRef, isVisible: sectionVisible } = useScrollAnimation({
@@ -12,10 +11,9 @@ const CallToActionSection = () => {
   });
 
   const { user } = useAuth();
-  const { hasRole } = useUserRoles();
 
-  // Don't show the CTA if user is logged in as organizer
-  if (user && hasRole('organizer')) {
+  // Don't show the CTA if user is logged in
+  if (user) {
     return null;
   }
 

@@ -1,6 +1,5 @@
 
 import HeroSection from "@/components/sections/HeroSection";
-import FeaturedEventsSection from "@/components/sections/FeaturedEventsSection";
 import FeaturesSection from "@/components/sections/FeaturesSection";
 import StatsSection from "@/components/sections/StatsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
@@ -17,7 +16,6 @@ const HomePage = () => {
       </Helmet>
       
       <HeroSection />
-      <FeaturedEventsSection />
       <FeaturesSection />
       <StatsSection />
       <TestimonialsSection />

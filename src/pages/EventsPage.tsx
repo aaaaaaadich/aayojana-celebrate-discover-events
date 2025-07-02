@@ -193,11 +193,12 @@ const EventsPage = () => {
   };
 
   // Filtering events by selected category and search term
-  const filteredEvents = allEvents.filter(
-    (event) =>
-      (selectedCategory === "all" || event.category === selectedCategory) &&
-      event.title.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredEvents = allEvents.filter((event) => {
+    const matchesCategory = selectedCategory === "all" || event.category === selectedCategory;
+    const matchesSearch = event.title.toLowerCase().includes(search.toLowerCase()) ||
+                         event.location.toLowerCase().includes(search.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <>
@@ -222,7 +223,7 @@ const EventsPage = () => {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input 
-                  placeholder="Search events..." 
+                  placeholder="Search events by title or location..." 
                   className="pl-10 h-12 bg-background border-input focus:border-blue-500"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -251,33 +252,14 @@ const EventsPage = () => {
             </div>
           </div>
           
-          {/* --- Featured Events Section --- */}
-          <section className="mb-16 animate-fade-in">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-4">Featured Events</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                Discover and join exciting events happening across Nepal. From music festivals to tech conferences, 
-                find experiences that match your interests.
-              </p>
-            </div>
-            <EventsCarousel />
-            <div className="mt-10 text-center">
-              <Button 
-                asChild 
-                variant="outline" 
-                className="border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white"
-              >
-                <Link to="/events/featured">View All Featured Events</Link>
-              </Button>
-            </div>
-          </section>
-          
           {/* --- Events by Category Section --- */}
           <section className="mb-16 animate-fade-in">
             <div className="text-center mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold mb-2">Events By Category</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-2">
+                {search ? `Search Results for "${search}"` : selectedCategory === "all" ? "All Events" : `${categories.find(cat => cat.value === selectedCategory)?.name} Events`}
+              </h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Select a category to see events tailored to your interests.
+                {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''} found
               </p>
             </div>
             {isLoading ? (

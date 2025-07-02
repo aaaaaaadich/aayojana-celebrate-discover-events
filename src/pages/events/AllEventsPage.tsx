@@ -138,7 +138,9 @@ const AllEventsPage = () => {
     const matchesFilter = selectedFilter === "all" || 
                          (selectedFilter === "featured" && event.featured) ||
                          (selectedFilter === "regular" && !event.featured);
-    const matchesSearch = event.title.toLowerCase().includes(search.toLowerCase());
+    const matchesSearch = event.title.toLowerCase().includes(search.toLowerCase()) ||
+                         event.location.toLowerCase().includes(search.toLowerCase()) ||
+                         (event.description && event.description.toLowerCase().includes(search.toLowerCase()));
     
     return matchesCategory && matchesFilter && matchesSearch;
   });
@@ -169,7 +171,7 @@ const AllEventsPage = () => {
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
                 <Input 
-                  placeholder="Search events..." 
+                  placeholder="Search events by title, location, or description..." 
                   className="pl-10 h-12 bg-background border-input focus:border-blue-500"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -212,7 +214,7 @@ const AllEventsPage = () => {
           </div>
           
           {/* Featured Events Section (only show when not filtering) */}
-          {selectedFilter === "all" && featuredEvents.length > 0 && (
+          {selectedFilter === "all" && featuredEvents.length > 0 && !search && (
             <section className="mb-16 animate-fade-in">
               <div className="text-center mb-8">
                 <h2 className="text-3xl font-bold mb-4 flex items-center justify-center gap-2">
@@ -248,7 +250,8 @@ const AllEventsPage = () => {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-2">
                   {selectedFilter === "featured" ? "Featured Events" : 
-                   selectedFilter === "regular" ? "Regular Events" : "All Events"}
+                   selectedFilter === "regular" ? "Regular Events" : 
+                   search ? `Search Results for "${search}"` : "All Events"}
                 </h2>
                 <p className="text-muted-foreground">
                   {filteredEvents.length} event{filteredEvents.length !== 1 ? 's' : ''} found

@@ -16,6 +16,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import ForgotPasswordModal from "./ForgotPasswordModal";
 import TwoFactorModal from "./TwoFactorModal";
+import { useAnalyticsContext } from "@/components/analytics/AnalyticsProvider";
 
 interface OrganizerAuthModalProps {
   open: boolean;
@@ -37,6 +38,7 @@ const OrganizerAuthModal = ({ open, onOpenChange }: OrganizerAuthModalProps) => 
 
   const { signUp, signIn } = useAuth();
   const { toast } = useToast();
+  const { trackOrganizerLogin } = useAnalyticsContext();
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
@@ -105,6 +107,11 @@ const OrganizerAuthModal = ({ open, onOpenChange }: OrganizerAuthModalProps) => 
           });
         }
       } else {
+        // Track successful organizer login
+        if (!isSignUp) {
+          trackOrganizerLogin();
+        }
+
         toast({
           title: isSignUp ? "Account Created!" : "Welcome Back!",
           description: isSignUp 

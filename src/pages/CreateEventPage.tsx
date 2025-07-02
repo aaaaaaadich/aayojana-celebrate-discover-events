@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import EventCategorySelect from "@/components/event/EventCategorySelect";
 import VenueMapSelector from "@/components/event/VenueMapSelector";
+import { useAnalyticsContext } from "@/components/analytics/AnalyticsProvider";
 
 interface EventFormData {
   title: string;
@@ -27,6 +27,7 @@ const CreateEventPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { trackEventCreation, trackEventDraft, trackPageView } = useAnalyticsContext();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<EventFormData>({
     title: "",
@@ -37,6 +38,11 @@ const CreateEventPage = () => {
     location: "",
     price: "",
     availableTickets: "",
+  });
+
+  // Track page view when component mounts
+  useState(() => {
+    trackPageView('Create Event Page');
   });
 
   const handleInputChange = (field: keyof EventFormData, value: string) => {
@@ -98,6 +104,13 @@ const CreateEventPage = () => {
 
       if (error) {
         throw error;
+      }
+
+      // Track analytics
+      if (isDraft) {
+        trackEventDraft(formData);
+      } else {
+        trackEventCreation(formData);
       }
 
       toast({

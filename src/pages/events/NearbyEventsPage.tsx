@@ -7,6 +7,7 @@ import { MapPin, Search, Calendar, Clock } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface Event {
   id: string;
@@ -24,6 +25,7 @@ const NearbyEventsPage = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -66,6 +68,10 @@ const NearbyEventsPage = () => {
     }
   };
 
+  const handleViewDetails = (eventId: string) => {
+    navigate(`/events/${eventId}`);
+  };
+
   return (
     <>
       <Helmet>
@@ -74,7 +80,7 @@ const NearbyEventsPage = () => {
       </Helmet>
       
       <div className="container mx-auto px-4 py-16 mt-12">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12 animate-fade-in">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               <span className="bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent">
@@ -117,38 +123,32 @@ const NearbyEventsPage = () => {
               <div className="order-2 lg:order-1">
                 <h2 className="text-xl font-semibold mb-4">Events Map</h2>
                 <div 
-                  className="h-96 bg-gradient-to-br from-blue-100 to-green-100 rounded-lg border relative cursor-pointer overflow-hidden"
+                  className="h-96 bg-slate-100 rounded-lg border relative cursor-pointer overflow-hidden"
                   onClick={handleMapClick}
                   style={{
                     backgroundImage: `
-                      radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 80%, rgba(34, 197, 94, 0.1) 0%, transparent 50%)
-                    `
+                      linear-gradient(45deg, #f1f5f9 25%, transparent 25%), 
+                      linear-gradient(-45deg, #f1f5f9 25%, transparent 25%), 
+                      linear-gradient(45deg, transparent 75%, #f1f5f9 75%), 
+                      linear-gradient(-45deg, transparent 75%, #f1f5f9 75%)
+                    `,
+                    backgroundSize: '20px 20px',
+                    backgroundPosition: '0 0, 0 10px, 10px -10px, -10px 0px'
                   }}
                 >
-                  {/* Grid pattern */}
-                  <div className="absolute inset-0 opacity-20">
-                    <div className="h-full w-full" 
-                         style={{
-                           backgroundImage: `
-                             linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px),
-                             linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px)
-                           `,
-                           backgroundSize: '20px 20px'
-                         }}
-                    />
-                  </div>
-                  
                   {/* Location labels */}
-                  <div className="absolute top-4 left-4 bg-white/80 px-2 py-1 rounded text-xs font-medium">
+                  <div className="absolute top-4 left-4 bg-white/90 px-3 py-1 rounded-full text-xs font-medium shadow-sm">
                     {location}
+                  </div>
+                  <div className="absolute bottom-4 right-4 bg-white/90 px-3 py-1 rounded-full text-xs font-medium shadow-sm">
+                    Nepal
                   </div>
                   
                   {/* Event markers */}
                   {events.map((event, index) => (
                     <div 
                       key={event.id}
-                      className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer hover:scale-110 transition-transform"
+                      className="absolute transform -translate-x-1/2 -translate-y-1/2 cursor-pointer hover:scale-110 transition-transform z-10"
                       style={{
                         left: `${20 + (index * 60 / events.length)}%`,
                         top: `${30 + (index % 3) * 20}%`
@@ -160,14 +160,14 @@ const NearbyEventsPage = () => {
                     >
                       <div className="relative">
                         <MapPin 
-                          className={`w-6 h-6 drop-shadow-lg ${
+                          className={`w-8 h-8 drop-shadow-lg transition-colors ${
                             selectedEvent?.id === event.id 
-                              ? 'text-red-600' 
-                              : 'text-blue-600'
+                              ? 'text-red-600 animate-bounce' 
+                              : 'text-blue-600 hover:text-blue-700'
                           }`} 
                           fill="currentColor" 
                         />
-                        <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity">
+                        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-2 py-1 rounded text-xs whitespace-nowrap opacity-0 hover:opacity-100 transition-opacity pointer-events-none">
                           {event.title}
                         </div>
                       </div>
@@ -176,8 +176,8 @@ const NearbyEventsPage = () => {
                   
                   {events.length === 0 && (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="bg-white/90 p-4 rounded-lg shadow-lg text-center">
-                        <MapPin className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                      <div className="bg-white/95 p-6 rounded-lg shadow-lg text-center">
+                        <MapPin className="w-12 h-12 mx-auto mb-3 text-gray-400" />
                         <p className="text-sm text-gray-600">No events to display on map</p>
                       </div>
                     </div>
@@ -220,7 +220,12 @@ const NearbyEventsPage = () => {
                       </div>  
                     </CardContent>
                     <CardFooter>
-                      <Button className="w-full">View Event Details</Button>
+                      <Button 
+                        className="w-full bg-blue-600 hover:bg-blue-700"
+                        onClick={() => handleViewDetails(selectedEvent.id)}
+                      >
+                        View Event Details
+                      </Button>
                     </CardFooter>
                   </Card>
                 ) : (
@@ -261,7 +266,11 @@ const NearbyEventsPage = () => {
                       </div>
                     </CardContent>
                     <CardFooter>
-                      <Button variant="ghost" className="w-full justify-start">
+                      <Button 
+                        variant="ghost" 
+                        className="w-full justify-start"
+                        onClick={() => handleViewDetails(event.id)}
+                      >
                         View Details
                       </Button>
                     </CardFooter>

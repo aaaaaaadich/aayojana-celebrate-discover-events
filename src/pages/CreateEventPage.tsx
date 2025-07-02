@@ -10,6 +10,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import EventCategorySelect from "@/components/event/EventCategorySelect";
 import VenueMapSelector from "@/components/event/VenueMapSelector";
+import TicketTypesSection, { TicketType } from "@/components/event/TicketTypesSection";
 
 interface EventFormData {
   title: string;
@@ -21,6 +22,7 @@ interface EventFormData {
   coordinates?: { lat: number; lng: number };
   price: string;
   availableTickets: string;
+  ticketTypes: TicketType[];
 }
 
 const CreateEventPage = () => {
@@ -37,6 +39,7 @@ const CreateEventPage = () => {
     location: "",
     price: "",
     availableTickets: "",
+    ticketTypes: [],
   });
 
   const handleInputChange = (field: keyof EventFormData, value: string) => {
@@ -49,6 +52,10 @@ const CreateEventPage = () => {
       location: address,
       coordinates 
     }));
+  };
+
+  const handleTicketTypesChange = (ticketTypes: TicketType[]) => {
+    setFormData(prev => ({ ...prev, ticketTypes }));
   };
 
   const handleSubmit = async (e: React.FormEvent, isDraft: boolean = false) => {
@@ -75,6 +82,12 @@ const CreateEventPage = () => {
     setIsLoading(true);
 
     try {
+      // Calculate total price from ticket types or use basic price
+      let totalPrice = parseFloat(formData.price) || 0;
+      if (formData.ticketTypes.length > 0) {
+        totalPrice = Math.min(...formData.ticketTypes.map(t => t.price));
+      }
+
       const eventData = {
         organizer_id: user.id,
         title: formData.title,
@@ -83,10 +96,13 @@ const CreateEventPage = () => {
         date: formData.startDateTime.split('T')[0],
         time: formData.startDateTime.split('T')[1] || '00:00',
         location: formData.location,
-        price: parseFloat(formData.price) || 0,
-        // Store coordinates in description for now (you might want to add a coordinates column)
+        price: totalPrice,
+        // Store coordinates and ticket types in description for now
         ...(formData.coordinates && {
           description: `${formData.description}\n\nCoordinates: ${formData.coordinates.lat}, ${formData.coordinates.lng}`
+        }),
+        ...(formData.ticketTypes.length > 0 && {
+          description: `${formData.description}\n\nTicket Types: ${JSON.stringify(formData.ticketTypes)}`
         })
       };
 
@@ -122,7 +138,7 @@ const CreateEventPage = () => {
   return (
     <div className="min-h-screen py-16">
       <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-6">Create Your Event</h1>
           <p className="text-muted-foreground mb-8">
             Fill in the details below to create your event. All fields marked with * are required.
@@ -213,34 +229,42 @@ const CreateEventPage = () => {
               </div>
             </div>
 
-            {/* Tickets */}
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">Ticket Information</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Ticket Price (NPR) *
-                  </label>
-                  <Input 
-                    type="number" 
-                    placeholder="Enter price" 
-                    value={formData.price}
-                    onChange={(e) => handleInputChange('price', e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Available Tickets *
-                  </label>
-                  <Input 
-                    type="number" 
-                    placeholder="Enter quantity" 
-                    value={formData.availableTickets}
-                    onChange={(e) => handleInputChange('availableTickets', e.target.value)}
-                  />
+            {/* Ticket Types */}
+            <TicketTypesSection
+              ticketTypes={formData.ticketTypes}
+              onTicketTypesChange={handleTicketTypesChange}
+            />
+
+            {/* Basic Pricing (fallback) */}
+            {formData.ticketTypes.length === 0 && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold">Basic Pricing</h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Ticket Price (NPR) *
+                    </label>
+                    <Input 
+                      type="number" 
+                      placeholder="Enter price" 
+                      value={formData.price}
+                      onChange={(e) => handleInputChange('price', e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Available Tickets *
+                    </label>
+                    <Input 
+                      type="number" 
+                      placeholder="Enter quantity" 
+                      value={formData.availableTickets}
+                      onChange={(e) => handleInputChange('availableTickets', e.target.value)}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Submit */}
             <div className="flex justify-end space-x-4">

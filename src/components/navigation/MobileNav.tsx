@@ -1,10 +1,13 @@
 
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { navigationConfig } from "@/config/navigation";
-import { ChevronRight } from "lucide-react";
-import { useUserRoles } from "@/hooks/useUserRoles";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserRoles } from "@/hooks/useUserRoles";
+import { LoginPromptModal } from "@/components/auth/LoginPromptModal";
 
 interface MobileNavProps {
   isOpen: boolean;
@@ -12,161 +15,193 @@ interface MobileNavProps {
 }
 
 export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const { hasRole } = useUserRoles();
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [currentFeature, setCurrentFeature] = useState("");
+  const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
 
-  if (!isOpen) return null;
+  const handleProtectedRouteClick = (feature: string) => {
+    if (!user) {
+      setCurrentFeature(feature);
+      setShowLoginPrompt(true);
+    }
+  };
+
+  const toggleMenu = (menuKey: string) => {
+    setOpenMenus(prev => ({
+      ...prev,
+      [menuKey]: !prev[menuKey]
+    }));
+  };
 
   return (
-    <div className="md:hidden glassmorphism-strong shadow-lg animate-fade-in fixed inset-x-0 top-[4.5rem] max-h-[calc(100vh-4.5rem)] overflow-y-auto z-50">
-      <div className="absolute inset-0 animate-gradient-flow opacity-5 pointer-events-none"></div>
-      
-      <nav className="container mx-auto px-4 py-6 flex flex-col space-y-6 relative">
-        <Link 
-          to="/" 
-          className="text-foreground hover:text-blue-500 transition-colors py-2 animate-fade-in font-medium group scroll-hover-lift"
-          onClick={onClose}
-          style={{ animationDelay: "0.1s" }}
-        >
-          <span className="animate-gradient-flow bg-clip-text text-transparent group-hover:text-blue-500">Home</span>
-        </Link>
-
-        {/* Discover Events - Always visible */}
-        <div className="space-y-4 stagger-animation animate" style={{ animationDelay: "0.1s" }}>
-          <div className="font-medium text-lg animate-gradient-flow bg-clip-text text-transparent">
-            {navigationConfig.discoverEvents.title}
-          </div>
-          <div className="space-y-1 pl-4 border-l-2 border-blue-500/20">
-            {navigationConfig.discoverEvents.items.map((item, itemIndex) => (
-              <Link 
-                key={item.href}
-                to={item.href} 
-                className="flex items-center justify-between text-foreground hover:text-blue-500 transition-colors py-2 animate-fade-in group scroll-hover-lift"
+    <>
+      <div className={`fixed inset-0 z-40 md:hidden transform transition-transform duration-300 ease-in-out ${
+        isOpen ? 'translate-x-0' : 'translate-x-full'
+      }`}>
+        <div className="glassmorphism-dark backdrop-blur-xl h-full w-full">
+          <div className="flex flex-col h-full p-6">
+            <div className="flex justify-between items-center mb-8">
+              <span className="text-2xl font-bold text-white">Menu</span>
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={onClose}
-                style={{ animationDelay: `${0.2 + (itemIndex * 0.05)}s` }}
+                className="text-white hover:bg-white/20"
               >
-                <div>
-                  <div className="group-hover:text-blue-500">{item.title}</div>
-                  <div className="text-xs text-muted-foreground group-hover:text-blue-400">{item.description}</div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-blue-500 transition-colors icon-hover" />
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* For Organizers - Only visible for organizers */}
-        {user && hasRole('organizer') && (
-          <div className="space-y-4 stagger-animation animate" style={{ animationDelay: "0.2s" }}>
-            <div className="font-medium text-lg animate-gradient-flow bg-clip-text text-transparent">
-              {navigationConfig.forOrganizers.title}
+                <X size={24} />
+              </Button>
             </div>
-            <div className="space-y-1 pl-4 border-l-2 border-blue-500/20">
-              {navigationConfig.forOrganizers.items.map((item, itemIndex) => (
-                <Link 
-                  key={item.href}
-                  to={item.href} 
-                  className="flex items-center justify-between text-foreground hover:text-blue-500 transition-colors py-2 animate-fade-in group scroll-hover-lift"
-                  onClick={onClose}
-                  style={{ animationDelay: `${0.3 + (itemIndex * 0.05)}s` }}
+
+            <nav className="flex-1 space-y-4">
+              <Link 
+                to="/" 
+                onClick={onClose}
+                className="block py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
+              >
+                Home
+              </Link>
+
+              {/* Discover Events - Protected */}
+              <Collapsible open={openMenus.discover}>
+                <CollapsibleTrigger 
+                  className="flex items-center justify-between w-full py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
+                  onClick={() => {
+                    if (user) {
+                      toggleMenu('discover');
+                    } else {
+                      handleProtectedRouteClick("Discover Events");
+                    }
+                  }}
                 >
-                  <div>
-                    <div className="group-hover:text-blue-500">{item.title}</div>
-                    <div className="text-xs text-muted-foreground group-hover:text-blue-400">{item.description}</div>
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-blue-500 transition-colors icon-hover" />
+                  {navigationConfig.discoverEvents.title}
+                  {user && <ChevronDown className={`h-4 w-4 transition-transform ${openMenus.discover ? 'rotate-180' : ''}`} />}
+                </CollapsibleTrigger>
+                {user && (
+                  <CollapsibleContent className="pl-4 space-y-2">
+                    {navigationConfig.discoverEvents.items.map((item) => (
+                      <Link
+                        key={item.href}
+                        to={item.href}
+                        onClick={onClose}
+                        className="block py-2 px-4 text-white/80 hover:text-white hover:bg-white/10 rounded transition-colors"
+                      >
+                        {item.title}
+                      </Link>
+                    ))}
+                  </CollapsibleContent>
+                )}
+              </Collapsible>
+
+              {/* Create Event - Protected */}
+              {user && hasRole('organizer') ? (
+                <Link 
+                  to="/create-event" 
+                  onClick={onClose}
+                  className="block py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  Create Event
                 </Link>
-              ))}
-            </div>
-          </div>
-        )}
+              ) : (
+                <button 
+                  onClick={() => handleProtectedRouteClick("Create Events")}
+                  className="block w-full text-left py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  Create Event
+                </button>
+              )}
 
-        {/* Ticketing - Always visible */}
-        <div className="space-y-4 stagger-animation animate" style={{ animationDelay: "0.3s" }}>
-          <div className="font-medium text-lg animate-gradient-flow bg-clip-text text-transparent">
-            {navigationConfig.ticketing.title}
-          </div>
-          <div className="space-y-1 pl-4 border-l-2 border-blue-500/20">
-            {navigationConfig.ticketing.items.map((item, itemIndex) => (
+              {/* For Organizers - Only show if user is organizer */}
+              {user && hasRole('organizer') && (
+                <Collapsible open={openMenus.organizers}>
+                  <CollapsibleTrigger 
+                    className="flex items-center justify-between w-full py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
+                    onClick={() => toggleMenu('organizers')}
+                  >
+                    {navigationConfig.forOrganizers.title}
+                    <ChevronDown className={`h-4 w-4 transition-transform ${openMenus.organizers ? 'rotate-180' : ''}`} />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="pl-4 space-y-2">
+                    {navigationConfig.forOrganizers.items.map((item) => (
+                      <Link
+                        key={item.href}
+                        to={item.href}
+                        onClick={onClose}
+                        className="block py-2 px-4 text-white/80 hover:text-white hover:bg-white/10 rounded transition-colors"
+                      >
+                        {item.title}
+                      </Link>
+                    ))}
+                  </CollapsibleContent>
+                </Collapsible>
+              )}
+
+              {/* Ticketing - Protected */}
+              <Collapsible open={openMenus.ticketing}>
+                <CollapsibleTrigger 
+                  className="flex items-center justify-between w-full py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
+                  onClick={() => {
+                    if (user) {
+                      toggleMenu('ticketing');
+                    } else {
+                      handleProtectedRouteClick("Ticketing");
+                    }
+                  }}
+                >
+                  {navigationConfig.ticketing.title}
+                  {user && <ChevronDown className={`h-4 w-4 transition-transform ${openMenus.ticketing ? 'rotate-180' : ''}`} />}
+                </CollapsibleTrigger>
+                {user && (
+                  <CollapsibleContent className="pl-4 space-y-2">
+                    {navigationConfig.ticketing.items.map((item) => (
+                      <Link
+                        key={item.href}
+                        to={item.href}
+                        onClick={onClose}
+                        className="block py-2 px-4 text-white/80 hover:text-white hover:bg-white/10 rounded transition-colors"
+                      >
+                        {item.title}
+                      </Link>
+                    ))}
+                  </CollapsibleContent>
+                )}
+              </Collapsible>
+
+              {/* Always visible links */}
               <Link 
-                key={item.href}
-                to={item.href} 
-                className="flex items-center justify-between text-foreground hover:text-blue-500 transition-colors py-2 animate-fade-in group scroll-hover-lift"
+                to="/features" 
                 onClick={onClose}
-                style={{ animationDelay: `${0.4 + (itemIndex * 0.05)}s` }}
+                className="block py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
               >
-                <div>
-                  <div className="group-hover:text-blue-500">{item.title}</div>
-                  <div className="text-xs text-muted-foreground group-hover:text-blue-400">{item.description}</div>
-                </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-blue-500 transition-colors icon-hover" />
+                Features
               </Link>
-            ))}
+              
+              <Link 
+                to="/about" 
+                onClick={onClose}
+                className="block py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
+              >
+                About
+              </Link>
+              
+              <Link 
+                to="/contact" 
+                onClick={onClose}
+                className="block py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
+              >
+                Contact
+              </Link>
+            </nav>
           </div>
         </div>
+      </div>
 
-        <div className="space-y-4 pt-2 stagger-animation animate" style={{ animationDelay: "0.5s" }}>
-          <div className="font-medium text-lg animate-gradient-flow bg-clip-text text-transparent">Pages</div>
-          <div className="space-y-1 pl-4 border-l-2 border-blue-500/20">
-            <Link 
-              to="/features" 
-              className="flex items-center justify-between text-foreground hover:text-blue-500 transition-colors py-2 animate-fade-in group scroll-hover-lift"
-              onClick={onClose}
-              style={{ animationDelay: "0.6s" }}
-            >
-              Features
-              <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-blue-500 icon-hover" />
-            </Link>
-            <Link 
-              to="/about" 
-              className="flex items-center justify-between text-foreground hover:text-blue-500 transition-colors py-2 animate-fade-in group scroll-hover-lift"
-              onClick={onClose}
-              style={{ animationDelay: "0.7s" }}
-            >
-              About
-              <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-blue-500 icon-hover" />
-            </Link>
-            <Link 
-              to="/contact" 
-              className="flex items-center justify-between text-foreground hover:text-blue-500 transition-colors py-2 animate-fade-in group scroll-hover-lift"
-              onClick={onClose}
-              style={{ animationDelay: "0.8s" }}
-            >
-              Contact
-              <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-blue-500 icon-hover" />
-            </Link>
-          </div>
-        </div>
-        
-        {/* Authentication section - only show sign in if not authenticated */}
-        {!loading && !user && (
-          <div className="pt-4 animate-fade-in stagger-animation animate" style={{ animationDelay: "0.9s" }}>
-            <Button 
-              asChild
-              className="w-full btn-premium text-white transition-all duration-300"
-            >
-              <Link to="/auth" onClick={onClose}>
-                Sign In
-              </Link>
-            </Button>
-          </div>
-        )}
-        
-        {/* Create Event button - Only visible for organizers */}
-        {user && hasRole('organizer') && (
-          <div className="animate-fade-in stagger-animation animate" style={{ animationDelay: "1s" }}>
-            <Button 
-              asChild
-              variant="outline" 
-              className="w-full border-blue-500 text-blue-600 hover:glassmorphism-strong hover:text-white transition-all duration-300"
-            >
-              <Link to="/create-event" onClick={onClose}>
-                Create Event
-              </Link>
-            </Button>
-          </div>
-        )}
-      </nav>
-    </div>
+      <LoginPromptModal 
+        isOpen={showLoginPrompt}
+        onClose={() => setShowLoginPrompt(false)}
+        feature={currentFeature}
+      />
+    </>
   );
 };

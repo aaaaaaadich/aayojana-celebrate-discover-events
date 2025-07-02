@@ -58,9 +58,9 @@ export const useAnalytics = () => {
       event_category: 'event_management',
       event_label: 'create_event',
       event_title: eventData.title,
-      event_type: eventData.category,
+      event_category: eventData.category,
       event_price: eventData.price,
-      organizer_id: user?.id,
+      custom_user_id: user?.id,
     });
   };
 
@@ -69,7 +69,7 @@ export const useAnalytics = () => {
       event_category: 'event_management',
       event_label: 'save_draft',
       event_title: eventData.title,
-      organizer_id: user?.id,
+      custom_user_id: user?.id,
     });
   };
 
@@ -77,7 +77,7 @@ export const useAnalytics = () => {
     trackEvent('page_view', {
       page_title: pageName,
       user_type: 'organizer',
-      organizer_id: user?.id,
+      custom_user_id: user?.id,
     });
   };
 

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { OrganizerAuthModal } from "./OrganizerAuthModal";
+import OrganizerAuthModal from "./OrganizerAuthModal";
 import { AttendeeAuthModal } from "./AttendeeAuthModal";
 import { Users, Briefcase, ArrowRight } from "lucide-react";
 
@@ -118,8 +118,8 @@ export const RoleSelectionPage = () => {
       </div>
 
       <OrganizerAuthModal 
-        isOpen={isOrganizerModalOpen} 
-        onClose={() => setIsOrganizerModalOpen(false)} 
+        open={isOrganizerModalOpen} 
+        onOpenChange={setIsOrganizerModalOpen} 
       />
       
       <AttendeeAuthModal 

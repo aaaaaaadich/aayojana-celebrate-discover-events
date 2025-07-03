@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,11 +28,11 @@ interface EventFormData {
 
 const CreateEventPage = () => {
   const { user } = useAuth();
-  const { hasRole } = useUserRoles();
+  const { hasRole, loading } = useUserRoles();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [showTermsModal, setShowTermsModal] = useState(true);
+  const [showTermsModal, setShowTermsModal] = useState(false);
   const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
   const [formData, setFormData] = useState<EventFormData>({
     title: "",
@@ -54,7 +53,9 @@ const CreateEventPage = () => {
       return;
     }
     
-    if (!hasRole('organizer')) {
+    // Wait for roles to load before checking
+    if (!loading && !hasRole('organizer')) {
+      console.log('User does not have organizer role, redirecting');
       toast({
         title: "Access Denied",
         description: "You need to be an organizer to create events.",
@@ -63,7 +64,12 @@ const CreateEventPage = () => {
       navigate('/');
       return;
     }
-  }, [user, hasRole, navigate, toast]);
+
+    // Show terms modal only if user is an organizer and hasn't accepted terms yet
+    if (!loading && hasRole('organizer') && !hasAcceptedTerms) {
+      setShowTermsModal(true);
+    }
+  }, [user, hasRole, loading, navigate, toast, hasAcceptedTerms]);
 
   const handleTermsAccept = () => {
     setHasAcceptedTerms(true);
@@ -74,23 +80,23 @@ const CreateEventPage = () => {
     navigate('/');
   };
 
-  const handleInputChange = (field: keyof EventFormData, value: string) => {
+  function handleInputChange(field: keyof EventFormData, value: string) {
     setFormData(prev => ({ ...prev, [field]: value }));
-  };
+  }
 
-  const handleLocationSelect = (address: string, coordinates?: { lat: number; lng: number }) => {
+  function handleLocationSelect(address: string, coordinates?: { lat: number; lng: number }) {
     setFormData(prev => ({ 
       ...prev, 
       location: address,
       coordinates 
     }));
-  };
+  }
 
-  const handleTicketTypesChange = (ticketTypes: TicketType[]) => {
+  function handleTicketTypesChange(ticketTypes: TicketType[]) {
     setFormData(prev => ({ ...prev, ticketTypes }));
-  };
+  }
 
-  const handleSubmit = async (e: React.FormEvent, isDraft: boolean = false) => {
+  async function handleSubmit(e: React.FormEvent, isDraft: boolean = false) {
     e.preventDefault();
     
     if (!user) {
@@ -165,7 +171,32 @@ const CreateEventPage = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }
+
+  // Show loading state while checking roles
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-saffron-500 mx-auto mb-4"></div>
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show access denied if not an organizer
+  if (!hasRole('organizer')) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Access Denied</h1>
+          <p className="text-muted-foreground mb-4">You need to be an organizer to create events.</p>
+          <Button onClick={() => navigate('/')}>Go Home</Button>
+        </div>
+      </div>
+    );
+  }
 
   // Show terms modal first
   if (!hasAcceptedTerms) {

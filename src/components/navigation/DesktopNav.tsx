@@ -102,27 +102,6 @@ export const DesktopNav = () => {
               </NavigationMenuItem>
             )}
 
-            {/* Show create event link only for logged-in organizers */}
-            {user && hasRole('organizer') ? (
-              <NavigationMenuItem>
-                <Link 
-                  to="/create-event" 
-                  className={navigationMenuTriggerStyle() + " animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium"}
-                >
-                  Create Event
-                </Link>
-              </NavigationMenuItem>
-            ) : (
-              <NavigationMenuItem>
-                <span 
-                  className={navigationMenuTriggerStyle() + " animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium cursor-pointer"}
-                  onClick={(e) => handleProtectedRouteClick(e, "Create Events")}
-                >
-                  Create Event
-                </span>
-              </NavigationMenuItem>
-            )}
-
             <NavigationMenuItem>
               <NavigationMenuTrigger 
                 className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong"

@@ -94,24 +94,6 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
                 )}
               </Collapsible>
 
-              {/* Create Event - Protected */}
-              {user && hasRole('organizer') ? (
-                <Link 
-                  to="/create-event" 
-                  onClick={onClose}
-                  className="block py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
-                >
-                  Create Event
-                </Link>
-              ) : (
-                <button 
-                  onClick={() => handleProtectedRouteClick("Create Events")}
-                  className="block w-full text-left py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
-                >
-                  Create Event
-                </button>
-              )}
-
               {/* For Organizers - Only show if user is organizer */}
               {user && hasRole('organizer') && (
                 <Collapsible open={openMenus.organizers}>

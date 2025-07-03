@@ -26,7 +26,7 @@ const ContactPage = () => {
               <div>
                 <h3 className="font-bold mb-1">Visit Us</h3>
                 <p className="text-muted-foreground">
-                  Thamel, Kathmandu<br />
+                  Dhulikhel, Nepal<br />
                   Nepal, 44600
                 </p>
               </div>
@@ -48,8 +48,8 @@ const ContactPage = () => {
               <div>
                 <h3 className="font-bold mb-1">Call Us</h3>
                 <p className="text-muted-foreground">
-                  +977 1-4444444<br />
-                  +977 1-5555555
+                  +977 9815786998<br />
+                  +977 9821817975
                 </p>
               </div>
             </div>

@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,9 +8,11 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useUserRoles } from "@/hooks/useUserRoles";
 import EventCategorySelect from "@/components/event/EventCategorySelect";
 import VenueMapSelector from "@/components/event/VenueMapSelector";
 import TicketTypesSection, { TicketType } from "@/components/event/TicketTypesSection";
+import { TermsAcceptanceModal } from "@/components/event/TermsAcceptanceModal";
 
 interface EventFormData {
   title: string;
@@ -27,9 +29,12 @@ interface EventFormData {
 
 const CreateEventPage = () => {
   const { user } = useAuth();
+  const { hasRole } = useUserRoles();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(true);
+  const [hasAcceptedTerms, setHasAcceptedTerms] = useState(false);
   const [formData, setFormData] = useState<EventFormData>({
     title: "",
     category: "",
@@ -41,6 +46,33 @@ const CreateEventPage = () => {
     availableTickets: "",
     ticketTypes: [],
   });
+
+  // Check if user is authorized to create events
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
+    
+    if (!hasRole('organizer')) {
+      toast({
+        title: "Access Denied",
+        description: "You need to be an organizer to create events.",
+        variant: "destructive",
+      });
+      navigate('/');
+      return;
+    }
+  }, [user, hasRole, navigate, toast]);
+
+  const handleTermsAccept = () => {
+    setHasAcceptedTerms(true);
+    setShowTermsModal(false);
+  };
+
+  const handleTermsCancel = () => {
+    navigate('/');
+  };
 
   const handleInputChange = (field: keyof EventFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -134,6 +166,17 @@ const CreateEventPage = () => {
       setIsLoading(false);
     }
   };
+
+  // Show terms modal first
+  if (!hasAcceptedTerms) {
+    return (
+      <TermsAcceptanceModal
+        isOpen={showTermsModal}
+        onAccept={handleTermsAccept}
+        onCancel={handleTermsCancel}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen py-16">

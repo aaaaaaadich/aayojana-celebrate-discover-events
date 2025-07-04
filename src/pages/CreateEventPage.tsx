@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -77,9 +78,11 @@ const CreateEventPage = () => {
   const handleTermsAccept = () => {
     setHasAcceptedTerms(true);
     setShowTermsModal(false);
+    // Don't navigate away - stay on the create event page
   };
 
   const handleTermsCancel = () => {
+    // Only navigate away if user cancels the terms
     navigate('/');
   };
 
@@ -206,17 +209,6 @@ const CreateEventPage = () => {
     );
   }
 
-  // Show terms modal first, then show the form after acceptance
-  if (!hasAcceptedTerms) {
-    return (
-      <TermsAcceptanceModal
-        isOpen={showTermsModal}
-        onAccept={handleTermsAccept}
-        onCancel={handleTermsCancel}
-      />
-    );
-  }
-
   return (
     <div className="min-h-screen py-16">
       <div className="container mx-auto px-4">
@@ -226,159 +218,169 @@ const CreateEventPage = () => {
             Fill in the details below to create your event. All fields marked with * are required.
           </p>
 
-          <form className="space-y-8">
-            {/* Basic Information */}
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">Basic Information</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Event Name *
-                  </label>
-                  <Input 
-                    placeholder="Enter event name" 
-                    value={formData.title}
-                    onChange={(e) => handleInputChange('title', e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Event Category *
-                  </label>
-                  <EventCategorySelect
-                    value={formData.category}
-                    onValueChange={(value) => handleInputChange('category', value)}
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Event Description *
-                </label>
-                <Textarea 
-                  placeholder="Describe your event" 
-                  className="min-h-[150px]"
-                  value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
-                />
-              </div>
-            </div>
-
-            {/* Date and Time */}
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">Date and Time</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    Start Date & Time *
-                  </label>
-                  <div className="flex items-center">
-                    <Clock className="w-5 h-5 mr-2 text-muted-foreground" />
-                    <Input 
-                      type="datetime-local" 
-                      value={formData.startDateTime}
-                      onChange={(e) => handleInputChange('startDateTime', e.target.value)}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">
-                    End Date & Time *
-                  </label>
-                  <div className="flex items-center">
-                    <Calendar className="w-5 h-5 mr-2 text-muted-foreground" />
-                    <Input 
-                      type="datetime-local" 
-                      value={formData.endDateTime}
-                      onChange={(e) => handleInputChange('endDateTime', e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Location */}
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">Location</h2>
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  Venue Address *
-                </label>
-                <VenueMapSelector
-                  onLocationSelect={handleLocationSelect}
-                  initialAddress={formData.location}
-                />
-              </div>
-            </div>
-
-            {/* Ticket Types */}
-            <TicketTypesSection
-              ticketTypes={formData.ticketTypes}
-              onTicketTypesChange={handleTicketTypesChange}
-            />
-
-            {/* Basic Pricing (fallback) */}
-            {formData.ticketTypes.length === 0 && (
+          {/* Show the form only after terms are accepted */}
+          {hasAcceptedTerms && (
+            <form className="space-y-8">
+              {/* Basic Information */}
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold">Basic Pricing</h2>
+                <h2 className="text-2xl font-bold">Basic Information</h2>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Ticket Price (NPR) *
+                      Event Name *
                     </label>
                     <Input 
-                      type="number" 
-                      placeholder="Enter price" 
-                      value={formData.price}
-                      onChange={(e) => handleInputChange('price', e.target.value)}
+                      placeholder="Enter event name" 
+                      value={formData.title}
+                      onChange={(e) => handleInputChange('title', e.target.value)}
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Available Tickets *
+                      Event Category *
                     </label>
-                    <Input 
-                      type="number" 
-                      placeholder="Enter quantity" 
-                      value={formData.availableTickets}
-                      onChange={(e) => handleInputChange('availableTickets', e.target.value)}
+                    <EventCategorySelect
+                      value={formData.category}
+                      onValueChange={(value) => handleInputChange('category', value)}
                     />
                   </div>
                 </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Event Description *
+                  </label>
+                  <Textarea 
+                    placeholder="Describe your event" 
+                    className="min-h-[150px]"
+                    value={formData.description}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
+                  />
+                </div>
               </div>
-            )}
 
-            {/* Payment QR Code */}
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">Payment Information</h2>
-              <QRCodeUpload
-                onImageUpload={handleQRCodeUpload}
-                currentImage={formData.qrCodeImageUrl}
+              {/* Date and Time */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold">Date and Time</h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      Start Date & Time *
+                    </label>
+                    <div className="flex items-center">
+                      <Clock className="w-5 h-5 mr-2 text-muted-foreground" />
+                      <Input 
+                        type="datetime-local" 
+                        value={formData.startDateTime}
+                        onChange={(e) => handleInputChange('startDateTime', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">
+                      End Date & Time *
+                    </label>
+                    <div className="flex items-center">
+                      <Calendar className="w-5 h-5 mr-2 text-muted-foreground" />
+                      <Input 
+                        type="datetime-local" 
+                        value={formData.endDateTime}
+                        onChange={(e) => handleInputChange('endDateTime', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Location */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold">Location</h2>
+                <div>
+                  <label className="block text-sm font-medium mb-2">
+                    Venue Address *
+                  </label>
+                  <VenueMapSelector
+                    onLocationSelect={handleLocationSelect}
+                    initialAddress={formData.location}
+                  />
+                </div>
+              </div>
+
+              {/* Ticket Types */}
+              <TicketTypesSection
+                ticketTypes={formData.ticketTypes}
+                onTicketTypesChange={handleTicketTypesChange}
               />
-            </div>
 
-            {/* Submit */}
-            <div className="flex justify-end space-x-4">
-              <Button 
-                type="button"
-                variant="outline"
-                onClick={(e) => handleSubmit(e, true)}
-                disabled={isLoading}
-              >
-                {isLoading ? "Saving..." : "Save as Draft"}
-              </Button>
-              <Button 
-                type="button"
-                className="bg-saffron-500 hover:bg-saffron-600"
-                onClick={(e) => handleSubmit(e, false)}
-                disabled={isLoading}
-              >
-                {isLoading ? "Publishing..." : "Publish Event"}
-              </Button>
-            </div>
-          </form>
+              {/* Basic Pricing (fallback) */}
+              {formData.ticketTypes.length === 0 && (
+                <div className="space-y-4">
+                  <h2 className="text-2xl font-bold">Basic Pricing</h2>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Ticket Price (NPR) *
+                      </label>
+                      <Input 
+                        type="number" 
+                        placeholder="Enter price" 
+                        value={formData.price}
+                        onChange={(e) => handleInputChange('price', e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Available Tickets *
+                      </label>
+                      <Input 
+                        type="number" 
+                        placeholder="Enter quantity" 
+                        value={formData.availableTickets}
+                        onChange={(e) => handleInputChange('availableTickets', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Payment QR Code */}
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold">Payment Information</h2>
+                <QRCodeUpload
+                  onImageUpload={handleQRCodeUpload}
+                  currentImage={formData.qrCodeImageUrl}
+                />
+              </div>
+
+              {/* Submit */}
+              <div className="flex justify-end space-x-4">
+                <Button 
+                  type="button"
+                  variant="outline"
+                  onClick={(e) => handleSubmit(e, true)}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Saving..." : "Save as Draft"}
+                </Button>
+                <Button 
+                  type="button"
+                  className="bg-saffron-500 hover:bg-saffron-600"
+                  onClick={(e) => handleSubmit(e, false)}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Publishing..." : "Publish Event"}
+                </Button>
+              </div>
+            </form>
+          )}
         </div>
       </div>
+
+      {/* Terms Acceptance Modal */}
+      <TermsAcceptanceModal
+        isOpen={showTermsModal}
+        onAccept={handleTermsAccept}
+        onCancel={handleTermsCancel}
+      />
     </div>
   );
 };

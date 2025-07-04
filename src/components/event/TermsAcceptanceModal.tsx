@@ -26,6 +26,11 @@ export const TermsAcceptanceModal = ({ isOpen, onAccept, onCancel }: TermsAccept
     setShowTermsModal(true);
   };
 
+  const handleAccept = () => {
+    onAccept();
+    // Allow the form to be shown after accepting terms
+  };
+
   return (
     <>
       <AlertDialog open={isOpen} onOpenChange={(open) => !open && onCancel()}>
@@ -79,7 +84,7 @@ export const TermsAcceptanceModal = ({ isOpen, onAccept, onCancel }: TermsAccept
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction 
-              onClick={onAccept}
+              onClick={handleAccept}
               className="min-w-[80px] bg-green-600 hover:bg-green-700"
             >
               Accept

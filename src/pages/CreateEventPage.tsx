@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ import EventCategorySelect from "@/components/event/EventCategorySelect";
 import VenueMapSelector from "@/components/event/VenueMapSelector";
 import TicketTypesSection, { TicketType } from "@/components/event/TicketTypesSection";
 import { TermsAcceptanceModal } from "@/components/event/TermsAcceptanceModal";
+import { QRCodeUpload } from "@/components/event/QRCodeUpload";
 
 interface EventFormData {
   title: string;
@@ -24,6 +26,7 @@ interface EventFormData {
   price: string;
   availableTickets: string;
   ticketTypes: TicketType[];
+  qrCodeImage?: File | null;
 }
 
 const CreateEventPage = () => {
@@ -44,6 +47,7 @@ const CreateEventPage = () => {
     price: "",
     availableTickets: "",
     ticketTypes: [],
+    qrCodeImage: null,
   });
 
   // Check if user is authorized to create events
@@ -94,6 +98,10 @@ const CreateEventPage = () => {
 
   function handleTicketTypesChange(ticketTypes: TicketType[]) {
     setFormData(prev => ({ ...prev, ticketTypes }));
+  }
+
+  function handleQRCodeUpload(file: File | null) {
+    setFormData(prev => ({ ...prev, qrCodeImage: file }));
   }
 
   async function handleSubmit(e: React.FormEvent, isDraft: boolean = false) {
@@ -198,7 +206,7 @@ const CreateEventPage = () => {
     );
   }
 
-  // Show terms modal first
+  // Show terms modal first, then show the form after acceptance
   if (!hasAcceptedTerms) {
     return (
       <TermsAcceptanceModal
@@ -339,6 +347,15 @@ const CreateEventPage = () => {
                 </div>
               </div>
             )}
+
+            {/* Payment QR Code */}
+            <div className="space-y-4">
+              <h2 className="text-2xl font-bold">Payment Information</h2>
+              <QRCodeUpload
+                onImageUpload={handleQRCodeUpload}
+                currentImage={null}
+              />
+            </div>
 
             {/* Submit */}
             <div className="flex justify-end space-x-4">

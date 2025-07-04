@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,7 +25,7 @@ interface EventFormData {
   price: string;
   availableTickets: string;
   ticketTypes: TicketType[];
-  qrCodeImage?: File | null;
+  qrCodeImageUrl?: string | null;
 }
 
 const CreateEventPage = () => {
@@ -47,7 +46,7 @@ const CreateEventPage = () => {
     price: "",
     availableTickets: "",
     ticketTypes: [],
-    qrCodeImage: null,
+    qrCodeImageUrl: null,
   });
 
   // Check if user is authorized to create events
@@ -100,8 +99,8 @@ const CreateEventPage = () => {
     setFormData(prev => ({ ...prev, ticketTypes }));
   }
 
-  function handleQRCodeUpload(file: File | null) {
-    setFormData(prev => ({ ...prev, qrCodeImage: file }));
+  function handleQRCodeUpload(url: string | null) {
+    setFormData(prev => ({ ...prev, qrCodeImageUrl: url }));
   }
 
   async function handleSubmit(e: React.FormEvent, isDraft: boolean = false) {
@@ -143,6 +142,7 @@ const CreateEventPage = () => {
         time: formData.startDateTime.split('T')[1] || '00:00',
         location: formData.location,
         price: totalPrice,
+        qr_code_image_url: formData.qrCodeImageUrl,
         // Store coordinates and ticket types in description for now
         ...(formData.coordinates && {
           description: `${formData.description}\n\nCoordinates: ${formData.coordinates.lat}, ${formData.coordinates.lng}`
@@ -353,7 +353,7 @@ const CreateEventPage = () => {
               <h2 className="text-2xl font-bold">Payment Information</h2>
               <QRCodeUpload
                 onImageUpload={handleQRCodeUpload}
-                currentImage={null}
+                currentImage={formData.qrCodeImageUrl}
               />
             </div>
 

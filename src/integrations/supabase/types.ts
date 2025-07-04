@@ -84,6 +84,7 @@ export type Database = {
           location: string
           organizer_id: string | null
           price: number | null
+          qr_code_image_url: string | null
           time: string
           title: string
           updated_at: string
@@ -98,6 +99,7 @@ export type Database = {
           location: string
           organizer_id?: string | null
           price?: number | null
+          qr_code_image_url?: string | null
           time: string
           title: string
           updated_at?: string
@@ -112,6 +114,7 @@ export type Database = {
           location?: string
           organizer_id?: string | null
           price?: number | null
+          qr_code_image_url?: string | null
           time?: string
           title?: string
           updated_at?: string

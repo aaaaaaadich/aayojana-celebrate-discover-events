@@ -3,21 +3,76 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Upload, X, Image as ImageIcon } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface QRCodeUploadProps {
-  onImageUpload: (file: File | null) => void;
+  onImageUpload: (url: string | null) => void;
   currentImage?: string | null;
 }
 
 export const QRCodeUpload = ({ onImageUpload, currentImage }: QRCodeUploadProps) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(currentImage || null);
   const [dragOver, setDragOver] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const { user } = useAuth();
+  const { toast } = useToast();
 
-  const handleFileSelect = (file: File) => {
+  const uploadToSupabase = async (file: File): Promise<string | null> => {
+    if (!user) return null;
+
+    try {
+      setUploading(true);
+      
+      // Create unique filename
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${user.id}/${Date.now()}.${fileExt}`;
+
+      // Upload to Supabase storage
+      const { data, error } = await supabase.storage
+        .from('qr-codes')
+        .upload(fileName, file);
+
+      if (error) throw error;
+
+      // Get public URL
+      const { data: { publicUrl } } = supabase.storage
+        .from('qr-codes')
+        .getPublicUrl(data.path);
+
+      return publicUrl;
+    } catch (error: any) {
+      toast({
+        title: "Upload Error",
+        description: error.message || "Failed to upload image",
+        variant: "destructive",
+      });
+      return null;
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleFileSelect = async (file: File) => {
     if (file && file.type.startsWith('image/')) {
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
-      onImageUpload(file);
+      // Show preview immediately
+      const localUrl = URL.createObjectURL(file);
+      setPreviewUrl(localUrl);
+
+      // Upload to Supabase
+      const uploadedUrl = await uploadToSupabase(file);
+      
+      if (uploadedUrl) {
+        // Clean up local URL and use uploaded URL
+        URL.revokeObjectURL(localUrl);
+        setPreviewUrl(uploadedUrl);
+        onImageUpload(uploadedUrl);
+      } else {
+        // Revert preview on upload failure
+        setPreviewUrl(currentImage || null);
+        URL.revokeObjectURL(localUrl);
+      }
     }
   };
 
@@ -47,12 +102,24 @@ export const QRCodeUpload = ({ onImageUpload, currentImage }: QRCodeUploadProps)
     setDragOver(false);
   };
 
-  const removeImage = () => {
+  const removeImage = async () => {
+    if (previewUrl && previewUrl.includes('supabase')) {
+      try {
+        // Extract file path from URL
+        const url = new URL(previewUrl);
+        const path = url.pathname.split('/').slice(-2).join('/');
+        
+        // Delete from Supabase storage
+        await supabase.storage
+          .from('qr-codes')
+          .remove([path]);
+      } catch (error) {
+        console.error('Error deleting image:', error);
+      }
+    }
+    
     setPreviewUrl(null);
     onImageUpload(null);
-    if (previewUrl && previewUrl.startsWith('blob:')) {
-      URL.revokeObjectURL(previewUrl);
-    }
   };
 
   return (
@@ -81,6 +148,7 @@ export const QRCodeUpload = ({ onImageUpload, currentImage }: QRCodeUploadProps)
             size="sm"
             className="absolute top-2 right-2"
             onClick={removeImage}
+            disabled={uploading}
           >
             <X className="w-4 h-4" />
           </Button>
@@ -113,14 +181,16 @@ export const QRCodeUpload = ({ onImageUpload, currentImage }: QRCodeUploadProps)
                 onChange={handleFileChange}
                 className="hidden"
                 id="qr-upload"
+                disabled={uploading}
               />
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => document.getElementById('qr-upload')?.click()}
+                disabled={uploading}
               >
                 <Upload className="w-4 h-4 mr-2" />
-                Choose File
+                {uploading ? "Uploading..." : "Choose File"}
               </Button>
             </div>
           </div>

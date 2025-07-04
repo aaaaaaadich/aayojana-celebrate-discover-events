@@ -133,8 +133,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   useEffect(() => {
+    let isSubscribed = true;
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        if (!isSubscribed) return;
+
         console.log('Auth state change:', event, session?.user?.id);
         const previousUser = user;
         
@@ -143,30 +147,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setLoading(false);
         
         if (session?.user) {
-          // Check if this is a new user by comparing with previous state
-          const isNewUser = !previousUser && !isInitialLoad;
-          const isReturningUser = !isNewUser && !isInitialLoad;
-          
-          // Get user profile data for email
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('name')
-            .eq('id', session.user.id)
-            .single();
-
-          // Send welcome email with proper user detection
-          if (isNewUser || isReturningUser) {
-            setTimeout(() => {
-              sendWelcomeEmail(
-                session.user.email || '', 
-                profile?.name || session.user.user_metadata?.name, 
-                isNewUser
-              );
-            }, 0);
-          }
-
-          // Handle role checking and redirection
+          // Use setTimeout to prevent blocking the auth flow
           setTimeout(() => {
+            if (!isSubscribed) return;
+
+            const isNewUser = !previousUser && !isInitialLoad;
+            const isReturningUser = !isNewUser && !isInitialLoad;
+            
+            // Get user profile data for email
+            supabase
+              .from('profiles')
+              .select('name')
+              .eq('id', session.user.id)
+              .single()
+              .then(({ data: profile }) => {
+                if (!isSubscribed) return;
+
+                // Send welcome email with proper user detection
+                if (isNewUser || isReturningUser) {
+                  sendWelcomeEmail(
+                    session.user.email || '', 
+                    profile?.name || session.user.user_metadata?.name, 
+                    isNewUser
+                  );
+                }
+              });
+
+            // Handle role checking and redirection
             redirectUserBasedOnRole(
               session.user.id, 
               !isInitialLoad
@@ -181,6 +188,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     );
 
     supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (!isSubscribed) return;
+
       console.log('Initial session:', session?.user?.id);
       setSession(session);
       setUser(session?.user ?? null);
@@ -188,6 +197,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       if (session?.user) {
         setTimeout(() => {
+          if (!isSubscribed) return;
           redirectUserBasedOnRole(session.user.id, false);
         }, 0);
       }
@@ -195,7 +205,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setIsInitialLoad(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isSubscribed = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signUp = async (email: string, password: string, name: string) => {
@@ -218,6 +231,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error('Sign up error:', error);
     } else {
       console.log('Sign up successful:', data);
+      
+      // Assign role immediately after successful signup
+      if (data.user) {
+        const pendingRole = localStorage.getItem('pendingUserRole');
+        if (pendingRole && (pendingRole === 'organizer' || pendingRole === 'attendee')) {
+          try {
+            await supabase
+              .from('user_roles')
+              .insert({ user_id: data.user.id, role: pendingRole });
+            localStorage.removeItem('pendingUserRole');
+          } catch (roleError) {
+            console.error('Error assigning role after signup:', roleError);
+          }
+        }
+      }
     }
     
     return { error };

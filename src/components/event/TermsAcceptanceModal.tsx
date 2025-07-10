@@ -21,19 +21,20 @@ interface TermsAcceptanceModalProps {
 
 export const TermsAcceptanceModal = ({ isOpen, onAccept, onCancel }: TermsAcceptanceModalProps) => {
   const [showTermsModal, setShowTermsModal] = useState(false);
+  const [hasAccepted, setHasAccepted] = useState(false);
 
   const handleViewTerms = () => {
     setShowTermsModal(true);
   };
 
   const handleAccept = () => {
+    setHasAccepted(true);
     onAccept();
-    // Allow the form to be shown after accepting terms
   };
 
   return (
     <>
-      <AlertDialog open={isOpen} onOpenChange={(open) => !open && onCancel()}>
+      <AlertDialog open={isOpen} onOpenChange={(open) => !open && !hasAccepted && onCancel()}>
         <AlertDialogContent className="max-w-md">
           <AlertDialogHeader>
             <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/20 rounded-full">

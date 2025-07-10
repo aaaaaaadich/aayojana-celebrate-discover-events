@@ -11,6 +11,7 @@ export interface EventFormData {
   availableTickets: string;
   ticketTypes: TicketType[];
   qrCodeImageUrl?: string | null;
+  posterImageUrl?: string | null;
 }
 
 export interface TicketType {

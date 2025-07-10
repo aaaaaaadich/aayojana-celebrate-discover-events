@@ -12,6 +12,7 @@ import TicketTypesSection, { TicketType } from "./TicketTypesSection";
 import BasicPricingSection from "./BasicPricingSection";
 import PaymentSection from "./PaymentSection";
 import EventFormActions from "./EventFormActions";
+import PosterUploadSection from "./PosterUploadSection";
 
 const CreateEventForm = () => {
   const { user } = useAuth();
@@ -29,6 +30,7 @@ const CreateEventForm = () => {
     availableTickets: "",
     ticketTypes: [],
     qrCodeImageUrl: null,
+    posterImageUrl: null,
   });
 
   function handleInputChange(field: keyof EventFormData, value: string) {
@@ -49,6 +51,10 @@ const CreateEventForm = () => {
 
   function handleQRCodeUpload(url: string | null) {
     setFormData(prev => ({ ...prev, qrCodeImageUrl: url }));
+  }
+
+  function handlePosterUpload(url: string | null) {
+    setFormData(prev => ({ ...prev, posterImageUrl: url }));
   }
 
   async function handleSubmit(e: React.FormEvent, isDraft: boolean = false) {
@@ -90,6 +96,7 @@ const CreateEventForm = () => {
         time: formData.startDateTime.split('T')[1] || '00:00',
         location: formData.location,
         price: totalPrice,
+        image: formData.posterImageUrl,
         qr_code_image_url: formData.qrCodeImageUrl,
         // Store coordinates and ticket types in description for now
         ...(formData.coordinates && {
@@ -134,6 +141,11 @@ const CreateEventForm = () => {
       <BasicInformationSection 
         formData={formData}
         onInputChange={handleInputChange}
+      />
+
+      <PosterUploadSection
+        posterImageUrl={formData.posterImageUrl}
+        onPosterUpload={handlePosterUpload}
       />
 
       <DateTimeSection 

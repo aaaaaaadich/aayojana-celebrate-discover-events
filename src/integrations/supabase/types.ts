@@ -84,10 +84,15 @@ export type Database = {
           created_at: string
           date: string
           description: string | null
+          feature_payment_amount: number | null
           id: string
           image: string | null
+          is_featured: boolean | null
           location: string
           organizer_id: string | null
+          payment_method: string | null
+          payment_status: string | null
+          plan_type: string | null
           price: number | null
           qr_code_image_url: string | null
           time: string
@@ -99,10 +104,15 @@ export type Database = {
           created_at?: string
           date: string
           description?: string | null
+          feature_payment_amount?: number | null
           id?: string
           image?: string | null
+          is_featured?: boolean | null
           location: string
           organizer_id?: string | null
+          payment_method?: string | null
+          payment_status?: string | null
+          plan_type?: string | null
           price?: number | null
           qr_code_image_url?: string | null
           time: string
@@ -114,10 +124,15 @@ export type Database = {
           created_at?: string
           date?: string
           description?: string | null
+          feature_payment_amount?: number | null
           id?: string
           image?: string | null
+          is_featured?: boolean | null
           location?: string
           organizer_id?: string | null
+          payment_method?: string | null
+          payment_status?: string | null
+          plan_type?: string | null
           price?: number | null
           qr_code_image_url?: string | null
           time?: string

@@ -13,12 +13,15 @@ import BasicPricingSection from "./BasicPricingSection";
 import PaymentSection from "./PaymentSection";
 import EventFormActions from "./EventFormActions";
 import PosterUploadSection from "./PosterUploadSection";
+import FeaturePlanSection from "./FeaturePlanSection";
+import { PaymentSuccessAnimation } from "./PaymentSuccessAnimation";
 
 const CreateEventForm = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
   const [formData, setFormData] = useState<EventFormData>({
     title: "",
     category: "",
@@ -31,6 +34,10 @@ const CreateEventForm = () => {
     ticketTypes: [],
     qrCodeImageUrl: null,
     posterImageUrl: null,
+    isFeatureSelected: false,
+    planType: 'standard',
+    paymentStatus: 'pending',
+    paymentMethod: null,
   });
 
   function handleInputChange(field: keyof EventFormData, value: string) {
@@ -55,6 +62,39 @@ const CreateEventForm = () => {
 
   function handlePosterUpload(url: string | null) {
     setFormData(prev => ({ ...prev, posterImageUrl: url }));
+  }
+
+  function handleFeatureToggle(checked: boolean) {
+    setFormData(prev => ({
+      ...prev,
+      isFeatureSelected: checked,
+      planType: checked ? 'premium' : 'standard',
+      paymentStatus: checked ? 'pending' : 'completed',
+      paymentMethod: checked ? null : null
+    }));
+  }
+
+  async function handlePaymentComplete(method: 'esewa' | 'khalti') {
+    setFormData(prev => ({
+      ...prev,
+      paymentMethod: method,
+      paymentStatus: 'completed'
+    }));
+    
+    // Send congratulations email
+    try {
+      await supabase.functions.invoke('send-featured-event-email', {
+        body: {
+          email: user?.email,
+          eventTitle: formData.title || 'Your Event',
+          organizerName: user?.user_metadata?.name || 'Organizer'
+        }
+      });
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+    
+    setShowSuccessAnimation(true);
   }
 
   async function handleSubmit(e: React.FormEvent, isDraft: boolean = false) {
@@ -98,6 +138,11 @@ const CreateEventForm = () => {
         price: totalPrice,
         image: formData.posterImageUrl,
         qr_code_image_url: formData.qrCodeImageUrl,
+        is_featured: formData.isFeatureSelected && formData.paymentStatus === 'completed',
+        plan_type: formData.planType,
+        payment_status: formData.paymentStatus,
+        payment_method: formData.paymentMethod,
+        feature_payment_amount: formData.isFeatureSelected ? 100 : null, // NPR 100 for premium
         // Store coordinates and ticket types in description for now
         ...(formData.coordinates && {
           description: `${formData.description}\n\nCoordinates: ${formData.coordinates.lat}, ${formData.coordinates.lng}`
@@ -169,6 +214,13 @@ const CreateEventForm = () => {
         showSection={formData.ticketTypes.length === 0}
       />
 
+      <FeaturePlanSection
+        isFeatureSelected={formData.isFeatureSelected}
+        onFeatureToggle={handleFeatureToggle}
+        paymentStatus={formData.paymentStatus}
+        onPaymentComplete={handlePaymentComplete}
+      />
+
       <PaymentSection
         qrCodeImageUrl={formData.qrCodeImageUrl}
         onQRCodeUpload={handleQRCodeUpload}
@@ -178,6 +230,11 @@ const CreateEventForm = () => {
         isLoading={isLoading}
         onSaveDraft={(e) => handleSubmit(e, true)}
         onPublish={(e) => handleSubmit(e, false)}
+      />
+
+      <PaymentSuccessAnimation
+        isVisible={showSuccessAnimation}
+        onComplete={() => setShowSuccessAnimation(false)}
       />
     </form>
   );

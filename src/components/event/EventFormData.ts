@@ -12,6 +12,10 @@ export interface EventFormData {
   ticketTypes: TicketType[];
   qrCodeImageUrl?: string | null;
   posterImageUrl?: string | null;
+  isFeatureSelected: boolean;
+  planType: 'standard' | 'premium';
+  paymentStatus: 'pending' | 'completed' | 'failed';
+  paymentMethod?: 'esewa' | 'khalti' | null;
 }
 
 export interface TicketType {

@@ -14,6 +14,7 @@ interface EventCardProps {
   image: string;
   category: string;
   isPremium?: boolean;
+  isFeatured?: boolean;
 }
 
 const EventCard = ({ 
@@ -24,7 +25,8 @@ const EventCard = ({
   location, 
   image, 
   category, 
-  isPremium = false 
+  isPremium = false,
+  isFeatured = false
 }: EventCardProps) => {
   return (
     <ScrollReveal direction="up" className="h-full">
@@ -40,11 +42,11 @@ const EventCard = ({
             {/* Image Overlay Effects */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             
-            {isPremium && (
+            {(isPremium || isFeatured) && (
               <div className="absolute top-0 right-0 m-2 animate-fade-in" style={{ animationDelay: "0.3s" }}>
                 <Badge 
                   variant="secondary" 
-                  className="bg-saffron-500 text-white relative overflow-hidden animate-bounce-in"
+                  className="bg-yellow-500 text-white relative overflow-hidden animate-bounce-in"
                 >
                   <span className="animate-pulse animate-magnetic">Featured</span>
                   <div className="absolute inset-0 bg-white/20 animate-liquid"></div>

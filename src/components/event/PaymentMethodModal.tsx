@@ -1,35 +1,79 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import { Upload, Check } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface PaymentMethodModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onPaymentMethodSelect: (method: 'esewa' | 'khalti') => void;
+  onPaymentMethodSelect: (method: 'esewa' | 'khalti', proofUrl: string) => void;
 }
 
 export const PaymentMethodModal = ({ isOpen, onClose, onPaymentMethodSelect }: PaymentMethodModalProps) => {
   const [selectedMethod, setSelectedMethod] = useState<'esewa' | 'khalti' | null>(null);
   const [showQR, setShowQR] = useState(false);
+  const [paymentProof, setPaymentProof] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const { toast } = useToast();
 
   const handleMethodSelect = (method: 'esewa' | 'khalti') => {
     setSelectedMethod(method);
     setShowQR(true);
   };
 
-  const handlePaymentComplete = () => {
-    if (selectedMethod) {
-      onPaymentMethodSelect(selectedMethod);
-      setShowQR(false);
-      setSelectedMethod(null);
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPaymentProof(file);
+    }
+  };
+
+  const handlePaymentProofUpload = async () => {
+    if (!selectedMethod || !paymentProof) return;
+
+    setIsUploading(true);
+    try {
+      const fileExt = paymentProof.name.split('.').pop();
+      const fileName = `payment-proof-${Date.now()}.${fileExt}`;
+      
+      const { data, error } = await supabase.storage
+        .from('payment-proofs')
+        .upload(fileName, paymentProof);
+
+      if (error) throw error;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('payment-proofs')
+        .getPublicUrl(data.path);
+
+      onPaymentMethodSelect(selectedMethod, publicUrl);
+      resetModal();
       onClose();
+      
+      toast({
+        title: "Payment proof uploaded successfully!",
+        description: "Your payment is being reviewed and your event will be featured soon.",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Upload failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
     }
   };
 
   const resetModal = () => {
     setShowQR(false);
     setSelectedMethod(null);
+    setPaymentProof(null);
   };
 
   return (
@@ -68,8 +112,8 @@ export const PaymentMethodModal = ({ isOpen, onClose, onPaymentMethodSelect }: P
             </div>
           </div>
         ) : (
-          <div className="space-y-4 text-center">
-            <h3 className="text-lg font-semibold">
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-center">
               {selectedMethod === 'esewa' ? 'eSewa' : 'Khalti'} Payment
             </h3>
             
@@ -84,16 +128,47 @@ export const PaymentMethodModal = ({ isOpen, onClose, onPaymentMethodSelect }: P
               />
             </div>
             
-            <p className="text-sm text-muted-foreground">
-              Scan the QR code with your {selectedMethod === 'esewa' ? 'eSewa' : 'Khalti'} app to complete payment
+            <p className="text-sm text-muted-foreground text-center">
+              Scan the QR code above to make payment, then upload your payment screenshot below
             </p>
+
+            <div className="space-y-2">
+              <Label htmlFor="payment-proof">Upload Payment Proof *</Label>
+              <Input
+                id="payment-proof"
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
+                className="cursor-pointer"
+              />
+              {paymentProof && (
+                <p className="text-sm text-green-600 flex items-center gap-1">
+                  <Check className="h-4 w-4" />
+                  {paymentProof.name} selected
+                </p>
+              )}
+            </div>
             
             <div className="flex gap-2">
               <Button variant="outline" onClick={resetModal} className="flex-1">
                 Change Method
               </Button>
-              <Button onClick={handlePaymentComplete} className="flex-1">
-                Payment Completed
+              <Button 
+                onClick={handlePaymentProofUpload} 
+                className="flex-1"
+                disabled={!paymentProof || isUploading}
+              >
+                {isUploading ? (
+                  <>
+                    <Upload className="h-4 w-4 mr-2 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-4 w-4 mr-2" />
+                    Upload Proof
+                  </>
+                )}
               </Button>
             </div>
           </div>

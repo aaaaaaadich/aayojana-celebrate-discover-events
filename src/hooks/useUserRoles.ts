@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 
-export type UserRole = 'organizer' | 'attendee';
+export type UserRole = 'organizer' | 'attendee' | 'admin';
 
 interface UserRolesHook {
   roles: UserRole[];

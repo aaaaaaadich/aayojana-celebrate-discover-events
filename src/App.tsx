@@ -26,6 +26,7 @@ import SignInPage from "./pages/auth/SignInPage";
 import AuthPage from "./pages/auth/AuthPage";
 import OrganizerDashboard from "./pages/dashboard/OrganizerDashboard";
 import AttendeeDashboard from "./pages/dashboard/AttendeeDashboard";
+import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import OrganizersDemoPage from "./pages/OrganizersDemoPage";
 import OrganizersGettingStartedPage from "./pages/OrganizersGettingStartedPage";
 import ExplorePage from "./pages/ExplorePage";
@@ -75,6 +76,7 @@ const App = () => {
                   <Route path="/auth" element={<AuthPage />} />
                   <Route path="/dashboard/organizer" element={<OrganizerDashboard />} />
                   <Route path="/dashboard/attendee" element={<AttendeeDashboard />} />
+                  <Route path="/dashboard/admin" element={<AdminDashboard />} />
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/events" element={<EventsPage />} />

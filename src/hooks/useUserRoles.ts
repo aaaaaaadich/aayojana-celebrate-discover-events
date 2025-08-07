@@ -56,7 +56,7 @@ export const useUserRoles = (): UserRolesHook => {
     try {
       const { error } = await supabase
         .from('user_roles')
-        .insert({ user_id: user.id, role });
+        .insert({ user_id: user.id, role: role as any });
 
       if (!error) {
         await fetchUserRoles();

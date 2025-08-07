@@ -102,34 +102,6 @@ export const DesktopNav = () => {
               </NavigationMenuItem>
             )}
 
-            <NavigationMenuItem>
-              <NavigationMenuTrigger 
-                className="animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 font-medium data-[state=open]:glassmorphism-strong"
-                onClick={(e) => handleProtectedRouteClick(e, "Ticketing")}
-              >
-                {navigationConfig.ticketing.title}
-              </NavigationMenuTrigger>
-              {user && (
-                <NavigationMenuContent>
-                  <div className="grid gap-3 p-6 w-[400px] glassmorphism-strong shadow-2xl rounded-lg animate-scale-in border-0 animate-pulse-glow">
-                    <div className="absolute inset-0 animate-gradient-flow opacity-10 rounded-lg pointer-events-none"></div>
-                    
-                    <div className="relative">
-                      {navigationConfig.ticketing.items.map((item, index) => (
-                        <div key={item.href} className="stagger-animation animate">
-                          <MenuItem
-                            title={item.title}
-                            description={item.description}
-                            href={item.href}
-                            delay={index * 100}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </NavigationMenuContent>
-              )}
-            </NavigationMenuItem>
 
             <NavigationLinks />
           </NavigationMenuList>

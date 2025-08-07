@@ -13,5 +13,4 @@ export interface NavGroup {
 export interface NavConfig {
   discoverEvents: NavGroup;
   forOrganizers: NavGroup;
-  ticketing: NavGroup;
 }

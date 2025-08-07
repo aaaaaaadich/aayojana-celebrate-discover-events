@@ -37,14 +37,4 @@ export const navigationConfig: NavConfig = {
       },
     ],
   },
-  ticketing: {
-    title: "Ticketing",
-    items: [
-      {
-        title: "Complete Solution",
-        href: "/ticketing",
-        description: "All-in-one ticketing platform with management, scanning, and digital tickets",
-      },
-    ],
-  },
 };

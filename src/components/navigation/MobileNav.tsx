@@ -119,36 +119,6 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
                 </Collapsible>
               )}
 
-              {/* Ticketing - Protected */}
-              <Collapsible open={openMenus.ticketing}>
-                <CollapsibleTrigger 
-                  className="flex items-center justify-between w-full py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
-                  onClick={() => {
-                    if (user) {
-                      toggleMenu('ticketing');
-                    } else {
-                      handleProtectedRouteClick("Ticketing");
-                    }
-                  }}
-                >
-                  {navigationConfig.ticketing.title}
-                  {user && <ChevronDown className={`h-4 w-4 transition-transform ${openMenus.ticketing ? 'rotate-180' : ''}`} />}
-                </CollapsibleTrigger>
-                {user && (
-                  <CollapsibleContent className="pl-4 space-y-2">
-                    {navigationConfig.ticketing.items.map((item) => (
-                      <Link
-                        key={item.href}
-                        to={item.href}
-                        onClick={onClose}
-                        className="block py-2 px-4 text-white/80 hover:text-white hover:bg-white/10 rounded transition-colors"
-                      >
-                        {item.title}
-                      </Link>
-                    ))}
-                  </CollapsibleContent>
-                )}
-              </Collapsible>
 
               {/* Always visible links */}
               <Link 

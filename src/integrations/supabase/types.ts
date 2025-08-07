@@ -14,6 +14,41 @@ export type Database = {
   }
   public: {
     Tables: {
+      event_attendances: {
+        Row: {
+          attendance_status: string | null
+          created_at: string | null
+          event_id: string
+          id: string
+          registration_date: string | null
+          user_id: string
+        }
+        Insert: {
+          attendance_status?: string | null
+          created_at?: string | null
+          event_id: string
+          id?: string
+          registration_date?: string | null
+          user_id: string
+        }
+        Update: {
+          attendance_status?: string | null
+          created_at?: string | null
+          event_id?: string
+          id?: string
+          registration_date?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_attendances_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       event_feedback: {
         Row: {
           created_at: string

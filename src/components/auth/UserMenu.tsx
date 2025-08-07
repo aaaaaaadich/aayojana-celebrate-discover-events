@@ -10,11 +10,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserRoles } from "@/hooks/useUserRoles";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, User, Settings, Crown, Zap, Star, Loader2 } from "lucide-react";
+import { LogOut, User, Settings, Crown, Zap, Star, Loader2, LayoutDashboard, Shield, Users, Calendar } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const UserMenu = () => {
   const { user, signOut } = useAuth();
+  const { hasRole, loading: rolesLoading } = useUserRoles();
   const { toast } = useToast();
   const [isSigningOut, setIsSigningOut] = useState(false);
 
@@ -106,6 +109,54 @@ export const UserMenu = () => {
         </div>
         
         <DropdownMenuSeparator className="bg-gray-200 dark:bg-gray-600 animate-liquid" />
+        
+        {/* Dashboard Links */}
+        {!rolesLoading && (
+          <>
+            {hasRole('admin') && (
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-500 group animate-hover-lift">
+                <Link to="/dashboard/admin">
+                  <Shield className="mr-3 h-4 w-4 text-red-500 animate-magnetic transition-transform duration-300" />
+                  <span className="group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300">Admin Dashboard</span>
+                  <Zap className="ml-auto w-3 h-3 text-red-500/50 opacity-0 group-hover:opacity-100 animate-bounce-in" />
+                </Link>
+              </DropdownMenuItem>
+            )}
+            
+            {hasRole('organizer') && (
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-green-50 dark:hover:bg-green-900/20 transition-all duration-500 group animate-hover-lift">
+                <Link to="/dashboard/organizer">
+                  <Calendar className="mr-3 h-4 w-4 text-green-500 animate-magnetic transition-transform duration-300" />
+                  <span className="group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">Organizer Dashboard</span>
+                  <Zap className="ml-auto w-3 h-3 text-green-500/50 opacity-0 group-hover:opacity-100 animate-bounce-in" />
+                </Link>
+              </DropdownMenuItem>
+            )}
+            
+            {hasRole('attendee') && (
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-500 group animate-hover-lift">
+                <Link to="/dashboard/attendee">
+                  <Users className="mr-3 h-4 w-4 text-blue-500 animate-magnetic transition-transform duration-300" />
+                  <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Attendee Dashboard</span>
+                  <Zap className="ml-auto w-3 h-3 text-blue-500/50 opacity-0 group-hover:opacity-100 animate-bounce-in" />
+                </Link>
+              </DropdownMenuItem>
+            )}
+            
+            {/* If user has no specific role, show general dashboard */}
+            {!hasRole('admin') && !hasRole('organizer') && !hasRole('attendee') && (
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all duration-500 group animate-hover-lift">
+                <Link to="/dashboard/attendee">
+                  <LayoutDashboard className="mr-3 h-4 w-4 text-blue-500 animate-magnetic transition-transform duration-300" />
+                  <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Dashboard</span>
+                  <Zap className="ml-auto w-3 h-3 text-blue-500/50 opacity-0 group-hover:opacity-100 animate-bounce-in" />
+                </Link>
+              </DropdownMenuItem>
+            )}
+            
+            <DropdownMenuSeparator className="bg-gray-200 dark:bg-gray-600 animate-liquid" />
+          </>
+        )}
         
         <DropdownMenuItem className="cursor-pointer hover:bg-blue-50 dark:hover:bg-nepali-600 transition-all duration-500 group animate-hover-lift">
           <User className="mr-3 h-4 w-4 text-blue-500 animate-magnetic transition-transform duration-300" />

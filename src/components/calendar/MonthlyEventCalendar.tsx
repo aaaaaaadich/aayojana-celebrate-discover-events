@@ -4,7 +4,8 @@ import { DatesSetArg, EventClickArg } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { cn } from "@/lib/utils";
-import "@fullcalendar/daygrid/index.css";
+import "@fullcalendar/common/main.css";
+import "@fullcalendar/daygrid/main.css";
 
 // Lightweight calendar event type
 interface CalendarEvent {

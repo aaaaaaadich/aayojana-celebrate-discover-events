@@ -33,6 +33,7 @@ import ExplorePage from "./pages/ExplorePage";
 import OrganizersAnalyticsPage from "./pages/OrganizersAnalyticsPage";
 import OrganizersPricingPage from "./pages/OrganizersPricingPage";
 import AdminAssignPage from "./pages/AdminAssignPage";
+import CalendarPage from "./pages/CalendarPage";
 
 const queryClient = new QueryClient();
 
@@ -97,6 +98,7 @@ const App = () => {
                   <Route path="/organizers/analytics" element={<OrganizersAnalyticsPage />} />
                   <Route path="/organizers/pricing" element={<OrganizersPricingPage />} />
                   <Route path="/admin-assign" element={<AdminAssignPage />} />
+                  <Route path="/calendar" element={<CalendarPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </main>

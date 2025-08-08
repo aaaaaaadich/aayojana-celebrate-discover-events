@@ -63,6 +63,16 @@ export const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
                 Home
               </Link>
 
+              {user && hasRole('attendee') && (
+                <Link 
+                  to="/calendar" 
+                  onClick={onClose}
+                  className="block py-3 px-4 text-white hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  Calendar
+                </Link>
+              )}
+
               {/* Discover Events - Protected */}
               <Collapsible open={openMenus.discover}>
                 <CollapsibleTrigger 

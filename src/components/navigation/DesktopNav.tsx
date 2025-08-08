@@ -45,6 +45,17 @@ export const DesktopNav = () => {
               </Link>
             </NavigationMenuItem>
             
+            {user && hasRole('attendee') && (
+              <NavigationMenuItem>
+                <Link 
+                  to="/calendar" 
+                  className={navigationMenuTriggerStyle() + " animate-hover-lift glassmorphism hover:glassmorphism-strong transition-all duration-300 transform hover:scale-105 font-medium"}
+                >
+                  Calendar
+                </Link>
+              </NavigationMenuItem>
+            )}
+            
             {/* Show Discover Events only for logged-in users */}
             <NavigationMenuItem>
               <NavigationMenuTrigger 

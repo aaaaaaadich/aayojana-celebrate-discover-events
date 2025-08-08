@@ -4,14 +4,12 @@ import { DatesSetArg, EventClickArg } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { cn } from "@/lib/utils";
-import "@fullcalendar/common/main.css";
-import "@fullcalendar/daygrid/main.css";
 
-// Lightweight calendar event type
+// Lightweight calendar event type used by FullCalendar
 interface CalendarEvent {
   id: string;
   title: string;
-  date: string; // ISO date string (YYYY-MM-DD)
+  start: string; // ISO date string (YYYY-MM-DD)
   location?: string | null;
   description?: string | null;
 }
@@ -55,10 +53,10 @@ export const MonthlyEventCalendar: React.FC = () => {
       const mapped: CalendarEvent[] = (data || []).map((row: any) => ({
         id: String(row.id),
         title: row.title,
-        date: row.event_date || row.date, // fallback if using different schema
+        start: row.event_date || row.date, // fallback if using different schema
         location: row.location ?? null,
         description: row.description ?? null,
-      })).filter((e) => !!e.date);
+      })).filter((e) => !!e.start);
 
       setEvents(mapped);
     } catch (e) {
@@ -75,7 +73,6 @@ export const MonthlyEventCalendar: React.FC = () => {
 
   // Realtime: listen for new events and update if in current range
   useEffect(() => {
-    // Clean previous channel
     if (channelRef.current) {
       supabaseCalendar.removeChannel(channelRef.current);
     }
@@ -94,7 +91,7 @@ export const MonthlyEventCalendar: React.FC = () => {
               {
                 id: String(row.id),
                 title: row.title,
-                date: iso,
+                start: iso,
                 location: row.location ?? null,
                 description: row.description ?? null,
               },

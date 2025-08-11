@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import BuyTicketsModal from "@/components/event/BuyTicketsModal";
 interface Event {
   id: string;
   title: string;
@@ -19,8 +19,8 @@ interface Event {
   category: string;
   price: number;
   organizer_id?: string;
+  qr_code_image_url?: string | null;
 }
-
 interface EventInfoSidebarProps {
   event: Event;
 }
@@ -28,11 +28,11 @@ interface EventInfoSidebarProps {
 export const EventInfoSidebar = ({ event }: EventInfoSidebarProps) => {
   const { user } = useAuth();
   const { toast } = useToast();
-  const navigate = useNavigate();
-  const [isDeleting, setIsDeleting] = useState(false);
+const navigate = useNavigate();
+const [isDeleting, setIsDeleting] = useState(false);
+const [buyOpen, setBuyOpen] = useState(false);
 
-  const isOrganizer = user && user.id === event.organizer_id;
-
+const isOrganizer = user && user.id === event.organizer_id;
   const handleDeleteEvent = async () => {
     if (!isOrganizer) return;
 
@@ -79,22 +79,17 @@ export const EventInfoSidebar = ({ event }: EventInfoSidebarProps) => {
     navigate('/ticketing', { state: { eventId: event.id, eventTitle: event.title } });
   };
 
-  const handleBuyTickets = () => {
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to buy tickets.",
-        variant: "destructive",
-      });
-      return;
-    }
-
+const handleBuyTickets = () => {
+  if (!user) {
     toast({
-      title: "Coming Soon",
-      description: "Ticket purchasing functionality will be available soon!",
+      title: "Authentication Required",
+      description: "Please log in to buy tickets.",
+      variant: "destructive",
     });
-  };
-
+    return;
+  }
+  setBuyOpen(true);
+};
   return (
     <Card>
       <CardContent className="p-6">
@@ -159,6 +154,18 @@ export const EventInfoSidebar = ({ event }: EventInfoSidebarProps) => {
             </Button>
           )}
         </div>
+
+        {/* Buy Tickets Modal */}
+        <BuyTicketsModal
+          open={buyOpen}
+          onOpenChange={setBuyOpen}
+          event={{
+            id: event.id,
+            title: event.title,
+            price: event.price,
+            qr_code_image_url: event.qr_code_image_url,
+          }}
+        />
       </CardContent>
     </Card>
   );

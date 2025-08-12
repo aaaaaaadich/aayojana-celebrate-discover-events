@@ -57,10 +57,13 @@ export const MonthlyEventCalendar: React.FC = () => {
     const map = new Map<string, EventRow[]>();
     for (const ev of fullEvents) {
       if (!ev?.date) continue;
-      const key = ev.date.slice(0, 10);
-      const arr = map.get(key) || [];
+      // Handle both YYYY-MM-DD and full date strings
+      const dateKey = ev.date.includes('T') ? ev.date.slice(0, 10) : 
+                     ev.date.length > 10 ? toISODate(new Date(ev.date)) : 
+                     ev.date;
+      const arr = map.get(dateKey) || [];
       arr.push(ev);
-      map.set(key, arr);
+      map.set(dateKey, arr);
     }
     return map;
   }, [fullEvents]);
@@ -68,28 +71,47 @@ export const MonthlyEventCalendar: React.FC = () => {
   const fetchEvents = async (start: Date, end: Date) => {
     setLoading(true);
     try {
+      // Fetch ALL events for the visible month range (past, current, upcoming)
+      const startDate = toISODate(start);
+      const endDate = toISODate(end);
+      
       const { data, error } = await supabase
         .from("events")
         .select("id, title, description, date, time, location, price, qr_code_image_url")
-        .gte("date", toISODate(start))
-        .lt("date", toISODate(end));
+        .gte("date", startDate)
+        .lt("date", endDate)
+        .order("date", { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Supabase error:", error);
+        throw error;
+      }
+
+      console.log(`Fetched ${data?.length || 0} events for ${startDate} to ${endDate}`);
 
       const mapped: CalendarEvent[] = (data || [])
         .filter((row: any) => !!row.date)
-        .map((row: any) => ({
-          id: String(row.id),
-          title: row.title,
-          start: row.date,
-          location: row.location ?? null,
-          description: row.description ?? null,
-        }));
+        .map((row: any) => {
+          // Convert date to YYYY-MM-DD format for FullCalendar
+          const eventDate = row.date.includes('T') ? row.date.slice(0, 10) : 
+                           row.date.length > 10 ? toISODate(new Date(row.date)) : 
+                           row.date;
+          
+          return {
+            id: String(row.id),
+            title: row.title,
+            start: eventDate,
+            location: row.location ?? null,
+            description: row.description ?? null,
+          };
+        });
 
       setEvents(mapped);
       setFullEvents((data as EventRow[]) || []);
     } catch (e) {
       console.error("Failed to load events:", e);
+      setEvents([]);
+      setFullEvents([]);
     } finally {
       setLoading(false);
     }
@@ -163,7 +185,18 @@ export const MonthlyEventCalendar: React.FC = () => {
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           height="auto"
-          events={events}
+          events={events.map(event => ({
+            ...event,
+            className: (() => {
+              const eventDate = new Date(event.start + "T00:00:00");
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              
+              if (eventDate < today) return "past-event";
+              if (eventDate.getTime() === today.getTime()) return "current-event";
+              return "upcoming-event";
+            })()
+          }))}
           eventClick={handleEventClick}
           datesSet={onDatesSet}
           dateClick={onDateClick}

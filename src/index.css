@@ -477,3 +477,24 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Calendar Event Styling */
+.fc-event.past-event {
+  background-color: hsl(var(--muted)) !important;
+  border-color: hsl(var(--muted-foreground)) !important;
+  color: hsl(var(--muted-foreground)) !important;
+  opacity: 0.7;
+}
+
+.fc-event.current-event {
+  background-color: hsl(var(--primary)) !important;
+  border-color: hsl(var(--primary)) !important;
+  color: hsl(var(--primary-foreground)) !important;
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
+}
+
+.fc-event.upcoming-event {
+  background-color: hsl(var(--secondary)) !important;
+  border-color: hsl(var(--secondary)) !important;
+  color: hsl(var(--secondary-foreground)) !important;
+}

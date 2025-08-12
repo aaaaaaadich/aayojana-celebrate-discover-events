@@ -33,34 +33,43 @@ interface EventRow {
 const toISODate = (d: Date) => d.toISOString().slice(0, 10);
 
 const parseEventDate = (dateStr: string): string => {
+  console.log("Parsing date:", dateStr);
+  
   // Handle YYYY-MM-DD format
   if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    console.log("ISO format detected:", dateStr);
     return dateStr;
   }
   
-  // Handle other date formats (like "September 9, 2025")
+  // Handle other date formats (like "July 15, 2025" or "September 9, 2025")
   try {
     const parsed = new Date(dateStr);
     if (!isNaN(parsed.getTime())) {
-      return toISODate(parsed);
+      const isoDate = toISODate(parsed);
+      console.log("Converted", dateStr, "to", isoDate);
+      return isoDate;
     }
   } catch (e) {
-    console.warn("Could not parse date:", dateStr);
+    console.warn("Could not parse date:", dateStr, e);
   }
   
+  console.warn("Returning original date string:", dateStr);
   return dateStr;
 };
 
 const getMonthRange = (anchor: Date) => {
   const start = new Date(anchor.getFullYear(), anchor.getMonth(), 1);
   const end = new Date(anchor.getFullYear(), anchor.getMonth() + 1, 1); // exclusive
+  console.log("Month range:", toISODate(start), "to", toISODate(end));
   return { start, end };
 };
 
 const withinRange = (dateStr: string, start: Date, end: Date) => {
   const isoDate = parseEventDate(dateStr);
   const d = new Date(isoDate + "T00:00:00");
-  return d >= start && d < end;
+  const isInRange = d >= start && d < end;
+  console.log("Date", isoDate, "in range?", isInRange, "Range:", toISODate(start), "to", toISODate(end));
+  return isInRange;
 };
 
 export const MonthlyEventCalendar: React.FC = () => {

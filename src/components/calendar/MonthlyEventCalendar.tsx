@@ -49,6 +49,7 @@ export const MonthlyEventCalendar: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [range, setRange] = useState(() => getMonthRange(new Date()));
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<EventRow | null>(null);
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
   const navigate = useNavigate();
 
@@ -139,7 +140,8 @@ export const MonthlyEventCalendar: React.FC = () => {
 
   const handleEventClick = (arg: EventClickArg) => {
     const id = arg.event.id;
-    if (id) navigate(`/events/${id}`);
+    const event = fullEvents.find(e => e.id === id);
+    if (event) setSelectedEvent(event);
   };
 
   const onDatesSet = (arg: DatesSetArg) => {
@@ -152,6 +154,7 @@ export const MonthlyEventCalendar: React.FC = () => {
   };
 
   const closeModal = () => setSelectedDate(null);
+  const closeEventModal = () => setSelectedEvent(null);
 
   return (
     <section className="container mx-auto px-4 py-10">
@@ -214,6 +217,68 @@ export const MonthlyEventCalendar: React.FC = () => {
               </article>
             ))}
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Event Details Modal */}
+      <Dialog open={!!selectedEvent} onOpenChange={(open) => !open && closeEventModal()}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>{selectedEvent?.title}</DialogTitle>
+            <DialogDescription>
+              Event details and ticket information
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedEvent && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Date & Time</h4>
+                  <p className="text-sm">{selectedEvent.date} {selectedEvent.time && `• ${selectedEvent.time}`}</p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Location</h4>
+                  <p className="text-sm">{selectedEvent.location || "Location TBA"}</p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Price</h4>
+                  <p className="text-sm font-medium">
+                    {typeof selectedEvent.price === "number" ? `NPR ${Number(selectedEvent.price).toLocaleString()}` : "Free"}
+                  </p>
+                </div>
+              </div>
+
+              {selectedEvent.description && (
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground mb-2">Description</h4>
+                  <p className="text-sm text-muted-foreground">{selectedEvent.description}</p>
+                </div>
+              )}
+
+              {selectedEvent.qr_code_image_url && (
+                <div>
+                  <h4 className="font-medium text-sm text-muted-foreground mb-2">Payment QR Code</h4>
+                  <div className="flex justify-center">
+                    <img 
+                      src={selectedEvent.qr_code_image_url} 
+                      alt="Payment QR Code" 
+                      className="max-w-48 h-auto rounded-lg border"
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="flex justify-end gap-3 pt-4 border-t">
+                <Button variant="outline" onClick={closeEventModal}>
+                  Close
+                </Button>
+                <Button onClick={() => navigate(`/events/${selectedEvent.id}`)}>
+                  Buy Tickets
+                </Button>
+              </div>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
     </section>

@@ -32,14 +32,34 @@ interface EventRow {
 
 const toISODate = (d: Date) => d.toISOString().slice(0, 10);
 
+const parseEventDate = (dateStr: string): string => {
+  // Handle YYYY-MM-DD format
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    return dateStr;
+  }
+  
+  // Handle other date formats (like "September 9, 2025")
+  try {
+    const parsed = new Date(dateStr);
+    if (!isNaN(parsed.getTime())) {
+      return toISODate(parsed);
+    }
+  } catch (e) {
+    console.warn("Could not parse date:", dateStr);
+  }
+  
+  return dateStr;
+};
+
 const getMonthRange = (anchor: Date) => {
   const start = new Date(anchor.getFullYear(), anchor.getMonth(), 1);
   const end = new Date(anchor.getFullYear(), anchor.getMonth() + 1, 1); // exclusive
   return { start, end };
 };
 
-const withinRange = (iso: string, start: Date, end: Date) => {
-  const d = new Date(iso + "T00:00:00");
+const withinRange = (dateStr: string, start: Date, end: Date) => {
+  const isoDate = parseEventDate(dateStr);
+  const d = new Date(isoDate + "T00:00:00");
   return d >= start && d < end;
 };
 
@@ -57,10 +77,7 @@ export const MonthlyEventCalendar: React.FC = () => {
     const map = new Map<string, EventRow[]>();
     for (const ev of fullEvents) {
       if (!ev?.date) continue;
-      // Handle both YYYY-MM-DD and full date strings
-      const dateKey = ev.date.includes('T') ? ev.date.slice(0, 10) : 
-                     ev.date.length > 10 ? toISODate(new Date(ev.date)) : 
-                     ev.date;
+      const dateKey = parseEventDate(ev.date);
       const arr = map.get(dateKey) || [];
       arr.push(ev);
       map.set(dateKey, arr);
@@ -71,15 +88,15 @@ export const MonthlyEventCalendar: React.FC = () => {
   const fetchEvents = async (start: Date, end: Date) => {
     setLoading(true);
     try {
-      // Fetch ALL events for the visible month range (past, current, upcoming)
+      // Convert range to ISO dates for consistent filtering
       const startDate = toISODate(start);
       const endDate = toISODate(end);
+      
+      console.log(`Fetching events from ${startDate} to ${endDate}`);
       
       const { data, error } = await supabase
         .from("events")
         .select("id, title, description, date, time, location, price, qr_code_image_url")
-        .gte("date", startDate)
-        .lt("date", endDate)
         .order("date", { ascending: true });
 
       if (error) {
@@ -87,16 +104,20 @@ export const MonthlyEventCalendar: React.FC = () => {
         throw error;
       }
 
-      console.log(`Fetched ${data?.length || 0} events for ${startDate} to ${endDate}`);
+      console.log(`Raw data from DB:`, data?.slice(0, 3));
 
-      const mapped: CalendarEvent[] = (data || [])
+      // Filter events by date range in JavaScript since database has mixed date formats
+      const filteredData = (data || []).filter((row: any) => {
+        if (!row.date) return false;
+        return withinRange(row.date, start, end);
+      });
+
+      console.log(`Filtered ${filteredData.length} events for current month`);
+
+      const mapped: CalendarEvent[] = filteredData
         .filter((row: any) => !!row.date)
         .map((row: any) => {
-          // Convert date to YYYY-MM-DD format for FullCalendar
-          const eventDate = row.date.includes('T') ? row.date.slice(0, 10) : 
-                           row.date.length > 10 ? toISODate(new Date(row.date)) : 
-                           row.date;
-          
+          const eventDate = parseEventDate(row.date);
           return {
             id: String(row.id),
             title: row.title,
@@ -106,8 +127,10 @@ export const MonthlyEventCalendar: React.FC = () => {
           };
         });
 
+      console.log(`Mapped ${mapped.length} events for calendar display`);
+
       setEvents(mapped);
-      setFullEvents((data as EventRow[]) || []);
+      setFullEvents(filteredData as EventRow[]);
     } catch (e) {
       console.error("Failed to load events:", e);
       setEvents([]);
@@ -135,14 +158,15 @@ export const MonthlyEventCalendar: React.FC = () => {
         { event: "INSERT", schema: "public", table: "events" },
         (payload: any) => {
           const row = payload.new as EventRow;
-          const iso = row?.date;
-          if (iso && withinRange(iso, range.start, range.end)) {
+          const dateStr = row?.date;
+          if (dateStr && withinRange(dateStr, range.start, range.end)) {
+            const eventDate = parseEventDate(dateStr);
             setEvents((prev) => [
               ...prev,
               {
                 id: String(row.id),
                 title: row.title,
-                start: iso,
+                start: eventDate,
                 location: row.location ?? null,
                 description: row.description ?? null,
               },

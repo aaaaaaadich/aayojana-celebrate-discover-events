@@ -203,6 +203,66 @@ export type Database = {
         }
         Relationships: []
       }
+      ticket_purchases: {
+        Row: {
+          created_at: string
+          email: string
+          event_id: string
+          first_name: string
+          id: string
+          last_name: string
+          payment_method: string | null
+          payment_proof_url: string | null
+          payment_status: string
+          phone_number: string
+          quantity: number
+          ticket_price: number
+          ticket_type_id: string
+          ticket_type_name: string
+          total_amount: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          event_id: string
+          first_name: string
+          id?: string
+          last_name: string
+          payment_method?: string | null
+          payment_proof_url?: string | null
+          payment_status?: string
+          phone_number: string
+          quantity?: number
+          ticket_price?: number
+          ticket_type_id: string
+          ticket_type_name: string
+          total_amount?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          event_id?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          payment_method?: string | null
+          payment_proof_url?: string | null
+          payment_status?: string
+          phone_number?: string
+          quantity?: number
+          ticket_price?: number
+          ticket_type_id?: string
+          ticket_type_name?: string
+          total_amount?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

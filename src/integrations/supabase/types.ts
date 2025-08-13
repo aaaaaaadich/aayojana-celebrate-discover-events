@@ -226,9 +226,32 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      event_rating_stats: {
+        Row: {
+          average_rating: number | null
+          event_id: string | null
+          rating_count: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_ratings_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
+      get_event_rating_details: {
+        Args: { event_uuid: string }
+        Returns: {
+          average_rating: number
+          rating_count: number
+          user_rating: number
+        }[]
+      }
       get_user_roles: {
         Args: { _user_id: string }
         Returns: {

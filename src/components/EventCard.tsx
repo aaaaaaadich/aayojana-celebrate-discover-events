@@ -1,9 +1,12 @@
 
-import { Calendar, MapPin, Clock } from "lucide-react";
+import { Calendar, MapPin, Clock, Ticket } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import ScrollReveal from "@/components/ScrollReveal";
+import TicketPurchaseModal from "./event/TicketPurchaseModal";
 
 interface EventCardProps {
   id: string;

@@ -14,6 +14,7 @@ interface Event {
   image: string;
   category: string;
   price: number;
+  qr_code_image_url?: string | null;
 }
 
 interface Rating {

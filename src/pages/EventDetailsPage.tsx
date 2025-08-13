@@ -1,19 +1,22 @@
 
 import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Share2 } from "lucide-react";
+import { ArrowLeft, Share2, Ticket } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useEventData } from "@/hooks/useEventData";
 import { EventRating } from "@/components/event/EventRating";
 import { EventFeedback } from "@/components/event/EventFeedback";
 import { EventInfoSidebar } from "@/components/event/EventInfoSidebar";
+import TicketPurchaseModal from "@/components/event/TicketPurchaseModal";
 
 const EventDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [showTicketModal, setShowTicketModal] = useState(false);
   
   const {
     event,
@@ -114,8 +117,18 @@ const EventDetailsPage = () => {
                 </Badge>
                 <h1 className="text-3xl md:text-4xl font-bold mb-4">{event.title}</h1>
                 {event.description && (
-                  <p className="text-lg text-muted-foreground">{event.description}</p>
+                  <p className="text-lg text-muted-foreground mb-6">{event.description}</p>
                 )}
+                
+                {/* Buy Tickets Button */}
+                <Button 
+                  onClick={() => setShowTicketModal(true)}
+                  size="lg"
+                  className="mb-6"
+                >
+                  <Ticket className="mr-2 h-5 w-5" />
+                  Buy Tickets
+                </Button>
               </div>
 
               <EventRating
@@ -138,6 +151,19 @@ const EventDetailsPage = () => {
             </div>
           </div>
         </div>
+        
+        {/* Ticket Purchase Modal */}
+        <TicketPurchaseModal
+          open={showTicketModal}
+          onOpenChange={setShowTicketModal}
+          event={{
+            id: event.id,
+            title: event.title,
+            price: event.price,
+            qr_code_image_url: event.qr_code_image_url,
+          }}
+          ticketTypes={[]} // Use default ticket types
+        />
       </div>
     </>
   );

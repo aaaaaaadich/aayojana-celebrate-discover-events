@@ -58,31 +58,6 @@ const AboutPage = () => {
           </div>
         </div>
 
-        {/* Team */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-8">Our Team</h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { name: "Aarav Sharma", role: "Founder & CEO" },
-              { name: "Priya Thapa", role: "Head of Product" },
-              { name: "Binod Pant", role: "Tech Lead" },
-              { name: "Sarita Adhikari", role: "Community Manager" },
-            ].map((member) => (
-              <div key={member.name} className="space-y-2">
-                <div className="w-32 h-32 mx-auto rounded-full bg-muted mb-4" />
-                <h3 className="font-bold">{member.name}</h3>
-                <p className="text-muted-foreground">{member.role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="text-center">
-          <Button size="lg" className="bg-saffron-500 hover:bg-saffron-600">
-            Join Our Team
-          </Button>
-        </div>
       </div>
     </div>
   );
